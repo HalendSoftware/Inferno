@@ -1,0 +1,102 @@
+﻿@using System
+@using System.ComponentModel.Design.Serialization
+@using System.Linq
+@using Sandbox;
+@using Sambit.Player;
+@using Sambit.Player.Client
+@using Sambit.Player.Interact
+@using Sambit.Player.Health
+@inherits PanelComponent
+
+
+<root>
+
+    @if (InteractLabel != "")
+    {
+        <div class="center interact">
+            @if (!Single.IsNaN(interactProgress))
+            {
+                <div class="interact-circle"
+                     style="mask-image: conic-gradient(#fff 0%, #fff @(interactProgress * 100)%, transparent @(interactProgress * 100)%, transparent 100%);">
+                    <label class="interact-key" style="color: @interactButtonColor; font-size: @interactButtonFontSize">
+                        &#xEE45;
+                    </label>
+                </div>
+            }
+            else
+            {
+                <label class="interact-key" style="color: @interactButtonColor; font-size: @interactButtonFontSize">
+                    &#xEE45;
+                </label>
+            }
+
+            <label class="interact-label neue-haas-65 text-shadow">@InteractLabel</label>
+            <br/>
+        </div>
+    }
+
+    <div class="center">
+        <div class="crosshair"></div>
+    </div>
+</root>
+
+@code
+{
+
+    /// <summary>
+    /// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+    /// </summary>
+    protected override int BuildHash() => System.HashCode.Combine(RealTime.Now);
+
+    private PlayerController LocalPlayer { get; set; }
+    private PlayerHealth LocalPlayerHealth { get; set; }
+    private int Fuel = 0;
+    private string InteractLabel = "";
+
+    string interactButtonColor = "white";
+
+    string interactButtonFontSize = "22px";
+
+    // cohae: We're using NaN here to indicate that this is a single press action because null doesnt work for some reason
+    float interactProgress = Single.NaN;
+
+    protected override void OnFixedUpdate()
+    {
+        if (!LocalPlayer.IsValid())
+        {
+            LocalPlayer = Client.Local.Components.Get<PlayerController>();
+            LocalPlayerHealth = Client.Local.Components.Get<PlayerHealth>();
+        }
+
+        int timeLeft = (int)Math.Floor(LocalPlayerHealth.respawnTime - LocalPlayerHealth.TimeSinceDeath);
+        float timeFloatLeft = LocalPlayerHealth.respawnTime - LocalPlayerHealth.TimeSinceDeath;
+
+        //Interaction
+        var interact = LocalPlayer.GameObject.Components.Get<PlayerInteract>();
+        if (interact.IsValid())
+        {
+            var interactable = interact.CurrentInteractable?.Components.Get<Interactable>();
+            InteractLabel = interactable?.PromptMessage ?? "";
+            interactProgress = interact.Progress;
+            if (interactProgress > 0)
+            {
+                InteractLabel = interactable?.InteractingMessage == "" ? InteractLabel : interactable?.InteractingMessage;
+            }
+        }
+
+        //Respawning
+        if (LocalPlayerHealth.AwaitingResurrection == true)
+        {
+            InteractLabel = "Press E to Resurrect";
+        }
+
+        if (LocalPlayerHealth.LifeState == LifeState.Dead && !LocalPlayerHealth.AwaitingResurrection)
+        {
+            InteractLabel = "Respawning in " + (timeLeft + 1);
+            interactProgress = Math.Clamp(LocalPlayerHealth.TimeSinceDeath / LocalPlayerHealth.respawnTime, 0, 1);
+        }
+
+        interactButtonColor = Input.Down("Interact") ? "#aaa" : "#fff";
+        interactButtonFontSize = Input.Down("Interact") ? "16px" : "22px";
+    }
+}

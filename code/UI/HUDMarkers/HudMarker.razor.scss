@@ -1,0 +1,227 @@
+@keyframes friendly {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(-360deg);
+	}
+}
+
+@keyframes enemy {
+	0% {
+		transform: rotate(45deg);
+	}
+
+	100% {
+		transform: rotate(315deg);
+	}
+}
+
+@keyframes capturing {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0.5;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+HudMarker {
+	transition: opacity 0.2s ease-in-out;
+	position: absolute;
+	z-index: -1;
+
+	.markerMain {
+		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		width: 100px;
+		height: 100px;
+		opacity: 1;
+		background-color: transparent;
+		transform-origin: center;
+		left: -50%;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.marker {
+		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		border: 2px solid rgba(255, 255, 255, 0.8);
+		border-radius: 2px;
+		transform-origin: center;
+		transform: rotate(45deg);
+	}
+
+	.markerBorder {
+		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		opacity: 1;
+		background-color: transparent;
+		border: 2px solid rgba(255, 255, 255, 0.1);
+		border-radius: 2px;
+		transform-origin: center;
+		transform: rotate(45deg);
+		position: absolute;
+	}
+
+	.markerProgressBar {
+		opacity: 0;
+		background-color: transparent;
+		border: 8px solid white;
+		//border-radius: 1px;
+		transform-origin: center;
+		transform: rotate(45deg);
+		position: absolute;
+	}
+
+	.markerIcon {
+		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		opacity: 1;
+		transform-origin: center;
+		position: absolute;
+		justify-self: center;
+		align-self: center;
+		mix-blend-mode: lighten;
+	}
+
+	.markerLabel {
+		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		text-shadow: 0px 0px 2px rgba(0, 0, 0, 1);
+		text-align: center;
+		font-size: 35px;
+		font-family: "Destiny Keys";
+		color: rgba(255, 255, 255, 1);
+		justify-self: center;
+		align-self: center;
+		position: absolute;
+	}
+
+	.distanceLabel {
+		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		text-align: left;
+		font-size: 20px;
+		font-family: "Neue Haas Grotesk Text Pro";
+		color: rgba(255, 255, 255, 0.9);
+		justify-self: center;
+		align-self: center;
+		position: absolute;
+	}
+
+	.objectiveLabel {
+		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		text-align: left;
+		font-size: 20px;
+		letter-spacing: 4px;
+		font-family: "Neue Haas Grotesk Display Pro";
+		color: rgba(200,200,200 0.9);
+		justify-self: center;
+		align-self: center;
+		bottom: 50%;
+		left: 65%;
+		position: absolute;
+	}
+
+	.locationLabel {
+		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		text-align: left;
+		font-size: 20px;
+		font-family: "Neue Haas Grotesk Display Pro";
+		color: rgba(255, 255, 255, 0.9);
+		justify-self: center;
+		align-self: center;
+		top: 50%;
+		left: 65%;
+		position: absolute;
+	}
+
+	&.fadeMarker {
+		.marker,
+		.markerBorder,
+		.markerLabel {
+			transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+			opacity: 0.3;
+		}
+	}
+
+	&.hideText {
+		.locationLabel,
+		.objectiveLabel {
+			opacity: 0;
+		}
+	}
+
+	&.hideDistance {
+		.distanceLabel {
+			opacity: 0;
+		}
+	}
+
+	&.hideAll {
+		.locationLabel,
+		.objectiveLabel,
+		.distanceLabel,
+		.markerIcon,
+		.markerBorder,
+		.marker,
+		.markerLabel,
+		.markerProgressBar {
+			opacity: 0;
+		}
+	}
+	//Capture specific
+	&.capturing {
+		animation-name: capturing;
+		animation-duration: 1s;
+		animation-delay: 0.1s;
+		animation-timing-function: ease-out;
+		animation-iteration-count: infinite;
+
+		.markerProgressBar {
+			opacity: 0.8;
+		}
+
+		&.capturingfriendly {
+			.markerProgressBar {
+				border-color: rgba(74, 138, 240, 1);
+			}
+		}
+
+		&.capturingenemy {
+			.markerProgressBar {
+				border-color: rgba(171, 0.00, 0.00, 1);
+			}
+		}
+	}
+
+	&.friendly {
+
+		.marker,
+		.markerProgressBar,
+		.markerBorder {
+			//background-color: $friendly-marker;
+			animation-name: friendly;
+			animation-duration: 1s;
+			animation-delay: 0s;
+			animation-timing-function: ease-out;
+			animation-iteration-count: 1;
+		}
+	}
+
+	&.enemy {
+
+		.marker,
+		.markerProgressBar,
+		.markerBorder {
+			//background-color: $friendly-marker;
+			animation-name: enemy;
+			animation-duration: 1s;
+			animation-delay: 0s;
+			animation-timing-function: ease-out;
+			animation-iteration-count: 1;
+		}
+	}
+}

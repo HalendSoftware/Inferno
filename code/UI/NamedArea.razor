@@ -1,0 +1,32 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	<div class="named-area-text">
+		<label class ="neue-haas-65" style="font-size: 22px; color: white; flex-direction: column;">
+			@AreaName
+		</label>
+	</div>
+</root>
+
+@code
+{
+	[Property] private Collider collider;
+
+	public string AreaName { get; set; } = "";
+
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine(AreaName);
+
+	protected override void OnFixedUpdate()
+	{
+		var namedArea = collider.Touching
+						.Where(x => x.GameObject.Tags.Has("named area"))
+						.MaxBy(x => x.GameObject.Components.Get<Priority>()?.PriorityLevel);
+
+		AreaName = namedArea?.GameObject.Name ?? string.Empty;
+	}
+}

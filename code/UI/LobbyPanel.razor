@@ -1,0 +1,154 @@
+@using Sandbox;
+@using Sandbox.UI;
+@using Sandbox.Network;
+@using Sandbox.Diagnostics;
+@using System.Collections.Generic;
+@using System.Threading.Tasks;
+@using System.Linq;
+@inherits PanelComponent
+
+<root class="main-menu @(Visible ? "" : "hidden")">
+
+    <div class="header">
+        <h1>S&mbit</h1>
+        @* <p>(Walker but multiplayer with Voice Chat)</p> *@
+    </div>
+    <div class="content">
+        @* <div class="map-select"> *@
+        @*     <PackageList ShowFilters="@true" style="padding-bottom: 50px;" Query="type:map sort:trending" OnSelected="@OnPackageSelected" Take=@(50)></PackageList> *@
+        @* </div> *@
+
+        <div class="lobby-list">
+
+            <div class="header">
+                <div class="title">Server List</div>
+            </div>
+
+            <div class="content">
+
+                @if (refreshing)
+                {
+                    <div>Refreshing..</div>
+                }
+                else if (list.Count == 0)
+                {
+                    <div>No lobbies were found</div>
+                }
+                else
+                {
+                    @foreach (var lobby in list)
+                    {
+                        <div class="button" onclick=@(() => OpenLobby(lobby))>
+
+                            <div class="title">
+                                @lobby.Name
+                            </div>
+
+                            <div class="meta">
+
+                                <div class="map">
+                                    @lobby.Map
+                                </div>
+
+                                <div class="count">
+                                    @lobby.Members / @lobby.MaxMembers
+                                </div>
+
+                            </div>
+
+                        </div>
+                    }
+                }
+            </div>
+
+        </div>
+    </div>
+</root>
+
+@code
+{
+    bool Visible = false;
+
+    bool refreshing;
+    List<LobbyInformation> list = new();
+    [Property] SceneFile GameScene;
+
+    protected override void OnEnabled()
+    {
+        base.OnEnabled();
+
+        Assert.True(GameObject.IsValid());
+
+        _ = RefreshLobbyList();
+    }
+
+    protected override void OnUpdate()
+    {
+        base.OnUpdate();
+
+
+            Visible = true;
+
+    }
+
+    async Task RefreshLobbyList()
+    {
+        while (true)
+        {
+            refreshing = true;
+            StateHasChanged();
+
+            list = await GameNetworkSystem.QueryLobbies();
+
+            refreshing = false;
+            StateHasChanged();
+
+            await Task.DelayRealtimeSeconds(5.0f);
+        }
+    }
+
+    void OpenLobby(LobbyInformation lobby)
+    {
+        GameNetworkSystem.Connect(lobby.LobbyId);
+    }
+
+    void OnPackageSelected(Package package)
+    {
+        @* LaunchArguments.Map = package.FullIdent;
+		GameManager.ActiveScene.Load(GameScene); *@
+
+        foreach (var connection in NetworkManager.Instance.Connections)
+        {
+            Log.Info($"Connection: {connection.SteamId} {connection == NetworkManager.Instance.Host}");
+        }
+
+        if (Game.SteamId == NetworkManager.Instance.HostSteamId)
+        {
+            ChangeMap(package.FullIdent);
+            return;
+        }
+
+
+        @* ChangeMap(package.FullIdent); *@
+
+        @* if(NetworkManager.Instance.Connections.Any(x => x.SteamId == (ulong)Game.SteamId && x.IsHost))
+		{
+			ChangeMap(package.FullIdent);
+			return;
+		} *@
+    }
+
+    [Broadcast]
+    void ChangeMap(string mapIdent)
+    {
+        var mapInstance = Scene.Components.Get<MapInstance>(FindMode.EnabledInSelfAndDescendants);
+        mapInstance.MapName = mapIdent;
+
+        // if (MainMenuPanel.IsPrivateLobby)
+        //     Scene.Title = "PRIVATE_LOBBY";
+        // else
+        Scene.Title = mapIdent;
+    }
+
+    protected override int BuildHash() => System.HashCode.Combine(refreshing, Visible);
+}

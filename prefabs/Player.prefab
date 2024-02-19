@@ -1,0 +1,463 @@
+{
+  "RootObject": {
+    "Id": "042aec1b-487f-4f0e-8611-abec18eba960",
+    "Name": "player",
+    "Tags": "player,damagable",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "CharacterController",
+        "Acceleration": 10,
+        "Bounciness": 0.3,
+        "GroundAngle": 45,
+        "Height": 64,
+        "IgnoreLayers": "player,trigger,pickup",
+        "Radius": 12,
+        "StepHeight": 18
+      },
+      {
+        "__type": "CitizenAnimationHelper",
+        "BodyWeight": 1,
+        "EyeSource": {
+          "_type": "gameobject",
+          "go": "3178a672-d1d8-447e-a203-ad567307fe3d"
+        },
+        "EyesWeight": 1,
+        "HeadWeight": 1,
+        "Height": 1,
+        "IkLeftFoot": null,
+        "IkLeftHand": null,
+        "IkRightFoot": null,
+        "IkRightHand": null,
+        "LookAt": null,
+        "LookAtEnabled": false,
+        "Target": {
+          "_type": "component",
+          "go": "6e946a7c-969f-48e0-8200-cf9dbc9f4a4c",
+          "component_type": "SkinnedModelRenderer"
+        }
+      },
+      {
+        "__type": "PlayerController",
+        "AirControl": 50,
+        "AirFriction": 0.1,
+        "Body": {
+          "_type": "gameobject",
+          "go": "6e946a7c-969f-48e0-8200-cf9dbc9f4a4c"
+        },
+        "BulletJumpForce": 600,
+        "CrouchSpeed": 90,
+        "Feet": {
+          "_type": "gameobject",
+          "go": "46163c81-5b9c-4c39-9cdf-99ed7308d1a9"
+        },
+        "GlideBurstForce": 0,
+        "GroundControl": 4,
+        "Head": {
+          "_type": "gameobject",
+          "go": "3178a672-d1d8-447e-a203-ad567307fe3d"
+        },
+        "JumpForce": 400,
+        "JumpMode": "TripleJump",
+        "LiftBurstForce": 0,
+        "LiftControl": 0,
+        "LiftFuel": 100,
+        "MaxJumps": 0,
+        "NumJumps": 0,
+        "PlayerGravity": "0,0,0",
+        "RunSpeed": 300,
+        "Speed": 160
+      },
+      {
+        "__type": "PlayerHealth",
+        "AwaitingResurrection": false,
+        "AwaitingRevive": false,
+        "Ghost": {
+          "_type": "gameobject",
+          "prefab": "prefabs/notghost.prefab"
+        },
+        "IsRespawning": false,
+        "LifeState": "Alive",
+        "DefaultHealthRegen": 1,
+        "DefaultRegenDelay": 0,
+        "DefaultShieldsRegen": 1,
+        "Health": 100,
+        "HealthRegen": 0,
+        "MaxHealth": 100,
+        "MaxShields": 100,
+        "RegenDelay": 0,
+        "respawnTime": 5,
+        "Shields": 100,
+        "ShieldsRegen": 0
+      },
+      {
+        "__type": "CameraMovement",
+        "Camera": {
+          "_type": "component",
+          "go": "9b847ba3-b72d-4017-b12d-14221c4eee50",
+          "component_type": "CameraComponent"
+        },
+        "AnimationHelper": {
+          "_type": "component",
+          "go": "042aec1b-487f-4f0e-8611-abec18eba960",
+          "component_type": "CitizenAnimationHelper"
+        },
+        "Body": {
+          "_type": "gameobject",
+          "go": "6e946a7c-969f-48e0-8200-cf9dbc9f4a4c"
+        },
+        "Distance": 0,
+        "FirstPersonMode": false,
+        "Head": {
+          "_type": "gameobject",
+          "go": "3178a672-d1d8-447e-a203-ad567307fe3d"
+        },
+        "Player": {
+          "_type": "component",
+          "go": "042aec1b-487f-4f0e-8611-abec18eba960",
+          "component_type": "PlayerController"
+        }
+      },
+      {
+        "__type": "PlayerInteract",
+        "_cameraController": {
+          "_type": "component",
+          "go": "042aec1b-487f-4f0e-8611-abec18eba960",
+          "component_type": "CameraMovement"
+        },
+        "_collider": {
+          "_type": "component",
+          "go": "1064f40b-54e7-4db3-b834-f669be61dc78",
+          "component_type": "BoxCollider"
+        },
+        "Cooldown": 0.5,
+        "FieldOfView": 80,
+        "InteractDistance": 250,
+        "_playerHealth": {
+          "_type": "component",
+          "go": "042aec1b-487f-4f0e-8611-abec18eba960",
+          "component_type": "PlayerHealth"
+        }
+      },
+      {
+        "__type": "PlayerTeam",
+        "CurrentTeam": "None"
+      },
+      {
+        "__type": "Voice",
+        "Loopback": true,
+        "Mode": "PushToTalk",
+        "MorphScale": 3,
+        "MorphSmoothTime": 0.1,
+        "PushToTalkInput": "voice",
+        "Renderer": {
+          "_type": "component",
+          "go": "6e946a7c-969f-48e0-8200-cf9dbc9f4a4c",
+          "component_type": "SkinnedModelRenderer"
+        },
+        "Volume": 1,
+        "WorldspacePlayback": true
+      },
+      {
+        "__type": "BoxCollider",
+        "Center": "0,0,33.00002",
+        "IsTrigger": true,
+        "Scale": "40,40,64.30002",
+        "Static": false,
+        "Surface": null
+      }
+    ],
+    "Children": [
+      {
+        "Id": "6e946a7c-969f-48e0-8200-cf9dbc9f4a4c",
+        "Name": "Body",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "SkinnedModelRenderer",
+            "AnimationGraph": null,
+            "BodyGroups": 341,
+            "BoneMergeTarget": null,
+            "CreateBoneObjects": false,
+            "MaterialGroup": null,
+            "MaterialOverride": null,
+            "Model": "models/citizen/citizen.vmdl",
+            "RenderType": "On",
+            "Tint": "1,1,1,1"
+          },
+          {
+            "__type": "PlayerDresser",
+            "BodyRenderer": {
+              "_type": "component",
+              "go": "6e946a7c-969f-48e0-8200-cf9dbc9f4a4c",
+              "component_type": "SkinnedModelRenderer"
+            }
+          },
+          {
+            "__type": "RagdollController",
+            "Physics": {
+              "_type": "component",
+              "go": "6e946a7c-969f-48e0-8200-cf9dbc9f4a4c",
+              "component_type": "ModelPhysics"
+            }
+          },
+          {
+            "__type": "ModelPhysics",
+            "__enabled": false,
+            "Locking": {},
+            "Model": "models/citizen/citizen.vmdl",
+            "Renderer": {
+              "_type": "component",
+              "go": "6e946a7c-969f-48e0-8200-cf9dbc9f4a4c",
+              "component_type": "SkinnedModelRenderer"
+            },
+            "RigidbodyFlags": 0
+          }
+        ]
+      },
+      {
+        "Id": "3178a672-d1d8-447e-a203-ad567307fe3d",
+        "Name": "Head",
+        "Position": "0,0,64",
+        "Enabled": true
+      },
+      {
+        "Id": "9b847ba3-b72d-4017-b12d-14221c4eee50",
+        "Name": "Camera",
+        "Position": "-129.3925,0,60.1579",
+        "Tags": "maincamera",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "CameraComponent",
+            "BackgroundColor": "0.33333,0.46275,0.52157,1",
+            "ClearFlags": "All",
+            "FieldOfView": 90,
+            "IsMainCamera": true,
+            "Orthographic": false,
+            "OrthographicHeight": 1204,
+            "Priority": 1,
+            "RenderExcludeTags": "",
+            "RenderTags": "",
+            "TargetEye": "None",
+            "Viewport": "0,0,1,1",
+            "ZFar": 10000,
+            "ZNear": 10
+          },
+          {
+            "__type": "Bloom",
+            "BloomColor": {
+              "color": [
+                {
+                  "c": "1,1,1,1"
+                },
+                {
+                  "t": 1,
+                  "c": "1,1,1,1"
+                }
+              ],
+              "alpha": []
+            },
+            "BloomCurve": [
+              {
+                "y": 0.5
+              },
+              {
+                "x": 1,
+                "y": 1
+              }
+            ],
+            "Mode": "Screen",
+            "Strength": 1,
+            "Threshold": 1.75,
+            "ThresholdWidth": 1
+          },
+          {
+            "__type": "Tonemapping",
+            "ExposureCompensation": 0,
+            "MaximumExposure": 1.25,
+            "MinimumExposure": 0.5,
+            "Rate": 0.4
+          },
+          {
+            "__type": "BendableScreenPanel",
+            "Distortion": 0.2,
+            "Opacity": 1,
+            "Shader": "shaders/bendy_ui.shader"
+          },
+          {
+            "__type": "NamedArea",
+            "collider": {
+              "_type": "component",
+              "go": "1064f40b-54e7-4db3-b834-f669be61dc78",
+              "component_type": "BoxCollider"
+            }
+          }
+        ]
+      },
+      {
+        "Id": "46163c81-5b9c-4c39-9cdf-99ed7308d1a9",
+        "Name": "Feet",
+        "Tags": "particles",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "ParticleEffect",
+            "Alpha": {
+              "Constants": "1,0,0,0"
+            },
+            "ApplyColor": true,
+            "ApplyRotation": false,
+            "ApplyShape": true,
+            "Bounce": {
+              "Constants": "1,0,0,0"
+            },
+            "Brightness": {
+              "Constants": "1,0,0,0"
+            },
+            "Bumpiness": {},
+            "Collision": false,
+            "CollisionIgnore": null,
+            "CollisionRadius": 1,
+            "Damping": {},
+            "DieOnCollisionChance": {},
+            "Force": false,
+            "ForceDirection": "0,0,0",
+            "ForceScale": {
+              "Constants": "1,0,0,0"
+            },
+            "Friction": {
+              "Constants": "1,0,0,0"
+            },
+            "Gradient": {
+              "Evaluation": "Particle",
+              "GradientA": {
+                "color": [
+                  {
+                    "t": 0.5,
+                    "c": "1,1,1,1"
+                  }
+                ],
+                "alpha": []
+              },
+              "GradientB": {
+                "color": [
+                  {
+                    "t": 0.5,
+                    "c": "1,1,1,1"
+                  }
+                ],
+                "alpha": []
+              },
+              "ConstantA": "1,1,1,1",
+              "ConstantB": "1,1,1,1"
+            },
+            "Lifetime": {
+              "Constants": "2.44,0,0,0"
+            },
+            "MaxParticles": 1000,
+            "PerParticleTimeScale": {
+              "Constants": "1,0,0,0"
+            },
+            "PreWarm": 0,
+            "PushStrength": {},
+            "Roll": {},
+            "Scale": {
+              "Constants": "25.24,0,0,0"
+            },
+            "SequenceId": {},
+            "SequenceSpeed": {
+              "Constants": "1,0,0,0"
+            },
+            "SequenceTime": {
+              "Constants": "1,0,0,0"
+            },
+            "SheetSequence": false,
+            "Space": "World",
+            "StartVelocity": {
+              "Constants": "1,0,0,0"
+            },
+            "Stretch": {
+              "Constants": "-2.24,0,0,0"
+            },
+            "TimeScale": 1,
+            "Tint": "0.06047,0.06047,0.06047,1"
+          },
+          {
+            "__type": "ParticleSpriteRenderer",
+            "Additive": true,
+            "BlurAmount": 0.5,
+            "BlurOpacity": 0.5,
+            "BlurSpacing": 0.5,
+            "DepthFeather": 0,
+            "FaceVelocity": false,
+            "FogStrength": 1,
+            "LeadingTrail": true,
+            "MotionBlur": false,
+            "Opaque": false,
+            "RotationOffset": 0,
+            "Scale": 1,
+            "Shadows": false,
+            "SortMode": "Unsorted",
+            "Texture": "materials/particle/particle_glow_04.vtex"
+          },
+          {
+            "__type": "ParticleSphereEmitter",
+            "__enabled": false,
+            "Burst": 26.32,
+            "Delay": 0,
+            "DestroyOnEnd": false,
+            "Duration": 1,
+            "Loop": false,
+            "OnEdge": false,
+            "Radius": 0,
+            "Rate": 56.39,
+            "Velocity": 25
+          }
+        ]
+      },
+      {
+        "Id": "1064f40b-54e7-4db3-b834-f669be61dc78",
+        "Name": "Collider",
+        "Position": "0,0,32",
+        "Scale": "0.4560446,0.459917,1.263198",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "BoxCollider",
+            "Center": "0,0,0",
+            "IsTrigger": false,
+            "Scale": "50,50,50",
+            "Static": false,
+            "Surface": null
+          }
+        ]
+      },
+      {
+        "Id": "984977da-bb52-4e5f-ab03-6a4914c1ee91",
+        "Name": "HUD",
+        "Position": "68.14959,0,61.76324",
+        "Enabled": true,
+        "Components": [
+          {
+            "__type": "ScreenPanel",
+            "AutoScreenScale": true,
+            "Opacity": 1,
+            "Scale": 1,
+            "ZIndex": 100
+          },
+          {
+            "__type": "PlayerHUD"
+          },
+          {
+            "__type": "Chatbox"
+          }
+        ]
+      }
+    ]
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "__references": []
+}

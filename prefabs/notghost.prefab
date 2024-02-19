@@ -1,0 +1,39 @@
+{
+  "RootObject": {
+    "Id": "a18da0c9-9817-4845-a2a3-a88813259269",
+    "Name": "ghost",
+    "Networked": true,
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "ModelRenderer",
+        "BodyGroups": 18446744073709551615,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Model": "models/dev/sphere.vmdl",
+        "RenderType": "On",
+        "Tint": "1,1,1,1"
+      },
+      {
+        "__type": "GhostRevive",
+        "FieldBased": true,
+        "InteractingMessage": "Reviving...",
+        "PromptMessage": "Revive",
+        "TimeToInteract": 0.5
+      },
+      {
+        "__type": "SphereCollider",
+        "Center": "0,0,0",
+        "IsTrigger": true,
+        "Radius": 101.920044,
+        "Static": false,
+        "Surface": null
+      }
+    ],
+    "Children": []
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "__references": []
+}

@@ -1,0 +1,19 @@
+.neue-haas-65 {
+	font-family: "Haas Grot Text";
+	font-weight: 350;
+}
+
+NamedArea {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+
+	.named-area-text {
+		left: 63px;
+		top: 210px;
+		position: absolute;
+		flex-direction: column;
+	}
+}
