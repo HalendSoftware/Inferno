@@ -1,0 +1,234 @@
+{
+  "Title": "Inferno",
+  "Type": "game",
+  "Org": "hld",
+  "Ident": "inferno",
+  "Tags": null,
+  "Schema": 1,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "Resources": null,
+  "MenuResources": "*",
+  "HasCode": true,
+  "CodePath": "/code/",
+  "PackageReferences": [],
+  "EditorReferences": null,
+  "Metadata": {
+    "MaxPlayers": 64,
+    "MinPlayers": 1,
+    "TickRate": 50,
+    "GameNetworkType": "Multiplayer",
+    "MapSelect": "Unrestricted",
+    "MapList": [
+      "facepunch.flatgrass"
+    ],
+    "RankType": "None",
+    "PerMapRanking": false,
+    "LeaderboardType": "None",
+    "CsProjName": "",
+    "StartupScene": "scenes/inferno.scene",
+    "ProjectTemplate": null,
+    "ControlModes": {},
+    "InputSettings": {
+      "Actions": [
+        {
+          "Name": "Forward",
+          "KeyboardCode": "W",
+          "GroupName": "Movement"
+        },
+        {
+          "Name": "Backward",
+          "KeyboardCode": "S",
+          "GroupName": "Movement"
+        },
+        {
+          "Name": "Left",
+          "KeyboardCode": "A",
+          "GroupName": "Movement"
+        },
+        {
+          "Name": "Right",
+          "KeyboardCode": "D",
+          "GroupName": "Movement"
+        },
+        {
+          "Name": "Jump",
+          "KeyboardCode": "space",
+          "GamepadCode": "A",
+          "GroupName": "Movement"
+        },
+        {
+          "Name": "Run",
+          "KeyboardCode": "shift",
+          "GamepadCode": "LeftJoystickButton",
+          "GroupName": "Movement"
+        },
+        {
+          "Name": "Walk",
+          "KeyboardCode": "alt",
+          "GroupName": "Movement"
+        },
+        {
+          "Name": "Crouch",
+          "KeyboardCode": "ctrl",
+          "GamepadCode": "B",
+          "GroupName": "Movement"
+        },
+        {
+          "Name": "Fire",
+          "KeyboardCode": "mouse1",
+          "GamepadCode": "RightTrigger",
+          "GroupName": "Actions"
+        },
+        {
+          "Name": "Aim",
+          "KeyboardCode": "mouse2",
+          "GamepadCode": "LeftTrigger",
+          "GroupName": "Actions"
+        },
+        {
+          "Name": "Reload",
+          "KeyboardCode": "r",
+          "GamepadCode": "X",
+          "GroupName": "Actions"
+        },
+        {
+          "Name": "Interact",
+          "KeyboardCode": "e",
+          "GamepadCode": "Y",
+          "GroupName": "Actions"
+        },
+        {
+          "Name": "Primary",
+          "KeyboardCode": "1",
+          "GroupName": "Inventory"
+        },
+        {
+          "Name": "Special",
+          "KeyboardCode": "2",
+          "GroupName": "Inventory"
+        },
+        {
+          "Name": "Heavy",
+          "KeyboardCode": "3",
+          "GroupName": "Inventory"
+        },
+        {
+          "Name": "SlotPrev",
+          "KeyboardCode": "mouse4",
+          "GamepadCode": "SwitchLeftBumper",
+          "GroupName": "Inventory"
+        },
+        {
+          "Name": "SlotNext",
+          "KeyboardCode": "mouse5",
+          "GamepadCode": "SwitchRightBumper",
+          "GroupName": "Inventory"
+        },
+        {
+          "Name": "View",
+          "KeyboardCode": "C",
+          "GamepadCode": "RightJoystickButton",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Voice",
+          "KeyboardCode": "T",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Drop",
+          "KeyboardCode": "g",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Flashlight",
+          "KeyboardCode": "f",
+          "GamepadCode": "DpadNorth",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Ghost",
+          "KeyboardCode": "tab",
+          "GamepadCode": "SwitchLeftMenu",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Chat",
+          "KeyboardCode": "enter",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Super",
+          "KeyboardCode": "F",
+          "GroupName": "Abilities"
+        },
+        {
+          "Name": "ChargedMelee",
+          "KeyboardCode": "C",
+          "GroupName": "Abilities"
+        },
+        {
+          "Name": "Grenade",
+          "KeyboardCode": "Q",
+          "GroupName": "Abilities"
+        },
+        {
+          "Name": "ClassAbility",
+          "KeyboardCode": "V",
+          "GroupName": "Abilities"
+        },
+        {
+          "Name": "AirMove",
+          "KeyboardCode": "X",
+          "GroupName": "Abilities"
+        },
+        {
+          "Name": "Finisher",
+          "KeyboardCode": "G",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Block",
+          "KeyboardCode": "C",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Orbit",
+          "KeyboardCode": "O",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Emote1",
+          "KeyboardCode": "UPARROW",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Emote2",
+          "KeyboardCode": "DOWNARROW",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Emote3",
+          "KeyboardCode": "LEFTARROW",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "Emote4",
+          "KeyboardCode": "RIGHTARROW",
+          "GroupName": "Other"
+        },
+        {
+          "Name": "UnchargedMelee",
+          "GroupName": "Abilities"
+        },
+        {
+          "Name": "AutoMelee",
+          "GroupName": "Abilities"
+        }
+      ]
+    },
+    "MapStartupScene": null,
+    "LaunchMode": "Normal"
+  }
+}
