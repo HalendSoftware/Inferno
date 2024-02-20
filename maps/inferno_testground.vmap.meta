@@ -1,11 +1,11 @@
 {
   "publish": {
     "Allowed": true,
-    "Enabled": false,
+    "Enabled": true,
     "ProjectConfig": {
       "Title": "inferno_testground",
       "Type": "map",
-      "Org": "local",
+      "Org": "halend",
       "Ident": "inferno_testground",
       "Tags": null,
       "Schema": 0,
