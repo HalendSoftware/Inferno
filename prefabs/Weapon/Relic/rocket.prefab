@@ -26,7 +26,6 @@
       },
       {
         "__type": "SphereCollider",
-        "__enabled": false,
         "Center": "0,0,0",
         "IsTrigger": true,
         "Radius": 200,
@@ -44,8 +43,7 @@
       },
       {
         "__type": "ScorchPlosion",
-        "__enabled": false,
-        "BlastStrength": 64,
+        "BlastStrength": 4000,
         "collider": {
           "_type": "component",
           "go": "adc2f465-9c41-441b-af80-a041fcf4aa08",

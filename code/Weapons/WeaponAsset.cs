@@ -18,6 +18,8 @@ public class WeaponAsset : GameResource, IDamageSource {
     [Category("Weapon Properties")] public float Impact { get; set; }
     [Category("Weapon Properties")] public float Range { get; set; }
     [Category("Weapon Properties")] public float Stability { get; set; }
+    [Category("Weapon Properties")] public float BlastRadius { get; set; }
+    [Category("Weapon Properties")] public float Velocity { get; set; }
     [Category("Weapon Properties")] public int AmmoReserve { get; set; }
     [Category("Weapon Properties")] public int Magazine { get; set; }
     [Category("Weapon Properties")] public float ReloadSpeed { get; set; }
