@@ -9,7 +9,7 @@
       "Components": [
         {
           "__type": "MapInstance",
-          "MapName": "maps/inferno_testground.vmap",
+          "MapName": "halend.inferno_testground",
           "OnMapLoaded": null,
           "OnMapUnloaded": null,
           "UseMapFromLaunch": false
@@ -266,6 +266,6 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-02-18T21:31:48.2064672-05:00",
+  "LastSaved": "2024-02-20T13:08:16.730681-05:00",
   "__references": []
 }
