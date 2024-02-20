@@ -1,0 +1,62 @@
+{
+  "RootObject": {
+    "Id": "adc2f465-9c41-441b-af80-a041fcf4aa08",
+    "Name": "rocket",
+    "Scale": "0.3117776,0.1217571,0.08870231",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "ModelRenderer",
+        "BodyGroups": 18446744073709551615,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Model": "models/dev/sphere.vmdl",
+        "RenderType": "On",
+        "Tint": "1,1,1,1"
+      },
+      {
+        "__type": "Rigidbody",
+        "AngularDamping": 0,
+        "Gravity": false,
+        "LinearDamping": 0,
+        "Locking": {},
+        "MassOverride": 0,
+        "RigidbodyFlags": 0,
+        "StartAsleep": false
+      },
+      {
+        "__type": "SphereCollider",
+        "__enabled": false,
+        "Center": "0,0,0",
+        "IsTrigger": true,
+        "Radius": 200,
+        "Static": false,
+        "Surface": null
+      },
+      {
+        "__type": "CapsuleCollider",
+        "End": "0,0,1.760006",
+        "IsTrigger": false,
+        "Radius": 31.159964,
+        "Start": "0,0,-1.68",
+        "Static": false,
+        "Surface": null
+      },
+      {
+        "__type": "ScorchPlosion",
+        "__enabled": false,
+        "BlastStrength": 64,
+        "collider": {
+          "_type": "component",
+          "go": "adc2f465-9c41-441b-af80-a041fcf4aa08",
+          "component_type": "SphereCollider"
+        }
+      }
+    ],
+    "Children": []
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "__references": []
+}

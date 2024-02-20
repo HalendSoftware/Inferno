@@ -2,7 +2,7 @@
   "RootObject": {
     "Id": "042aec1b-487f-4f0e-8611-abec18eba960",
     "Name": "player",
-    "Tags": "player,damagable",
+    "Tags": "damagable,player",
     "Enabled": true,
     "Components": [
       {
@@ -165,6 +165,21 @@
         "Scale": "40,40,64.30002",
         "Static": false,
         "Surface": null
+      },
+      {
+        "__type": "WeaponComponent",
+        "CurrentMagazine": 0,
+        "CurrentProjectile": null,
+        "CurrentReserve": 0,
+        "EyePos": {
+          "_type": "gameobject",
+          "go": "ee44ec6a-c3a7-44ef-8cb9-8d8a28b00b0f"
+        },
+        "ImpactDecal": null,
+        "InfiniteAmmo": false,
+        "InfiniteReserve": false,
+        "IsReloading": false,
+        "Weapon": "weapons/scorchcannon.weapon"
       }
     ],
     "Children": [
@@ -292,6 +307,14 @@
               "go": "1064f40b-54e7-4db3-b834-f669be61dc78",
               "component_type": "BoxCollider"
             }
+          }
+        ],
+        "Children": [
+          {
+            "Id": "ee44ec6a-c3a7-44ef-8cb9-8d8a28b00b0f",
+            "Name": "EyePos",
+            "Position": "193.3925,0,3.842098",
+            "Enabled": true
           }
         ]
       },
