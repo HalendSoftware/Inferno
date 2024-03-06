@@ -21,8 +21,8 @@ public sealed class NetworkManager : Component, Component.INetworkListener
     /// </summary>
     [Property]
     public GameObject PlayerPrefab { get; set; }
-
-
+    
+    
     public List<Connection> Connections = new();
     public Connection Host = null;
     [Sync] public long HostSteamId { get; set; }

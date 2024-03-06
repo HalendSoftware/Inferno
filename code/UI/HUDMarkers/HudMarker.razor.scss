@@ -1,3 +1,5 @@
+
+
 @keyframes friendly {
 	0% {
 		transform: rotate(0deg);
@@ -33,12 +35,12 @@
 }
 
 HudMarker {
-	transition: opacity 0.2s ease-in-out;
+	transition: all 0.01s linear;
 	position: absolute;
 	z-index: -1;
 
 	.markerMain {
-		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		transition: all 0.01s linear;
 		width: 100px;
 		height: 100px;
 		opacity: 1;
@@ -50,7 +52,7 @@ HudMarker {
 	}
 
 	.marker {
-		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		transition: all 0.01s linear;
 		border: 2px solid rgba(255, 255, 255, 0.8);
 		border-radius: 2px;
 		transform-origin: center;
@@ -79,7 +81,7 @@ HudMarker {
 	}
 
 	.markerIcon {
-		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		transition: all 0.01s linear;
 		opacity: 1;
 		transform-origin: center;
 		position: absolute;
@@ -89,7 +91,7 @@ HudMarker {
 	}
 
 	.markerLabel {
-		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		transition: all 0.01s linear;
 		text-shadow: 0px 0px 2px rgba(0, 0, 0, 1);
 		text-align: center;
 		font-size: 35px;
@@ -101,7 +103,7 @@ HudMarker {
 	}
 
 	.distanceLabel {
-		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		transition: all 0.01s linear;
 		text-align: left;
 		font-size: 20px;
 		font-family: "Neue Haas Grotesk Text Pro";
@@ -112,12 +114,12 @@ HudMarker {
 	}
 
 	.objectiveLabel {
-		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		transition: all 0.01s linear;
 		text-align: left;
 		font-size: 20px;
 		letter-spacing: 4px;
 		font-family: "Neue Haas Grotesk Display Pro";
-		color: rgba(200,200,200 0.9);
+		color: rgba(200, 200, 200 0.9);
 		justify-self: center;
 		align-self: center;
 		bottom: 50%;
@@ -126,7 +128,7 @@ HudMarker {
 	}
 
 	.locationLabel {
-		transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+		transition: all 0.01s linear;
 		text-align: left;
 		font-size: 20px;
 		font-family: "Neue Haas Grotesk Display Pro";
@@ -142,7 +144,7 @@ HudMarker {
 		.marker,
 		.markerBorder,
 		.markerLabel {
-			transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+			transition: all 0.01s linear;
 			opacity: 0.3;
 		}
 	}
@@ -172,6 +174,7 @@ HudMarker {
 			opacity: 0;
 		}
 	}
+
 	//Capture specific
 	&.capturing {
 		animation-name: capturing;
@@ -179,6 +182,7 @@ HudMarker {
 		animation-delay: 0.1s;
 		animation-timing-function: ease-out;
 		animation-iteration-count: infinite;
+		transition: all 0.01s linear;
 
 		.markerProgressBar {
 			opacity: 0.8;
@@ -208,6 +212,7 @@ HudMarker {
 			animation-delay: 0s;
 			animation-timing-function: ease-out;
 			animation-iteration-count: 1;
+			transition: all 0.01s linear;
 		}
 	}
 
@@ -222,6 +227,8 @@ HudMarker {
 			animation-delay: 0s;
 			animation-timing-function: ease-out;
 			animation-iteration-count: 1;
+			transition: all 0.01s linear;
 		}
 	}
 }
+

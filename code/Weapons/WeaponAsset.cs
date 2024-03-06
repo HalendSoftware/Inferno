@@ -8,6 +8,8 @@ public class WeaponAsset : GameResource, IDamageSource {
     [Category("Meta")] public WeaponType Archetype { get; set; }
     [Category("Meta")] public DamageType DamageType { get; set; }
     [Category("Meta")] public AmmunitionType AmmunitionType { get; set; }
+    [Category("Meta")] public GameObject Rocket { get; set; }
+    
     
     [Category("Description")] public string Name { get; set; }
     
@@ -29,7 +31,7 @@ public class WeaponAsset : GameResource, IDamageSource {
     [Category("Weapon Properties")] public float AirbornEffectiveness { get; set; }
     
     [Category("Appearance")] public Model Model { get; set; }
-    [Category("Appearance")] public PrefabFile Projectile { get; set; }
+    //[Category("Appearance")] public PrefabFile Projectile { get; set; }
     
     [Category("Audio")] public SoundEvent FireSound { get; set; }
     [Category("Audio")] public SoundEvent FireEmptySound { get; set; }

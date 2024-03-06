@@ -1,46 +1,64 @@
+using Sambit.Common.Interfaces;
 using Sambit.Player;
 using Sandbox;
+using Sandbox.Physics;
+using Sandbox.VR;
+using Sandbox.Weapons;
 
 public sealed class ScorchPlosion : Component, Component.ICollisionListener
 {
-	public bool HasCollided = false;	
-	[Property] public float BlastStrength { get; set; }
 	[Property] private SphereCollider collider { get; set; }
-	public void OnCollisionStart(Collision other)
-	{
-		foreach (var c in collider.Touching)
-		{
-			Log.Info(c.GameObject.Name  );
-			var velocity = (c.Transform.Position - Transform.Position).Normal * BlastStrength;
-			if (c.Components.TryGet(out Rigidbody rb))
-				rb.Velocity += velocity;
+	[Property] private float Damage { get; set; }
+	[Property] private float ExplosionRadius { get; set; }
+	private bool hasExploded = false;
 
-			if (c.Components.TryGet(out CharacterController character))
-				character.Velocity += velocity;
+	public void OnCollisionStart( Collision other )
+	{
+		if ( hasExploded ) return;
+		Impact();
+	}
+
+	public void OnCollisionUpdate( Collision other )
+	{
+	}
+
+	public void OnCollisionStop( CollisionStop other )
+	{
+	}
+
+	void Impact()
+	{
+		var explosionSphere = new Sphere( GameObject.Transform.Position, ExplosionRadius );
+
+		var trExplosion = Scene.Trace
+			.Sphere( ExplosionRadius, GameObject.Transform.Position, GameObject.Transform.Position )
+			.Run();
+
+		Gizmo.Draw.LineSphere( trExplosion.EndPosition, ExplosionRadius );
+		hasExploded = true;
+		if ( trExplosion.Hit )
+		{
+			var explosionTargets = Scene.FindInPhysics( explosionSphere ).Where( x => x.Tags.Has( "damagable" ) );
+			foreach ( var target in explosionTargets )
+			{
+				var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
+				var damagecalculation = Damage - (distance / 2);
+				target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damagecalculation, null );
+				Log.Info( distance );
+				// var explosionPunch = (target.Transform.Position - trExplosion.EndPosition).Normal * 1000;
+				// target.Components.Get<CharacterController>().Velocity += explosionPunch;
+				// Log.Info( explosionPunch );
+			}
 		}
 	}
 
-	public void OnCollisionUpdate(Collision other)
-	{
-	}
-
-	public void OnCollisionStop(CollisionStop other)
-	{
-	}
-
-
-	protected override void OnFixedUpdate()
-	{
-		foreach (var c in collider.Touching)
-		{
-			Log.Info("test"  );
-			var velocity = (c.Transform.Position - Transform.Position).Normal * BlastStrength;
-			if (c.Components.TryGet(out Rigidbody rb))
-				rb.Velocity += velocity;
-	
-			if (c.Components.TryGet(out CharacterController character))
-				character.Velocity += velocity;
-		}
-	}
-	
+	// void ITriggerListener.OnTriggerEnter(Collider other)
+	// {
+	// 	Log.Info("Trigger Start");
+	// }
+	//
+	// void ITriggerListener.OnTriggerExit(Collider other)
+	// {
+	// 	Log.Info("Trigger Start");
+	// }
 }

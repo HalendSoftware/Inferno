@@ -5,11 +5,12 @@
       "Id": "6cd76140-9aa0-4503-9211-79e89fac3639",
       "Name": "MapInstance",
       "Position": "-125.9903,-224.2696,268.1122",
+      "Tags": "world",
       "Enabled": true,
       "Components": [
         {
           "__type": "MapInstance",
-          "MapName": "halend.inferno_testground",
+          "MapName": "maps/inferno_testground.vmap",
           "OnMapLoaded": null,
           "OnMapUnloaded": null,
           "UseMapFromLaunch": false
@@ -27,7 +28,7 @@
           "__type": "NetworkManager",
           "PlayerPrefab": {
             "_type": "gameobject",
-            "prefab": "prefabs/player.prefab"
+            "prefab": "prefabs/player/player.prefab"
           },
           "StartServer": true
         }
@@ -40,28 +41,15 @@
       "Enabled": true,
       "Children": [
         {
-          "Id": "b5cf79c7-d951-4d06-91ff-7514d84ecde3",
+          "Id": "e88cd868-4961-4558-bddb-ea361aa16251",
           "Name": "Object",
-          "Position": "43.49171,31.90381,-429.4852",
+          "Position": "-290.9986,329.7185,-429.4852",
           "Enabled": true,
           "Components": [
             {
               "__type": "SambitSpawnpoint",
               "ForceSpawn": false,
               "Team": "Bravo"
-            }
-          ]
-        },
-        {
-          "Id": "e88cd868-4961-4558-bddb-ea361aa16251",
-          "Name": "Object",
-          "Position": "43.49171,511.9038,-429.4852",
-          "Enabled": true,
-          "Components": [
-            {
-              "__type": "SambitSpawnpoint",
-              "ForceSpawn": false,
-              "Team": "Alpha"
             }
           ]
         }
@@ -76,7 +64,6 @@
           "Id": "e2a2bfd6-ba11-4733-af65-d398fe05702e",
           "Name": "Red Outer",
           "Position": "-512,1056,576",
-          "Tags": "named area",
           "Enabled": true,
           "Components": [
             {
@@ -97,7 +84,6 @@
           "Id": "c2e45ce6-5c16-40fc-96ea-763bdd0a2bf4",
           "Name": "Blue Outer",
           "Position": "-512,-1024,576",
-          "Tags": "named area",
           "Enabled": true,
           "Components": [
             {
@@ -118,7 +104,6 @@
           "Id": "3b8650f1-f20f-4acb-9127-7d12190733cc",
           "Name": "Pillars",
           "Position": "1690.08,0,576",
-          "Tags": "named area",
           "Enabled": true,
           "Components": [
             {
@@ -139,7 +124,6 @@
           "Id": "c72137f2-e028-4ff1-882e-4c59cd622cd9",
           "Name": "Ramps",
           "Position": "4000,0,576",
-          "Tags": "named area",
           "Enabled": true,
           "Components": [
             {
@@ -160,7 +144,6 @@
           "Id": "c93db910-e7c0-4cae-a9c4-eaaeebc90993",
           "Name": "Red",
           "Position": "0,512,576",
-          "Tags": "named area",
           "Enabled": true,
           "Components": [
             {
@@ -181,7 +164,6 @@
           "Id": "c5693352-0211-4b36-9728-aab01e0ee8f8",
           "Name": "Blue",
           "Position": "0,-512,576",
-          "Tags": "named area",
           "Enabled": true,
           "Components": [
             {
@@ -201,7 +183,6 @@
         {
           "Id": "85929993-aee7-4170-b33f-c0e2b6e9ab9d",
           "Name": "You Shouldn\u0027t Be Here",
-          "Tags": "named area",
           "Enabled": true,
           "Components": [
             {
@@ -223,7 +204,6 @@
           "Name": "Walljump",
           "Position": "-1152,0,288",
           "Scale": "17.71999,16.10379,34.05133",
-          "Tags": "named area",
           "Enabled": true,
           "Components": [
             {
@@ -239,6 +219,23 @@
               "PriorityLevel": 1
             }
           ]
+        }
+      ]
+    },
+    {
+      "Id": "51f58e6d-d400-4b9d-b3b6-9801af361dd0",
+      "Name": "Sun",
+      "Position": "-1678.493,3798.761,218.8581",
+      "Rotation": "0,0.8660254,0,0.5000001",
+      "Tags": "light_directional,light",
+      "Components": [
+        {
+          "__type": "DirectionalLight",
+          "FogMode": "Enabled",
+          "FogStrength": 1,
+          "LightColor": "0.91373,0.98039,1,1",
+          "Shadows": true,
+          "SkyColor": "0.05882,0.07451,0.08235,1"
         }
       ]
     }
@@ -266,6 +263,6 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-02-20T13:08:16.730681-05:00",
+  "LastSaved": "2024-03-05T18:17:56.6658433-05:00",
   "__references": []
 }

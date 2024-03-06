@@ -28,5 +28,6 @@
 						.MaxBy(x => x.GameObject.Components.Get<Priority>()?.PriorityLevel);
 
 		AreaName = namedArea?.GameObject.Name ?? string.Empty;
+		Game.Close();
 	}
 }

@@ -2,6 +2,10 @@
   "Archetype": "Relic",
   "DamageType": "Solar",
   "AmmunitionType": "Limited",
+  "Rocket": {
+    "_type": "gameobject",
+    "prefab": "prefabs/weapon/relic/rocket.prefab"
+  },
   "Name": "Scorch Cannon",
   "Attack": 10,
   "Power": 0,
@@ -10,6 +14,8 @@
   "Impact": 0,
   "Range": 0,
   "Stability": 0,
+  "BlastRadius": 0,
+  "Velocity": 0,
   "AmmoReserve": 0,
   "Magazine": 100,
   "ReloadSpeed": 0,
@@ -18,7 +24,6 @@
   "RecoilDirection": 0,
   "AirbornEffectiveness": 0,
   "Model": null,
-  "Projectile": "prefabs/rocket.prefab",
   "FireSound": "sounds/weapon/relic/scorch cannon/fire.sound",
   "FireEmptySound": null,
   "__references": []

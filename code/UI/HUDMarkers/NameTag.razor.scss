@@ -1,0 +1,36 @@
+@keyframes friendly {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(-360deg);
+	}
+}
+
+@keyframes enemy {
+	0% {
+		transform: rotate(45deg);
+	}
+
+	100% {
+		transform: rotate(315deg);
+	}
+}
+
+@keyframes capturing {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0.5;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+
+}

@@ -1,0 +1,28 @@
+{
+  "publish": {
+    "Allowed": true,
+    "Enabled": true,
+    "ProjectConfig": {
+      "Title": "bannerfall2",
+      "Type": "map",
+      "Org": "retroeer",
+      "Ident": "bannerfall2",
+      "Tags": null,
+      "Schema": 0,
+      "HasAssets": false,
+      "AssetsPath": null,
+      "Resources": null,
+      "MenuResources": null,
+      "HasCode": false,
+      "CodePath": null,
+      "PackageReferences": [],
+      "EditorReferences": [
+        "facepunch.tree_oak_medium_a#33692",
+        "way.dev_grid_blue#41422"
+      ],
+      "Metadata": {
+        "SingleAssetSource": "maps/bannerfall2.vmap"
+      }
+    }
+  }
+}
