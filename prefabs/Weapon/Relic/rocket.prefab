@@ -1,6 +1,6 @@
 {
   "RootObject": {
-    "Id": "c0f8a1a4-7581-4c96-a5d7-f9c2d2be9a7e",
+    "Id": "b3e0cf98-a368-4320-8ce6-a4aa4da7c48a",
     "Name": "rocket",
     "Scale": "1,0.5,0.5",
     "Enabled": true,
@@ -28,19 +28,22 @@
         "__type": "SphereCollider",
         "Center": "0,0,0",
         "IsTrigger": false,
-        "Radius": 33.03984,
+        "Radius": 26.559793,
         "Static": false,
         "Surface": null
       },
       {
         "__type": "ScorchPlosion",
+        "Owner": null,
+        "OwnerId": "00000000-0000-0000-0000-000000000000",
         "collider": {
           "_type": "component",
-          "go": "c0f8a1a4-7581-4c96-a5d7-f9c2d2be9a7e",
+          "go": "b3e0cf98-a368-4320-8ce6-a4aa4da7c48a",
           "component_type": "SphereCollider"
         },
         "Damage": 51.59997,
-        "ExplosionRadius": 240
+        "ExplosionRadius": 240,
+        "Weapon": null
       }
     ],
     "Children": []
