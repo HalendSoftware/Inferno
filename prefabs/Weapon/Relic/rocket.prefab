@@ -1,6 +1,6 @@
 {
   "RootObject": {
-    "Id": "b3e0cf98-a368-4320-8ce6-a4aa4da7c48a",
+    "Id": "da01b0b0-6e4e-4d53-b2b3-15dc3fc5cecd",
     "Name": "rocket",
     "Scale": "1,0.5,0.5",
     "Enabled": true,
@@ -36,13 +36,17 @@
         "__type": "ScorchPlosion",
         "Owner": null,
         "OwnerId": "00000000-0000-0000-0000-000000000000",
+        "baseForce": 600,
         "collider": {
           "_type": "component",
-          "go": "b3e0cf98-a368-4320-8ce6-a4aa4da7c48a",
+          "go": "da01b0b0-6e4e-4d53-b2b3-15dc3fc5cecd",
           "component_type": "SphereCollider"
         },
         "Damage": 51.59997,
         "ExplosionRadius": 240,
+        "FirstChargeTime": 2,
+        "SecondChargeTime": 4,
+        "ThirdChargeTime": 6,
         "Weapon": null
       }
     ],

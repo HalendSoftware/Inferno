@@ -26,7 +26,7 @@
     "PerMapRanking": false,
     "LeaderboardType": "None",
     "CsProjName": "",
-    "StartupScene": "scenes/inferno.scene",
+    "StartupScene": "scenes/lobbyproto.scene",
     "ProjectTemplate": null,
     "ControlModes": {},
     "InputSettings": {

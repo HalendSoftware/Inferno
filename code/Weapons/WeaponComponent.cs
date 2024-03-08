@@ -112,10 +112,10 @@ public class WeaponComponent : Component
 			return false;
 
 		var projectile = Weapon.Rocket.Clone( EyePos.Transform.Position );
-		projectile.NetworkSpawn();
 		projectile.Transform.Rotation = EyePos.Transform.Rotation;
 		projectile.Components.Get<Rigidbody>().Velocity = EyePos.Transform.Rotation.Forward * 1000f;
 		projectile.Components.Get<ScorchPlosion>().OwnerId = GameObject.Id;
+		projectile.NetworkSpawn();
 
 
 		FireGunMessage();
