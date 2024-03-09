@@ -5,48 +5,48 @@ using Sandbox;
 
 public sealed class GhostRevive : Interactable
 {
-    private ModelRenderer parentObject;
-    [Property] public Guid OwnerId;
-    [Property] public GameObject Owner;
-    [Property] public PlayerHealth OwnerHealth;
+	private ModelRenderer parentObject;
+	[Property] public Guid OwnerId;
+	[Property] public GameObject Owner;
+	[Property] public PlayerHealth OwnerHealth;
 
-    protected override void OnAwake()
-    {
-        parentObject = Components.Get<ModelRenderer>();
-    }
+	protected override void OnAwake()
+	{
+		parentObject = Components.Get<ModelRenderer>();
+	}
 
-    protected override void OnStart()
-    {
-        Owner = Scene.Directory.FindByGuid(OwnerId);
-        OwnerHealth = Owner.Components.Get<PlayerHealth>();
-    }
+	protected override void OnStart()
+	{
+		Owner = Scene.Directory.FindByGuid( OwnerId );
+		OwnerHealth = Owner.Components.Get<PlayerHealth>();
+	}
 
-    protected override void OnUpdate()
-    {
-        if (OwnerHealth.Health > 0)
-            DestroyGhost();
-    }
+	protected override void OnUpdate()
+	{
+		if ( OwnerHealth.Health > 0 )
+			DestroyGhost();
+	}
 
-    public override void Interact(GameObject player)
-    {
-        IsActive = true;
-        Log.Info($"{Owner.Name} Revived");
+	public override void Interact( GameObject player )
+	{
+		IsActive = true;
+		Log.Info( $"{Owner.Name} Revived" );
 
-        Resurrect();
+		Resurrect();
 
-        GameObject.Destroy();
-    }
+		GameObject.Destroy();
+	}
 
-    [Broadcast]
-    public void Resurrect()
-    {
-        OwnerHealth.Respawn();
-        DestroyGhost();
-    }
+	[Broadcast]
+	public void Resurrect()
+	{
+		OwnerHealth.Respawn();
+		DestroyGhost();
+	}
 
-    [Broadcast]
-    public void DestroyGhost()
-    {
-        GameObject.Destroy();
-    }
+	[Broadcast]
+	public void DestroyGhost()
+	{
+		GameObject.Destroy();
+	}
 }

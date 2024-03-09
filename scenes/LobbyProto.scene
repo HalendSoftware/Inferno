@@ -1,0 +1,90 @@
+{
+  "Id": "00ab07af-9965-4f0a-b152-36af9295b18c",
+  "GameObjects": [
+    {
+      "Id": "54cdb83a-aca0-4a50-90bf-25dbf6c3839f",
+      "Name": "Object",
+      "Position": "149.995,149.995,-212.125",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "ScreenPanel",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        },
+        {
+          "__type": "MainMenuPanel"
+        }
+      ]
+    },
+    {
+      "Id": "67ec0d02-bb4d-45bd-a49b-c241ccfe1829",
+      "Name": "Camera",
+      "Position": "149.995,149.995,-212.125",
+      "Tags": "maincamera",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "CameraComponent",
+          "BackgroundColor": "0.33333,0.46275,0.52157,1",
+          "ClearFlags": "All",
+          "FieldOfView": 60,
+          "IsMainCamera": true,
+          "Orthographic": false,
+          "OrthographicHeight": 1204,
+          "Priority": 1,
+          "RenderExcludeTags": "",
+          "RenderTags": "",
+          "TargetEye": "None",
+          "Viewport": "0,0,1,1",
+          "ZFar": 10000,
+          "ZNear": 10
+        }
+      ]
+    },
+    {
+      "Id": "0402c7f9-4b44-47f2-aa87-63a1d61f59e2",
+      "Name": "Cube",
+      "Position": "205.2815,149.995,-212.125",
+      "Enabled": true,
+      "Components": [
+        {
+          "__type": "ModelRenderer",
+          "BodyGroups": 18446744073709551615,
+          "MaterialGroup": null,
+          "MaterialOverride": null,
+          "Model": "models/dev/box.vmdl",
+          "RenderType": "On",
+          "Tint": "1,1,1,1"
+        }
+      ]
+    }
+  ],
+  "SceneProperties": {
+    "FixedUpdateFrequency": 50,
+    "Lerping": true,
+    "MaxFixedUpdates": 5,
+    "NetworkFrequency": 30,
+    "ThreadedAnimation": true,
+    "TimeScale": 1,
+    "UseFixedUpdate": true,
+    "NavMesh": {
+      "Enabled": false,
+      "IncludeStaticBodies": true,
+      "IncludeKeyframedBodies": true,
+      "EditorAutoUpdate": true,
+      "AgentHeight": 64,
+      "AgentRadius": 16,
+      "AgentStepSize": 18,
+      "AgentMaxSlope": 40,
+      "ExcludedBodies": "",
+      "IncludedBodies": ""
+    }
+  },
+  "Title": "lobbyproto",
+  "Description": "",
+  "LastSaved": "2024-02-07T22:04:03.3711712-05:00",
+  "__references": []
+}

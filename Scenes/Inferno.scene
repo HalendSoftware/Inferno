@@ -37,13 +37,13 @@
     {
       "Id": "b70fac46-de99-4b48-aa57-c9bf12a92b00",
       "Name": "Spawnpoints",
-      "Position": "-233.7764,-287.9038,429.4852",
+      "Position": "138.5117,-287.9038,233.0189",
       "Enabled": true,
       "Children": [
         {
           "Id": "e88cd868-4961-4558-bddb-ea361aa16251",
           "Name": "Object",
-          "Position": "-290.9986,329.7185,-429.4852",
+          "Position": "-290.999,-353.1223,24.67529",
           "Enabled": true,
           "Components": [
             {
@@ -228,6 +228,7 @@
       "Position": "-1678.493,3798.761,218.8581",
       "Rotation": "0,0.8660254,0,0.5000001",
       "Tags": "light_directional,light",
+      "Enabled": true,
       "Components": [
         {
           "__type": "DirectionalLight",
@@ -238,6 +239,12 @@
           "SkyColor": "0.05882,0.07451,0.08235,1"
         }
       ]
+    },
+    {
+      "Id": "9c0ff1cd-17d5-4ffa-be0c-e349ef0d7106",
+      "Name": "Object",
+      "Position": "7743.817,-9123.596,6018.916",
+      "Enabled": true
     }
   ],
   "SceneProperties": {
@@ -263,6 +270,6 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-05T18:17:56.6658433-05:00",
+  "LastSaved": "2024-03-06T21:18:08.9992831-05:00",
   "__references": []
 }

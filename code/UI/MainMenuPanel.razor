@@ -19,12 +19,12 @@
 					Grog mom called, grog mom want ui back
 				</p>
 			</div>
-			
+
 			<div class="button-list">
 				<div class="button" onclick=@( () => CreateServer() )>
 					Create Server
 				</div>
-				
+
 				<div class="button" onclick=@( () => Quit() )>
 					Quit
 				</div>
@@ -75,26 +75,24 @@
 {
 	private bool IsRefreshing { get; set; }
 	private List<LobbyInformation> List { get; set; } = new();
-	
+
 	protected override void OnFixedUpdate()
 	{
-		
 	}
-	
+
 	protected override void OnEnabled()
 	{
 		base.OnEnabled();
-		
+
 		_ = RefreshLobbyList();
 	}
 
 	protected override void OnUpdate()
 	{
-		
 	}
-	
+
 	protected override int BuildHash() => HashCode.Combine( RealTime.Now );
-	
+
 	private async Task RefreshLobbyList()
 	{
 		while ( true )
@@ -118,7 +116,7 @@
 
 	private void CreateServer()
 	{
-		GameManager.ActiveScene.LoadFromFile( "scenes/old_arcadia.scene" );
+		GameManager.ActiveScene.LoadFromFile( "scenes/inferno.scene" );
 	}
 
 	private void Quit()
