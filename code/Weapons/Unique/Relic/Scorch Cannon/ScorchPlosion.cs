@@ -92,25 +92,17 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		}
 	}
 
-	public void OnCollisionUpdate( Collision other )
-	{
-	}
-
-	public void OnCollisionStop( CollisionStop other )
-	{
-	}
-
 	[Broadcast]
 	private void Explosion()
 	{
-		Log.Info( "test" );
-
 		var explosionSphere = new Sphere( GameObject.Transform.Position, ExplosionRadius );
 
 		var trExplosion = Scene.Trace
 			.Sphere( ExplosionRadius, GameObject.Transform.Position, GameObject.Transform.Position )
 			.Run();
 		var explosionForce = CalculateExplosionForce( tier, baseForce );
+		
+		//Debug Purposes, breaks networking (somehow)
 		//Gizmo.Draw.LineSphere( trExplosion.EndPosition, ExplosionRadius );
 
 		if ( trExplosion.Hit )
@@ -144,22 +136,8 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 
 	protected override void OnUpdate()
 	{
-		//( Weapon.RocketCharging );
-
 		if ( IsProxy ) return;
 		if ( hasExploded ) return;
-
-		// if ( rocketCreated > 0.01f && rocketCreated < 0.02f && Weapon.RocketCharging )
-		// {
-		// 	hasCharge = true;
-		//
-		// 	chargeTime = 0;
-		// }
-
-		// if ( chargeTime > 0.2f &&  Weapon.RocketCharging )
-		// {
-		// 	hasCharge = true;
-		// }
 
 		if ( !Weapon.RocketCharging && hasCharge )
 		{
@@ -185,13 +163,12 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		}
 	}
 
-	// void ITriggerListener.OnTriggerEnter(Collider other)
-	// {
-	// 	Log.Info("Trigger Start");
-	// }
-	//
-	// void ITriggerListener.OnTriggerExit(Collider other)
-	// {
-	// 	Log.Info("Trigger Start");
-	// }
+	public void OnCollisionUpdate( Collision other )
+	{
+	}
+
+	public void OnCollisionStop( CollisionStop other )
+	{
+	}
+	
 }
