@@ -220,6 +220,9 @@ public class PlayerHealth : Component, IDamagable
 			return;
 		}
 
+		playerController.IsEscaping = false;
+		Health = 0;
+		Shields = 0;
 		IsRespawning = true;
 		LifeState = LifeState.Dead;
 		TimeSinceDeath = 0f;
