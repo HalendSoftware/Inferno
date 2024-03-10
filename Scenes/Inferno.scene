@@ -1,5 +1,5 @@
 {
-  "Id": "9f832399-4887-46b0-8f21-2ee284f538e2",
+  "Id": "495fbcf1-9e82-4042-a7fb-c782beddebf8",
   "GameObjects": [
     {
       "Id": "6cd76140-9aa0-4503-9211-79e89fac3639",
@@ -37,13 +37,13 @@
     {
       "Id": "b70fac46-de99-4b48-aa57-c9bf12a92b00",
       "Name": "Spawnpoints",
-      "Position": "138.5117,-287.9038,233.0189",
+      "Position": "-233.7764,-287.9038,429.4852",
       "Enabled": true,
       "Children": [
         {
           "Id": "e88cd868-4961-4558-bddb-ea361aa16251",
           "Name": "Object",
-          "Position": "-290.999,-353.1223,24.67529",
+          "Position": "-290.9986,329.7185,-429.4852",
           "Enabled": true,
           "Components": [
             {
@@ -228,7 +228,6 @@
       "Position": "-1678.493,3798.761,218.8581",
       "Rotation": "0,0.8660254,0,0.5000001",
       "Tags": "light_directional,light",
-      "Enabled": true,
       "Components": [
         {
           "__type": "DirectionalLight",
@@ -241,9 +240,9 @@
       ]
     },
     {
-      "Id": "9c0ff1cd-17d5-4ffa-be0c-e349ef0d7106",
+      "Id": "91afe929-b7b2-46f5-b94e-6c4dcb6bd776",
       "Name": "Object",
-      "Position": "7743.817,-9123.596,6018.916",
+      "Position": "2329.079,-3193.996,2324.25",
       "Enabled": true
     }
   ],
@@ -270,6 +269,6 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-06T21:18:08.9992831-05:00",
+  "LastSaved": "2024-03-09T17:24:37.7511862-05:00",
   "__references": []
 }

@@ -8,24 +8,27 @@ using Sandbox.Weapons;
 public sealed class ScorchPlosion : Component, Component.ICollisionListener
 {
 	[Property] private SphereCollider collider { get; set; }
+	[Property] private ParticleEffect particleEffect { get; set; }
+	[Property] private ParticleSphereEmitter FireEmitter { get; set; }
+	[Property] private GameObject ExplosionPrefab { get; set; }
 	[Property] private float Damage { get; set; }
 	[Property] private float ExplosionRadius { get; set; }
 	[Property] public Guid OwnerId;
 	[Property] public GameObject Owner;
 
-	[Property, Category( "Rocket Properties" )]
+	[Property, Category( "Rocket Properties" ), Sync]
 	public float FirstChargeTime { get; set; }
 
-	[Property, Category( "Rocket Properties" )]
+	[Property, Category( "Rocket Properties" ), Sync]
 	public float SecondChargeTime { get; set; }
 
-	[Property, Category( "Rocket Properties" )]
+	[Property, Category( "Rocket Properties" ), Sync]
 	public float ThirdChargeTime { get; set; }
 
 	private Rigidbody RocketBody { get; set; }
 	[Property] public WeaponComponent Weapon { get; set; }
-	private TimeSince rocketCreated { get; set; }
-	private TimeSince chargeTime { get; set; }
+	[Sync] private TimeSince rocketCreated { get; set; }
+	[Sync] private TimeSince chargeTime { get; set; }
 	private bool hasExploded = false;
 	private bool hasEmbeded = false;
 	private bool hasCharge = false;
@@ -83,7 +86,8 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 			RocketBody.AngularVelocity = 0;
 		}
 
-		collider.Enabled = false;
+		//collider.Tags.Add( "projectile" );
+
 
 		hasEmbeded = true;
 		if ( !hasCharge )
@@ -101,7 +105,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 			.Sphere( ExplosionRadius, GameObject.Transform.Position, GameObject.Transform.Position )
 			.Run();
 		var explosionForce = CalculateExplosionForce( tier, baseForce );
-		
+
 		//Debug Purposes, breaks networking (somehow)
 		//Gizmo.Draw.LineSphere( trExplosion.EndPosition, ExplosionRadius );
 
@@ -110,23 +114,48 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 			var explosionTargets = Scene.FindInPhysics( explosionSphere ).Where( x => x.Tags.Has( "player" ) );
 			foreach ( var target in explosionTargets )
 			{
-				var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
-				var damage = Damage - (distance / 2);
-				target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
-				Log.Info( distance );
-
-				target.Components.TryGet( out CharacterController character, FindMode.InParent );
+				if ( target.Network.IsOwner )
 				{
-					var explosionPunch =
-						((target.Transform.Position) - trExplosion.EndPosition).Normal * explosionForce;
+					var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
+					var damage = Damage - (distance / 2);
+					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
+					Log.Info( distance );
 
-					// Log.Info( explosionPunch );
-					character.Velocity += explosionPunch;
-					Log.Info( "test" );
+					target.Components.TryGet( out CharacterController character, FindMode.InParent );
+					{
+						var explosionPunch =
+							((target.Transform.Position) - trExplosion.EndPosition).Normal * explosionForce;
+
+						// Log.Info( explosionPunch );
+						character.Velocity += explosionPunch;
+						Log.Info( "test" );
+					}
+				}
+				else if ( IsProxy )
+				{
+					var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
+					var damage = Damage;
+					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
+					Log.Info( distance );
+
+					target.Components.TryGet( out CharacterController character, FindMode.InParent );
+					{
+						var explosionPunch =
+							((target.Transform.Position) - trExplosion.EndPosition).Normal * explosionForce;
+
+						// Log.Info( explosionPunch );
+						character.Velocity += explosionPunch;
+						Log.Info( "test" );
+					}
 				}
 			}
 		}
-		
+
+		var ExplosionGO = ExplosionPrefab.Clone( Transform.Position );
+		ExplosionGO.Enabled = true;
+		ExplosionGO.Components.Get<ParticleEffect>().Tint = particleEffect.Tint;
+		ExplosionGO.Components.Get<ParticleSphereEmitter>().Velocity = FireEmitter.Velocity * 5;
+		ExplosionGO.BreakFromPrefab();
 
 		Weapon.RocketCreated = false;
 		hasExploded = true;
@@ -136,7 +165,6 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 
 	protected override void OnUpdate()
 	{
-		if ( IsProxy ) return;
 		if ( hasExploded ) return;
 
 		if ( !Weapon.RocketCharging && hasCharge )
@@ -144,23 +172,53 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 			Explosion();
 		}
 
-		if ( rocketCreated > 2f && !Weapon.RocketCharging )
+		if ( rocketCreated >= 2f && !Weapon.RocketCharging )
 		{
 			Weapon.RocketCreated = false;
 		}
 
-		if ( chargeTime > FirstChargeTime && chargeTime < SecondChargeTime && hasCharge )
+		if ( chargeTime >= FirstChargeTime && chargeTime <= SecondChargeTime && hasCharge )
 		{
-			tier = 1;
+			Tier1Charge();
 		}
-		else if ( chargeTime > SecondChargeTime && chargeTime < ThirdChargeTime && hasCharge )
+		else if ( chargeTime >= SecondChargeTime && chargeTime <= ThirdChargeTime && hasCharge )
 		{
-			tier = 2;
+			Tier2Charge();
 		}
-		else if ( chargeTime > ThirdChargeTime && hasCharge )
+		else if ( chargeTime >= ThirdChargeTime && hasCharge )
 		{
-			tier = 3;
+			Tier3Charge();
 		}
+	}
+
+	[Broadcast]
+	void Tier1Charge()
+	{
+		tier = 1;
+
+		float t = (chargeTime - FirstChargeTime) / (SecondChargeTime - FirstChargeTime);
+		particleEffect.Tint = Color.Lerp( Color.Orange, Color.White, (t - 0.2f) );
+
+		FireEmitter.Velocity = 20;
+	}
+
+	[Broadcast]
+	void Tier2Charge()
+	{
+		tier = 2;
+		float t = (chargeTime - SecondChargeTime) / (ThirdChargeTime - SecondChargeTime);
+		particleEffect.Tint = Color.Lerp( Color.White, Color.Cyan, (t - 0.2f) );
+
+		FireEmitter.Velocity = 30;
+	}
+
+	[Broadcast]
+	void Tier3Charge()
+	{
+		tier = 3;
+		particleEffect.Tint = Color.Cyan;
+
+		FireEmitter.Velocity = 40;
 	}
 
 	public void OnCollisionUpdate( Collision other )
@@ -170,5 +228,4 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 	public void OnCollisionStop( CollisionStop other )
 	{
 	}
-	
 }
