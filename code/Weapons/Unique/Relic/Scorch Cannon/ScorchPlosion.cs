@@ -62,7 +62,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 	{
 	}
 
-	protected override void OnStart()
+	async protected override void OnStart()
 	{
 		Owner = Scene.Directory.FindByGuid( OwnerId );
 		Weapon = Owner.Components.Get<WeaponComponent>();
@@ -70,6 +70,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		rocketCreated = 0;
 		Weapon.RocketCreated = true;
 
+		await Task.Delay( 200 );
 		if ( Weapon.RocketCharging )
 		{
 			hasCharge = true;
@@ -96,7 +97,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		}
 	}
 
-	[Broadcast]
+
 	private void Explosion()
 	{
 		var explosionSphere = new Sphere( GameObject.Transform.Position, ExplosionRadius );
@@ -109,6 +110,8 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		//Debug Purposes, breaks networking (somehow)
 		//Gizmo.Draw.LineSphere( trExplosion.EndPosition, ExplosionRadius );
 
+		Weapon.RocketCreated = false;
+
 		if ( trExplosion.Hit )
 		{
 			var explosionTargets = Scene.FindInPhysics( explosionSphere ).Where( x => x.Tags.Has( "player" ) );
@@ -116,6 +119,8 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 			{
 				if ( target.Network.IsOwner )
 				{
+					if ( !IsProxy )
+						Log.Info( "is owner" );
 					var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
 					var damage = Damage - (distance / 2);
 					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
@@ -131,10 +136,12 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 						Log.Info( "test" );
 					}
 				}
-				else if ( IsProxy )
+				else
 				{
+					if ( !IsProxy )
+						Log.Info( "is proxy" );
 					var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
-					var damage = Damage;
+					var damage = Damage + 10;
 					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
 					Log.Info( distance );
 
@@ -157,7 +164,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		ExplosionGO.Components.Get<ParticleSphereEmitter>().Velocity = FireEmitter.Velocity * 5;
 		ExplosionGO.BreakFromPrefab();
 
-		Weapon.RocketCreated = false;
+
 		hasExploded = true;
 		Log.Info( explosionForce );
 		GameObject.Destroy();
