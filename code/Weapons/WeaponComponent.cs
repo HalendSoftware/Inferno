@@ -56,7 +56,14 @@ public class WeaponComponent : Component
 	protected override void OnUpdate()
 	{
 		if ( IsProxy ) return;
-		if ( playerHealth.LifeState == LifeState.Dead ) return;
+
+		Log.Info( RocketCreated );
+		if ( playerHealth.LifeState == LifeState.Dead )
+		{
+			RocketCreated = false;
+			return;
+		}
+
 		try
 		{
 			var hasFired = false;

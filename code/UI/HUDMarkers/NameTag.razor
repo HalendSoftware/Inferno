@@ -3,14 +3,21 @@
 @using Sambit;
 @using Sambit.Player;
 @using Sambit.Player.Client;
+@using Sambit.Player.Health;
 @inherits PanelComponent
 
 <root>
     @if (Client.Local?.TeamComponent?.CurrentTeam == ShowOnTeam || ShowOnTeam == Team.All)
     {
-        <div class="playerName">
-	        <label>@PlayerName</label>
-		</div>
+	    <div class="playerName">
+		    <label>@PlayerName</label>
+	    </div>
+	    <div class="healthbar">
+		    <label>@Math.Round(playerHealth.Health )</label>
+	    </div>
+	    <div class="shieldbar">
+		    <label>@Math.Round(playerHealth.Shields)</label>
+	    </div>
     }
 </root>
 
@@ -19,7 +26,8 @@
     [Property, Description("Marker will only show to players on this team")]
     public Team ShowOnTeam { get; set; } = Team.All;
 
-    [Property] public string PlayerName { get; set; }  
+    [Property] public string PlayerName { get; set; }
+    [Property] public PlayerHealth playerHealth { get; set; }
 
     [Property] public bool StayOnScreen { get; set; } = true;
     [Property] public bool HideDistance { get; set; } = false;
@@ -45,7 +53,7 @@
     /// <summary>
     /// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
     /// </summary>
-    protected override int BuildHash() => System.HashCode.Combine(Progress, DistanceTo, StringColor);
+    protected override int BuildHash() => System.HashCode.Combine(RealTime.Now);
 
     protected override void OnAwake()
     {
@@ -56,6 +64,7 @@
     protected override void OnStart()
     {
 	    PlayerName = Player.Components.Get<Client>().DisplayName;
+	    playerHealth = Player.Components.Get<PlayerHealth>();
     }
 
     protected override void OnUpdate()

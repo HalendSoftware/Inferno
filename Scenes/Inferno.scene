@@ -37,13 +37,13 @@
     {
       "Id": "b70fac46-de99-4b48-aa57-c9bf12a92b00",
       "Name": "Spawnpoints",
-      "Position": "138.5117,-287.9038,233.0189",
+      "Position": "-233.7764,-287.9038,429.4852",
       "Enabled": true,
       "Children": [
         {
           "Id": "e88cd868-4961-4558-bddb-ea361aa16251",
           "Name": "Object",
-          "Position": "-290.999,-353.1223,24.67529",
+          "Position": "-290.9986,329.7185,-429.4852",
           "Enabled": true,
           "Components": [
             {
@@ -228,7 +228,6 @@
       "Position": "-1678.493,3798.761,218.8581",
       "Rotation": "0,0.8660254,0,0.5000001",
       "Tags": "light_directional,light",
-      "Enabled": true,
       "Components": [
         {
           "__type": "DirectionalLight",
@@ -306,6 +305,6 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-09T17:01:37.0902211-05:00",
+  "LastSaved": "2024-03-09T17:24:37.7511862-05:00",
   "__references": []
 }

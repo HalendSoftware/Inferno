@@ -1,8 +1,10 @@
 {
   "RootObject": {
-    "Id": "da01b0b0-6e4e-4d53-b2b3-15dc3fc5cecd",
+    "Id": "aa6e3eda-6ea4-4e78-815e-ae1f1fc629b1",
     "Name": "rocket",
-    "Scale": "1,0.5,0.5",
+    "Position": "-115.1966,0,0",
+    "Scale": "0.2,0.2,0.2",
+    "Tags": "projectile,particles",
     "Enabled": true,
     "Components": [
       {
@@ -39,21 +41,182 @@
         "baseForce": 600,
         "collider": {
           "_type": "component",
-          "go": "da01b0b0-6e4e-4d53-b2b3-15dc3fc5cecd",
+          "go": "aa6e3eda-6ea4-4e78-815e-ae1f1fc629b1",
           "component_type": "SphereCollider"
         },
         "Damage": 51.59997,
+        "ExplosionPrefab": {
+          "_type": "gameobject",
+          "prefab": "prefabs/weapon/relic/explosion.prefab"
+        },
         "ExplosionRadius": 240,
+        "FireEmitter": {
+          "_type": "component",
+          "go": "aa6e3eda-6ea4-4e78-815e-ae1f1fc629b1",
+          "component_type": "ParticleSphereEmitter"
+        },
         "FirstChargeTime": 2,
+        "particleEffect": {
+          "_type": "component",
+          "go": "aa6e3eda-6ea4-4e78-815e-ae1f1fc629b1",
+          "component_type": "ParticleEffect"
+        },
         "SecondChargeTime": 4,
         "ThirdChargeTime": 6,
         "Weapon": null
+      },
+      {
+        "__type": "ParticleEffect",
+        "Alpha": {
+          "Type": "Curve",
+          "CurveA": [
+            {
+              "x": 0.03560831,
+              "y": 1,
+              "in": 1.1616156,
+              "out": -1.1616156
+            },
+            {
+              "x": 0.99703264,
+              "in": -0.06249983,
+              "out": 0.06249983
+            }
+          ],
+          "Constants": "1,0,0,0"
+        },
+        "ApplyColor": true,
+        "ApplyRotation": false,
+        "ApplyShape": false,
+        "Bounce": {
+          "Constants": "1,0,0,0"
+        },
+        "Brightness": {
+          "Constants": "1,0,0,0"
+        },
+        "Bumpiness": {},
+        "Collision": false,
+        "CollisionIgnore": null,
+        "CollisionRadius": 1,
+        "Damping": {},
+        "DieOnCollisionChance": {},
+        "Force": false,
+        "ForceDirection": "0,0,0",
+        "ForceScale": {
+          "Constants": "1,0,0,0"
+        },
+        "Friction": {
+          "Constants": "1,0,0,0"
+        },
+        "Gradient": {
+          "GradientA": {
+            "color": [
+              {
+                "t": 0.5,
+                "c": "1,1,1,1"
+              }
+            ],
+            "alpha": []
+          },
+          "GradientB": {
+            "color": [
+              {
+                "t": 0.5,
+                "c": "1,1,1,1"
+              }
+            ],
+            "alpha": []
+          },
+          "ConstantA": "1,1,1,1",
+          "ConstantB": "1,1,1,0"
+        },
+        "Lifetime": {
+          "Constants": "2,0,0,0"
+        },
+        "MaxParticles": 10000,
+        "PerParticleTimeScale": {
+          "Constants": "1,0,0,0"
+        },
+        "PreWarm": 0.22,
+        "PushStrength": {},
+        "Roll": {},
+        "Scale": {
+          "Constants": "0.68,0,0,0"
+        },
+        "SequenceId": {},
+        "SequenceSpeed": {
+          "Constants": "1,0,0,0"
+        },
+        "SequenceTime": {
+          "Constants": "1,0,0,0"
+        },
+        "SheetSequence": false,
+        "Space": "World",
+        "StartVelocity": {
+          "Constants": "0.12,0,0,0"
+        },
+        "Stretch": {
+          "Constants": "4.48,0,0,0"
+        },
+        "TimeScale": 1,
+        "Tint": "1,0,0,1"
+      },
+      {
+        "__type": "ParticleSphereEmitter",
+        "Burst": 0,
+        "Delay": 0,
+        "DestroyOnEnd": false,
+        "Duration": 74,
+        "Loop": true,
+        "OnEdge": true,
+        "Radius": 10.58,
+        "Rate": 1000,
+        "Velocity": 10
+      },
+      {
+        "__type": "ParticleSpriteRenderer",
+        "Additive": true,
+        "BlurAmount": 1,
+        "BlurOpacity": 1,
+        "BlurSpacing": 0,
+        "DepthFeather": 0,
+        "FaceVelocity": false,
+        "FogStrength": 1,
+        "LeadingTrail": true,
+        "MotionBlur": true,
+        "Opaque": false,
+        "RotationOffset": 0,
+        "Scale": 0.58,
+        "Shadows": true,
+        "SortMode": "Unsorted",
+        "Texture": "sprites/vidya/shapes/sparkle.vtex"
+      },
+      {
+        "__type": "ParticleSphereEmitter",
+        "__enabled": false,
+        "Burst": 1000,
+        "Delay": 0,
+        "DestroyOnEnd": true,
+        "Duration": 3,
+        "Loop": false,
+        "OnEdge": false,
+        "Radius": 20,
+        "Rate": 0,
+        "Velocity": 100
       }
     ],
-    "Children": []
+    "Children": [
+      {
+        "Id": "56adbb25-f863-4306-a052-85ce402ca435",
+        "Name": "Object",
+        "Position": "-75.97433,-223.5921,-32.75417",
+        "Enabled": true
+      }
+    ]
   },
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
-  "__references": []
+  "__references": [
+    "vidya.shape-sparkle"
+  ]
 }
