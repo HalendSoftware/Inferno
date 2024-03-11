@@ -57,6 +57,7 @@
           "_type": "gameobject",
           "go": "a9b4c617-8a3a-4b40-8a8b-8137ae4c415f"
         },
+        "IsEscaping": false,
         "JumpForce": 400,
         "JumpMode": "TripleJump",
         "LiftBurstForce": 0,
@@ -312,7 +313,7 @@
             "collider": {
               "_type": "component",
               "go": "1942d822-18d3-45a1-b3c2-9cee7effb6ea",
-              "component_type": "BoxCollider"
+
             }
           }
         ],
@@ -451,6 +452,7 @@
         "Name": "Collider",
         "Position": "0,0,32",
         "Scale": "0.4560446,0.459917,1.263198",
+        "Tags": "playercollider",
         "Enabled": true,
         "Components": [
           {

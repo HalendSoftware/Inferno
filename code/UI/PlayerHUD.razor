@@ -36,7 +36,11 @@
     }
 
     <div class="center">
-        <div class="crosshair"></div>
+	    <div class="crosshair"></div>
+    </div>
+    
+    <div class="MapBoundary">
+	    <div class="turnback">0</div>
     </div>
 </root>
 
@@ -68,8 +72,8 @@
             LocalPlayerHealth = Client.Local.Components.Get<PlayerHealth>();
         }
 
-        int timeLeft = (int)Math.Floor(LocalPlayerHealth.respawnTime - LocalPlayerHealth.TimeSinceDeath);
-        float timeFloatLeft = LocalPlayerHealth.respawnTime - LocalPlayerHealth.TimeSinceDeath;
+        int respawnTimeLeft = (int)Math.Floor(LocalPlayerHealth.respawnTime - LocalPlayerHealth.TimeSinceDeath);
+        int escapeTimeLeft = (int)Math.Floor(LocalPlayer.EscapingTimeLeft - LocalPlayer.EscapingTime);
 
         //Interaction
         var interact = LocalPlayer.GameObject.Components.Get<PlayerInteract>();
@@ -92,8 +96,19 @@
 
         if (LocalPlayerHealth.LifeState == LifeState.Dead && !LocalPlayerHealth.AwaitingResurrection)
         {
-            InteractLabel = "Respawning in " + (timeLeft + 1);
+            InteractLabel = "Respawning in " + (respawnTimeLeft + 1);
             interactProgress = Math.Clamp(LocalPlayerHealth.TimeSinceDeath / LocalPlayerHealth.respawnTime, 0, 1);
+        }
+
+        interactButtonColor = Input.Down("Interact") ? "#aaa" : "#fff";
+        interactButtonFontSize = Input.Down("Interact") ? "16px" : "22px";
+        
+        //Turn Back
+
+        if (LocalPlayer.IsEscaping)
+        {
+	        InteractLabel = "Turn Back in " + (escapeTimeLeft + 1);
+	        interactProgress = Math.Clamp(LocalPlayerHealth.TimeSinceDeath / LocalPlayerHealth.respawnTime, 0, 1);
         }
 
         interactButtonColor = Input.Down("Interact") ? "#aaa" : "#fff";

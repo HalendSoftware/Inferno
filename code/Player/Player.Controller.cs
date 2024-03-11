@@ -26,6 +26,9 @@ public partial class PlayerController : Component
 	public PlayerHealth playerHealth;
 	private ParticleEmitter particleEmitter;
 
+	[Property] public bool IsEscaping { get; set; }
+	public TimeSince EscapingTime { get; set; }
+	public float EscapingTimeLeft { get; set; }
 	[Sync] public bool IsCrouching { get; set; }
 	public bool IsSprinting;
 	public bool isGliding;

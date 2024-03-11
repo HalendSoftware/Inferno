@@ -1,0 +1,41 @@
+{
+  "RootObject": {
+    "Id": "9bf9111c-369d-46d7-9d87-59bb79d2dee7",
+    "Name": "map boundary",
+    "Enabled": true,
+    "Components": [
+      {
+        "__type": "BoxCollider",
+        "Center": "0,0,0",
+        "IsTrigger": true,
+        "Scale": "50,50,50",
+        "Static": false,
+        "Surface": null
+      },
+      {
+        "__type": "ModelRenderer",
+        "BodyGroups": 18446744073709551615,
+        "MaterialGroup": null,
+        "MaterialOverride": null,
+        "Model": null,
+        "RenderType": "On",
+        "Tint": "1,1,1,1"
+      },
+      {
+        "__type": "MapBoundary",
+        "_boundaryType": "TurnBack",
+        "_collider": {
+          "_type": "component",
+          "go": "9bf9111c-369d-46d7-9d87-59bb79d2dee7",
+          "component_type": "BoxCollider"
+        },
+        "TurnBackTimer": 5
+      }
+    ],
+    "Children": []
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "__references": []
+}
