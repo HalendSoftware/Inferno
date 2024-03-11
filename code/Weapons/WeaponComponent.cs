@@ -15,6 +15,9 @@ public class WeaponComponent : Component
 	[Property] public PlayerHealth playerHealth { get; set; }
 	[Property, ResourceType( "weapon" )] public WeaponAsset Weapon { get; set; }
 	[Property] public Material ImpactDecal { get; set; }
+	[Property] public bool RocketCharging { get; set; }
+
+	public bool RocketCreated { get; set; }
 
 	private int _magazine = 0;
 
@@ -58,7 +61,16 @@ public class WeaponComponent : Component
 		{
 			var hasFired = false;
 			if ( Input.Down( "Fire" ) )
+			{
 				hasFired = Fire();
+				RocketCharging = true;
+			}
+
+			if ( Input.Released( "Fire" ) )
+			{
+				RocketCharging = false;
+			}
+
 			if ( Input.Pressed( "Reload" ) && !hasFired )
 				Reload();
 
@@ -80,7 +92,7 @@ public class WeaponComponent : Component
 
 	public bool Fire()
 	{
-		if ( !FireRateCooldown )
+		if ( !FireRateCooldown || RocketCreated )
 			return false;
 
 		if ( CurrentMagazine <= 0 )
@@ -100,9 +112,10 @@ public class WeaponComponent : Component
 			return false;
 
 		var projectile = Weapon.Rocket.Clone( EyePos.Transform.Position );
-		projectile.NetworkSpawn();
 		projectile.Transform.Rotation = EyePos.Transform.Rotation;
 		projectile.Components.Get<Rigidbody>().Velocity = EyePos.Transform.Rotation.Forward * 1000f;
+		projectile.Components.Get<ScorchPlosion>().OwnerId = GameObject.Id;
+		projectile.NetworkSpawn();
 
 
 		FireGunMessage();
