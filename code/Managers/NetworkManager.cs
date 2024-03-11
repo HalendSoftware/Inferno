@@ -3,132 +3,133 @@ using Sambit;
 using Sambit.Player;
 using Sambit.Player.Client;
 
-[Title("S&mbit Network Helper")]
-[Category("Networking")]
-[Icon("electrical_services")]
+[Title( "S&mbit Network Helper" )]
+[Category( "Networking" )]
+[Icon( "electrical_services" )]
 public sealed class NetworkManager : Component, Component.INetworkListener
 {
-    public static NetworkManager Instance { get; private set; }
+	public static NetworkManager Instance { get; private set; }
 
-    /// <summary>
-    /// Create a server (if we're not joining one)
-    /// </summary>
-    [Property]
-    public bool StartServer { get; set; } = true;
+	/// <summary>
+	/// Create a server (if we're not joining one)
+	/// </summary>
+	[Property]
+	public bool StartServer { get; set; } = true;
 
-    /// <summary>
-    /// The prefab to spawn for the player to control.
-    /// </summary>
-    [Property]
-    public GameObject PlayerPrefab { get; set; }
-    
-    
-    public List<Connection> Connections = new();
-    public Connection Host = null;
-    [Sync] public long HostSteamId { get; set; }
+	/// <summary>
+	/// The prefab to spawn for the player to control.
+	/// </summary>
 
-    public List<PlayerController> Players => GameManager.ActiveScene.Components
-        .GetAll<PlayerController>(FindMode.EnabledInSelfAndDescendants).ToList();
-
-    protected override void OnAwake()
-    {
-        base.OnAwake();
-        Instance = this;
-    }
-
-    protected override async Task OnLoad()
-    {
-        if (Scene.IsEditor)
-            return;
-
-        if (StartServer && !GameNetworkSystem.IsActive)
-        {
-            LoadingScreen.Title = "Creating Lobby";
-            await Task.DelayRealtimeSeconds(0.1f);
-            GameNetworkSystem.CreateLobby();
-        }
-    }
+	[Property]
+	public GameObject PlayerPrefab { get; set; }
 
 
-    /// <summary>
-    /// A client is fully connected to the server. This is called on the host.
-    /// </summary>
-    public void OnActive(Connection channel)
-    {
-        GameManager.ActiveScene.PhysicsWorld.SubSteps = 4;
-        Log.Info($"Player '{channel.DisplayName}' has joined the game");
+	public List<Connection> Connections = new();
+	public Connection Host = null;
+	[Sync] public long HostSteamId { get; set; }
 
-        if (PlayerPrefab is null)
-            return;
+	public List<PlayerController> Players => GameManager.ActiveScene.Components
+		.GetAll<PlayerController>( FindMode.EnabledInSelfAndDescendants ).ToList();
+
+	protected override void OnAwake()
+	{
+		base.OnAwake();
+		Instance = this;
+	}
+
+	protected override async Task OnLoad()
+	{
+		if ( Scene.IsEditor )
+			return;
+
+		if ( StartServer && !GameNetworkSystem.IsActive )
+		{
+			LoadingScreen.Title = "Creating Lobby";
+			await Task.DelayRealtimeSeconds( 0.1f );
+			GameNetworkSystem.CreateLobby();
+		}
+	}
 
 
-        var startLocation = Transform.World;
-        startLocation.Scale = 1;
+	/// <summary>
+	/// A client is fully connected to the server. This is called on the host.
+	/// </summary>
+	public void OnActive( Connection channel )
+	{
+		GameManager.ActiveScene.PhysicsWorld.SubSteps = 4;
+		Log.Info( $"Player '{channel.DisplayName}' has joined the game" );
 
-        // Spawn this object and make the client the owner
-        var player = PlayerPrefab.Clone(startLocation);
-
-        var client = player.Components.Create<Client>();
-        client.Setup(channel);
-
-        player.Name = $"Player - {channel.DisplayName}";
-        player.BreakFromPrefab();
-        player.NetworkSpawn(channel);
+		if ( PlayerPrefab is null )
+			return;
 
 
-        //
-        // Find an intial spawn location for this player
-        //
-        var ForceSpawnPoints = Scene.GetAllComponents<SambitSpawnpoint>()
-            .Where(x => x.ForceSpawn)
-            .Where(x => x.Team == client.TeamComponent.CurrentTeam).ToList();
+		var startLocation = Transform.World;
+		startLocation.Scale = 1;
 
-        var SpawnPoints = Scene.GetAllComponents<SambitSpawnpoint>()
-            .Where(x => x.Team == client.TeamComponent.CurrentTeam)
-            .DefaultIfEmpty(Random.Shared.FromList(Scene.GetAllComponents<SambitSpawnpoint>().ToList(), default))
-            .ToList();
+		// Spawn this object and make the client the owner
+		var player = PlayerPrefab.Clone( startLocation );
 
-        if (ForceSpawnPoints.Any())
-            startLocation = Random.Shared.FromList(ForceSpawnPoints, default).GameObject.Transform.World;
-        // If no Force Spawnpoints, use any spawnpoint based on team then any if no team
-        else if (SpawnPoints.Any())
-            startLocation = Random.Shared.FromList(SpawnPoints, default).GameObject.Transform.World;
-        // If theres STILL no sambit spawnpoint, use the default spawnpoint
-        else
-        {
-            var defaultSpawns = Scene.GetAllComponents<SpawnPoint>().ToList();
-            startLocation = Random.Shared.FromList(defaultSpawns, default).GameObject.Transform.World;
-        }
+		var client = player.Components.Create<Client>();
+		client.Setup( channel );
 
-        player.Transform.World = startLocation;
-    }
+		player.Name = $"Player - {channel.DisplayName}";
+		player.BreakFromPrefab();
+		player.NetworkSpawn( channel );
 
-    public void OnDisconnected(Connection channel)
-    {
-        foreach (var player in Players)
-        {
-            if (player.Network.OwnerId == channel.Id)
-            {
-                player.GameObject.Destroy();
-            }
-        }
 
-        Connections.Remove(channel);
-    }
+		//
+		// Find an intial spawn location for this player
+		//
+		var ForceSpawnPoints = Scene.GetAllComponents<SambitSpawnpoint>()
+			.Where( x => x.ForceSpawn )
+			.Where( x => x.Team == client.TeamComponent.CurrentTeam ).ToList();
 
-    public void OnBecameHost(Connection previousHost)
-    {
-        foreach (var player in Players)
-        {
-            if (player.SteamId == (long)previousHost.SteamId)
-            {
-                player.GameObject.Destroy();
-            }
-        }
+		var SpawnPoints = Scene.GetAllComponents<SambitSpawnpoint>()
+			.Where( x => x.Team == client.TeamComponent.CurrentTeam )
+			.DefaultIfEmpty( Random.Shared.FromList( Scene.GetAllComponents<SambitSpawnpoint>().ToList(), default ) )
+			.ToList();
 
-        Host = Connections.FirstOrDefault(x => x.SteamId == (ulong)Game.SteamId);
-        HostSteamId = (long)Game.SteamId;
+		if ( ForceSpawnPoints.Any() )
+			startLocation = Random.Shared.FromList( ForceSpawnPoints, default ).GameObject.Transform.World;
+		// If no Force Spawnpoints, use any spawnpoint based on team then any if no team
+		else if ( SpawnPoints.Any() )
+			startLocation = Random.Shared.FromList( SpawnPoints, default ).GameObject.Transform.World;
+		// If theres STILL no sambit spawnpoint, use the default spawnpoint
+		else
+		{
+			var defaultSpawns = Scene.GetAllComponents<SpawnPoint>().ToList();
+			startLocation = Random.Shared.FromList( defaultSpawns, default ).GameObject.Transform.World;
+		}
 
-        Log.Info("You are now the host!");
-    }
+		player.Transform.World = startLocation;
+	}
+
+	public void OnDisconnected( Connection channel )
+	{
+		foreach ( var player in Players )
+		{
+			if ( player.Network.OwnerId == channel.Id )
+			{
+				player.GameObject.Destroy();
+			}
+		}
+
+		Connections.Remove( channel );
+	}
+
+	public void OnBecameHost( Connection previousHost )
+	{
+		foreach ( var player in Players )
+		{
+			if ( player.SteamId == (long)previousHost.SteamId )
+			{
+				player.GameObject.Destroy();
+			}
+		}
+
+		Host = Connections.FirstOrDefault( x => x.SteamId == (ulong)Game.SteamId );
+		HostSteamId = (long)Game.SteamId;
+
+		Log.Info( "You are now the host!" );
+	}
 }

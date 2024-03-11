@@ -1,5 +1,6 @@
 using Sambit.Common.Interfaces;
 using Sambit.Player.Ragdoll;
+using Sandbox.UI;
 
 namespace Sambit.Player.Health;
 
@@ -19,6 +20,10 @@ public class PlayerHealth : Component, IDamagable
 	[Property] public float respawnTime { get; set; }
 	private PlayerController playerController => Components.Get<PlayerController>();
 	private CharacterController characterController => Components.Get<CharacterController>();
+
+	[Property] private Vignette DeathVignette { get; set; }
+	[Property] private DepthOfField DeathDOF { get; set; }
+	[Property] private DeathColorFilter _deathColorFilter { get; set; }
 
 	//Health Properties
 
@@ -194,6 +199,10 @@ public class PlayerHealth : Component, IDamagable
 			return;
 		}
 
+		DeathVignette.Enabled = false;
+		DeathDOF.Enabled = false;
+		_deathColorFilter.Enabled = false;
+
 		Health = MaxHealth;
 		Shields = MaxShields;
 		HealthRegen = DefaultHealthRegen;
@@ -212,7 +221,6 @@ public class PlayerHealth : Component, IDamagable
 		ragdollController.Unragdoll();
 	}
 
-
 	public void Death()
 	{
 		if ( IsProxy )
@@ -226,6 +234,11 @@ public class PlayerHealth : Component, IDamagable
 		IsRespawning = true;
 		LifeState = LifeState.Dead;
 		TimeSinceDeath = 0f;
+
+		//TODO: HOLY FUCK, do NOT do this, PLEASE draw it UNDERNEATH the UI, SAVE YOURSELF
+		DeathVignette.Enabled = true;
+		DeathDOF.Enabled = true;
+		_deathColorFilter.Enabled = true;
 
 		Sound.Play( "sounds/player/ui/playerdeath.sound" );
 		foreach ( var deathListener in Components.GetAll<IDeathListener>() )
