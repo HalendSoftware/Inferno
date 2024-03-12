@@ -6,6 +6,9 @@
 @inherits PanelComponent
 
 <root>
+	@if (Scene.IsEditor || Game.ActiveScene.Camera is null)
+		return;
+
 	@if (Client.Local?.TeamComponent?.CurrentTeam == ShowOnTeam || ShowOnTeam == Team.All)
 	{
 		<div class="markerMain">
