@@ -298,7 +298,7 @@
               }
             ],
             "Mode": "Screen",
-            "Strength": 1,
+            "Strength": 0.7,
             "Threshold": 1.75,
             "ThresholdWidth": 1
           },
