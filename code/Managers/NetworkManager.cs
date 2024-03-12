@@ -16,6 +16,8 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 	[Property]
 	public bool StartServer { get; set; } = true;
 
+	[Property] private bool hasSelectedTeam = false;
+
 	/// <summary>
 	/// The prefab to spawn for the player to control.
 	/// </summary>
@@ -28,7 +30,7 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 	public Connection Host = null;
 	[Sync] public long HostSteamId { get; set; }
 
-	public List<PlayerController> Players => GameManager.ActiveScene.Components
+	public List<PlayerController> Players => Game.ActiveScene.Components
 		.GetAll<PlayerController>( FindMode.EnabledInSelfAndDescendants ).ToList();
 
 	protected override void OnAwake()
@@ -56,12 +58,12 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 	/// </summary>
 	public void OnActive( Connection channel )
 	{
-		GameManager.ActiveScene.PhysicsWorld.SubSteps = 4;
+		Game.ActiveScene.PhysicsWorld.SubSteps = 4;
 		Log.Info( $"Player '{channel.DisplayName}' has joined the game" );
+
 
 		if ( PlayerPrefab is null )
 			return;
-
 
 		var startLocation = Transform.World;
 		startLocation.Scale = 1;
@@ -71,6 +73,7 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 
 		var client = player.Components.Create<Client>();
 		client.Setup( channel );
+		client.HasSelectedTeam = false;
 
 		player.Name = $"Player - {channel.DisplayName}";
 		player.BreakFromPrefab();

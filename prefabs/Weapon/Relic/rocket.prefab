@@ -1,11 +1,11 @@
 {
   "RootObject": {
-    "Id": "aa6e3eda-6ea4-4e78-815e-ae1f1fc629b1",
+    "Id": "9b04c833-238e-4420-9008-f19a98efd4df",
     "Name": "rocket",
-    "Position": "-115.1966,0,0",
     "Scale": "0.2,0.2,0.2",
     "Tags": "projectile,particles",
     "Enabled": true,
+    "NetworkMode": 2,
     "Components": [
       {
         "__type": "Rigidbody",
@@ -20,8 +20,6 @@
       {
         "__type": "ModelRenderer",
         "BodyGroups": 18446744073709551615,
-        "MaterialGroup": null,
-        "MaterialOverride": null,
         "Model": "models/dev/sphere.vmdl",
         "RenderType": "On",
         "Tint": "1,1,1,1"
@@ -31,20 +29,17 @@
         "Center": "0,0,0",
         "IsTrigger": false,
         "Radius": 26.559793,
-        "Static": false,
-        "Surface": null
+        "Static": false
       },
       {
         "__type": "ScorchPlosion",
-        "Owner": null,
         "OwnerId": "00000000-0000-0000-0000-000000000000",
         "baseForce": 600,
         "collider": {
           "_type": "component",
-          "go": "aa6e3eda-6ea4-4e78-815e-ae1f1fc629b1",
+          "go": "9b04c833-238e-4420-9008-f19a98efd4df",
           "component_type": "SphereCollider"
         },
-        "Damage": 51.59997,
         "ExplosionPrefab": {
           "_type": "gameobject",
           "prefab": "prefabs/weapon/relic/explosion.prefab"
@@ -52,18 +47,18 @@
         "ExplosionRadius": 240,
         "FireEmitter": {
           "_type": "component",
-          "go": "aa6e3eda-6ea4-4e78-815e-ae1f1fc629b1",
+          "go": "9b04c833-238e-4420-9008-f19a98efd4df",
           "component_type": "ParticleSphereEmitter"
         },
         "FirstChargeTime": 2,
+        "MaxDamage": 100,
         "particleEffect": {
           "_type": "component",
-          "go": "aa6e3eda-6ea4-4e78-815e-ae1f1fc629b1",
+          "go": "9b04c833-238e-4420-9008-f19a98efd4df",
           "component_type": "ParticleEffect"
         },
         "SecondChargeTime": 4,
-        "ThirdChargeTime": 6,
-        "Weapon": null
+        "ThirdChargeTime": 6
       },
       {
         "__type": "ParticleEffect",
@@ -95,7 +90,6 @@
         },
         "Bumpiness": {},
         "Collision": false,
-        "CollisionIgnore": null,
         "CollisionRadius": 1,
         "Damping": {},
         "DieOnCollisionChance": {},
@@ -108,6 +102,7 @@
           "Constants": "1,0,0,0"
         },
         "Gradient": {
+          "Evaluation": "Particle",
           "GradientA": {
             "color": [
               {
@@ -206,10 +201,11 @@
     ],
     "Children": [
       {
-        "Id": "56adbb25-f863-4306-a052-85ce402ca435",
+        "Id": "a3448efa-af45-42a2-baba-fb3c0c7a1b1f",
         "Name": "Object",
         "Position": "-75.97433,-223.5921,-32.75417",
-        "Enabled": true
+        "Enabled": true,
+        "NetworkMode": 2
       }
     ]
   },

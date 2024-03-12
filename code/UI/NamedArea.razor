@@ -24,7 +24,7 @@
 	protected override void OnFixedUpdate()
 	{
 		var namedArea = collider.Touching
-			.Where( x => x.GameObject.Tags.Has( "named area" ) )
+			.Where( x => x.GameObject.Tags.Has( "namedarea" ) )
 			.MaxBy( x => x.GameObject.Components.Get<Priority>()?.PriorityLevel );
 
 		AreaName = namedArea?.GameObject.Name ?? string.Empty;

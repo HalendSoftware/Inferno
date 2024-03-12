@@ -7,78 +7,80 @@ namespace Sambit.Player.Client;
 /// </summary>
 public sealed class Client : Component
 {
-    /// <summary>
-    /// Get a list of all clients in the game's active scene.
-    /// </summary>
-    public static IEnumerable<Client> All => GameManager.ActiveScene.GetAllComponents<Client>();
+	/// <summary>
+	/// Get a list of all clients in the game's active scene.
+	/// </summary>
+	public static IEnumerable<Client> All => GameManager.ActiveScene.GetAllComponents<Client>();
 
-    public static Client Local => All.FirstOrDefault(x => x.IsMe);
+	public static Client Local => All.FirstOrDefault( x => x.IsMe );
 
-    /// <summary>
-    /// Are we connected to a server?
-    /// </summary>
-    public bool IsConnected { get; private set; } = false;
+	/// <summary>
+	/// Are we connected to a server?
+	/// </summary>
+	public bool IsConnected { get; private set; } = false;
 
-    /// <summary>
-    /// Is this client me? (The local client)
-    /// </summary>
-    // [Property]
-    public bool IsMe => Connection.Local.Id == ConnectionID;
+	/// <summary>
+	/// Is this client me? (The local client)
+	/// </summary>
+	// [Property]
+	public bool IsMe => Connection.Local.Id == ConnectionID;
 
-    /// <summary>
-    /// Is this client hosting the current game session?
-    /// </summary>
-    [Property]
-    public bool IsHost { get; private set; } = false;
+	/// <summary>
+	/// Is this client hosting the current game session?
+	/// </summary>
+	[Property]
+	public bool IsHost { get; private set; } = false;
 
-    /// <summary>
-    /// The client's SteamId
-    /// </summary>
-    [Property]
-    public ulong SteamId { get; private set; } = 0;
+	/// <summary>
+	/// The client's SteamId
+	/// </summary>
+	[Property]
+	public ulong SteamId { get; private set; } = 0;
 
-    /// <summary>
-    /// The client's Controller
-    /// </summary>
-    [Property] public PlayerController PlayerControllerComponent;
+	/// <summary>
+	/// The client's Controller
+	/// </summary>
+	[Property] public PlayerController PlayerControllerComponent;
 
-    /// <summary>
-    /// The client's Connection ID
-    /// </summary>
-    [Property]
-    public Guid ConnectionID { get; private set; }
+	/// <summary>
+	/// The client's Connection ID
+	/// </summary>
+	[Property]
+	public Guid ConnectionID { get; private set; }
 
-    /// <summary>
-    /// The client's DisplayName
-    /// </summary>
-    [Property]
-    public string DisplayName { get; private set; } = "User";
+	/// <summary>
+	/// The client's DisplayName
+	/// </summary>
+	[Property]
+	public string DisplayName { get; private set; } = "User";
 
-    /// <summary>
-    /// The client's Current Team Component
-    /// </summary>
-    [Property]
-    public PlayerTeam TeamComponent { get; private set; }
+	/// <summary>
+	/// The client's Current Team Component
+	/// </summary>
+	[Property]
+	public PlayerTeam TeamComponent { get; private set; }
 
-    public void Setup(Connection channel)
-    {
-        Log.Info(
-            $"Setting up connection {channel.Id} for user {channel.DisplayName} ({channel.SteamId}) (local connection is {Connection.Local.Id})");
-        IsConnected = true;
-        ConnectionID = channel.Id;
+	public bool HasSelectedTeam { get; set; }
 
-        SteamId = channel.SteamId;
-        DisplayName = channel.DisplayName;
-        IsHost = channel.IsHost;
-        PlayerControllerComponent = Components.Get<PlayerController>();
-        TeamComponent = Components.Get<PlayerTeam>();
-        TeamComponent.SetTeam(Team.Bravo); // Temp
+	public void Setup( Connection channel )
+	{
+		Log.Info(
+			$"Setting up connection {channel.Id} for user {channel.DisplayName} ({channel.SteamId}) (local connection is {Connection.Local.Id})" );
+		IsConnected = true;
+		ConnectionID = channel.Id;
 
-        Log.Info($"Setup: {SteamId}");
-    }
+		SteamId = channel.SteamId;
+		DisplayName = channel.DisplayName;
+		IsHost = channel.IsHost;
+		PlayerControllerComponent = Components.Get<PlayerController>();
+		TeamComponent = Components.Get<PlayerTeam>();
+		// TeamComponent.SetTeam(Team.Bravo); // Temp
 
-    public override string ToString()
-    {
-        return $"({DisplayName} - SteamID: {SteamId} | Team: {TeamComponent.CurrentTeam})";
-    }
+		Log.Info( $"Setup: {SteamId}" );
+	}
+
+	public override string ToString()
+	{
+		return $"({DisplayName} - SteamID: {SteamId} | Team: {TeamComponent.CurrentTeam})";
+	}
 }

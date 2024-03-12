@@ -17,6 +17,7 @@
   "BlastRadius": 0,
   "Velocity": 0,
   "AmmoReserve": 0,
+  "InfiniteAmmo": false,
   "Magazine": 100,
   "ReloadSpeed": 0,
   "Handling": 0,

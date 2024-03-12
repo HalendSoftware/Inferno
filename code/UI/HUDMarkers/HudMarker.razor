@@ -6,125 +6,128 @@
 @inherits PanelComponent
 
 <root>
-    @if (Client.Local?.TeamComponent?.CurrentTeam == ShowOnTeam || ShowOnTeam == Team.All)
-    {
-        <div class="markerMain">
-            <div style="background-color: @StringColor; width: 55px; height: 55px" class="marker"></div>
+	@if ( Client.Local?.TeamComponent?.CurrentTeam == ShowOnTeam || ShowOnTeam == Team.All )
+	{
+		<div class="markerMain">
+			<div style="background-color: @StringColor; width: 55px; height: 55px" class="marker"></div>
 
-            <img src=@MarkerIcon class="markerIcon"/>
-            <div class="markerLabel">
-                <label style="font-size: @FontSize">@MarkerLabel</label>
-            </div>
+			<img src=@MarkerIcon class="markerIcon"/>
+			<div class="markerLabel">
+				<label style="font-size: @FontSize">@MarkerLabel</label>
+			</div>
 
-            <div class="markerBorder" style="width: 65px; height: 65px"/>
+			<div class="markerBorder" style="width: 65px; height: 65px"/>
 
-            <div class="markerProgressBar" style="width: 86px; height: 86px; mask-image: conic-gradient(#fff 0%, #fff @(Progress)%, transparent @(Progress)%, transparent 100%);"/>
+			<div class="markerProgressBar" style="width: 86px; height: 86px; mask-image: conic-gradient(#fff 0%, #fff @( Progress )%, transparent @( Progress )%, transparent 100%);"/>
 
-        </div>
+		</div>
 
-        <div class="distanceLabel" style="left: @(FlipDistance ? 65 : -100)%;">
-            <label>@DistanceTo m</label>
-        </div>
-        <div class="objectiveLabel">
-            <label>@ObjectiveLabel.ToUpper()</label>
-        </div>
-        <div class="locationLabel">
-            <label>@LocationLabel.ToUpper()</label>
-        </div>
-    }
+		<div class="distanceLabel" style="left: @( FlipDistance ? 65 : -100 )%;">
+			<label>@DistanceTo m</label>
+		</div>
+		<div class="objectiveLabel">
+			<label>@ObjectiveLabel.ToUpper()</label>
+		</div>
+		<div class="locationLabel">
+			<label>@LocationLabel.ToUpper()</label>
+		</div>
+	}
 </root>
 
 @code
 {
-    [Property, Description("Marker will only show to players on this team")]
-    public Team ShowOnTeam { get; set; } = Team.All;
+	[Property, Description( "Marker will only show to players on this team" )]
+	public Team ShowOnTeam { get; set; } = Team.All;
 
-    [Property] public bool StayOnScreen { get; set; } = true;
-    [Property] public bool HideDistance { get; set; } = false;
-    [Property] public bool HideText { get; set; } = false;
+	[Property] public bool StayOnScreen { get; set; } = true;
+	[Property] public bool HideDistance { get; set; } = false;
+	[Property] public bool HideText { get; set; } = false;
 
-    [Property, Description("Show distance label on right side?")]
-    public bool FlipDistance { get; set; } = false;
+	[Property, Description( "Show distance label on right side?" )]
+	public bool FlipDistance { get; set; } = false;
 
-    [Property] public Color Color { get; set; } = "#7F7F7F7F";
+	[Property] public Color Color { get; set; } = "#7F7F7F7F";
 
-    [Property, Description("Icon for the marker"), ImageAssetPath]
-    public string MarkerIcon { get; set; }
+	[Property, Description( "Icon for the marker" ), ImageAssetPath]
+	public string MarkerIcon { get; set; }
 
-    [Property, Description("Text for the marker, if you aren't using an icon")]
-    public string MarkerLabel { get; set; } = "";
+	[Property, Description( "Text for the marker, if you aren't using an icon" )]
+	public string MarkerLabel { get; set; } = "";
 
-    [Property] public string ObjectiveLabel { get; set; } = "";
-    [Property] public string LocationLabel { get; set; } = "";
-    [Property] public int FontSize { get; set; } = 35;
+	[Property] public string ObjectiveLabel { get; set; } = "";
+	[Property] public string LocationLabel { get; set; } = "";
+	[Property] public int FontSize { get; set; } = 35;
 
-    [Property, Description("Being within this distance will hide this marker")]
-    public int HideInDistance { get; set; } = 15;
+	[Property, Description( "Being within this distance will hide this marker" )]
+	public int HideInDistance { get; set; } = 15;
 
-    [Property, Description("Marker will only become visible if within this range (0 = always show)")]
-    public int ShowInDistance { get; set; } = 0;
+	[Property, Description( "Marker will only become visible if within this range (0 = always show)" )]
+	public int ShowInDistance { get; set; } = 0;
 
-    [Sync] public float Progress { get; set; } = 0;
-    public float DistanceTo { get; set; }
-    public string StringColor { get; set; }
-    public float DistanceFromCenter { get; set; } = 0.9f;
+	[Sync] public float Progress { get; set; } = 0;
+	public float DistanceTo { get; set; }
+	public string StringColor { get; set; }
+	public float DistanceFromCenter { get; set; } = 0.9f;
 
-    /// <summary>
-    /// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
-    /// </summary>
-    protected override int BuildHash() => System.HashCode.Combine(Progress, DistanceTo, StringColor);
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( Progress, DistanceTo, StringColor );
 
-    protected override void OnAwake()
-    {
-        StringColor = $"rgba({Color.ToColor32().r}, {Color.ToColor32().g}, {Color.ToColor32().b}, {Color.a})";
-    }
+	protected override void OnAwake()
+	{
+		StringColor = $"rgba({Color.ToColor32().r}, {Color.ToColor32().g}, {Color.ToColor32().b}, {Color.a})";
+	}
 
-    protected override void OnUpdate()
-    {
-        PositionAtWorld();
-        UpdateDistance();
+	protected override void OnPreRender()
+	{
+		if ( Scene.IsEditor || Game.ActiveScene.Camera is null )
+			return;
 
-        //Log.Info(Progress);
-        SetClass("capturing", Progress != 0 && Progress != 100);
-    }
+		PositionAtWorld();
+		UpdateDistance();
 
-    public void PositionAtWorld()
-    {
-        bool hide = false;
-        var screenpos3d = GetScreenPoint();
-        var screenpos = new Vector2(screenpos3d);
-        var cached = screenpos;
+		//Log.Info(Progress);
+		SetClass( "capturing", Progress != 0 && Progress != 100 );
+	}
 
-        SetClass("hideAll", (DistanceTo < HideInDistance) || (DistanceTo > ShowInDistance) && ShowInDistance != 0);
-        if (StayOnScreen)
-        {
-            var screenCenter = new Vector2(0.5f, 0.5f);
-            var direction = cached - screenCenter;
-            if (direction.Length >= (DistanceFromCenter * 0.5))
-            {
-                screenpos = screenCenter + direction.Normal * (DistanceFromCenter * 0.5);
-                hide = true;
-            }
+	public void PositionAtWorld()
+	{
+		bool hide = false;
+		var screenpos3d = GetScreenPoint();
+		var screenpos = new Vector2( screenpos3d );
+		var cached = screenpos;
 
-            SetClass("hideDistance", hide || HideDistance);
-            SetClass("hideText", hide || HideText);
-            //SetClass("hideText", Distance > 25f || isOnScreen);
-        }
+		SetClass( "hideAll", (DistanceTo < HideInDistance) || (DistanceTo > ShowInDistance) && ShowInDistance != 0 );
+		if ( StayOnScreen )
+		{
+			var screenCenter = new Vector2( 0.5f, 0.5f );
+			var direction = cached - screenCenter;
+			if ( direction.Length >= (DistanceFromCenter * 0.5) )
+			{
+				screenpos = screenCenter + direction.Normal * (DistanceFromCenter * 0.5);
+				hide = true;
+			}
 
-        SetClass("fadeMarker", hide);
+			SetClass( "hideDistance", hide || HideDistance );
+			SetClass( "hideText", hide || HideText );
+			//SetClass("hideText", Distance > 25f || isOnScreen);
+		}
 
-        Panel.Style.Left = Length.Fraction(screenpos.x);
-        Panel.Style.Top = Length.Fraction(screenpos.y);
-    }
+		SetClass( "fadeMarker", hide );
 
-    public Vector3 GetScreenPoint()
-    {
-        return Transform.Position.ToScreen();
-    }
+		Panel.Style.Left = Length.Fraction( screenpos.x );
+		Panel.Style.Top = Length.Fraction( screenpos.y );
+	}
 
-    public void UpdateDistance()
-    {
-        var distance = MathUtil.DistanceFrom(GameManager.ActiveScene.Camera.Transform.Position, Transform.Position);
-        DistanceTo = MathUtil.InchesToMeters(distance);
-    }
+	public Vector3 GetScreenPoint()
+	{
+		return Transform.Position.ToScreen();
+	}
+
+	public void UpdateDistance()
+	{
+		var distance = MathUtil.DistanceFrom( GameManager.ActiveScene.Camera.Transform.Position, Transform.Position );
+		DistanceTo = MathUtil.InchesToMeters( distance );
+	}
 }

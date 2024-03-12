@@ -11,7 +11,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 	[Property] private ParticleEffect particleEffect { get; set; }
 	[Property] private ParticleSphereEmitter FireEmitter { get; set; }
 	[Property] private GameObject ExplosionPrefab { get; set; }
-	[Property] private float Damage { get; set; }
+	[Property] private float MaxDamage { get; set; }
 	[Property] private float ExplosionRadius { get; set; }
 	[Property] public Guid OwnerId;
 	[Property] public GameObject Owner;
@@ -56,6 +56,21 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		}
 
 		return baseForce * multiplier;
+	}
+
+	public float CalculateDropoffDamage( Vector3 explosionPosition, Vector3 targetPositionm, float distance )
+	{
+		// Cap distance at explosion radius
+		distance = Math.Min( distance, ExplosionRadius );
+
+		var sigma = ExplosionRadius / 2;
+		// Calculate drop-off damage using inverse square law
+		float damage = MaxDamage *
+		               (float)Math.Exp(
+			               -(distance * distance) / (2f * (ExplosionRadius / 2f) * (ExplosionRadius / 2f)) );
+
+		Log.Info( distance );
+		return damage;
 	}
 
 	protected override void OnAwake()
@@ -105,12 +120,18 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		var trExplosion = Scene.Trace
 			.Sphere( ExplosionRadius, GameObject.Transform.Position, GameObject.Transform.Position )
 			.Run();
-		var explosionForce = CalculateExplosionForce( tier, baseForce );
+
 
 		//Debug Purposes, breaks networking (somehow)
 		//Gizmo.Draw.LineSphere( trExplosion.EndPosition, ExplosionRadius );
 
 		Weapon.RocketCreated = false;
+
+		var trDistance = Scene.Trace.Ray( GameObject.Transform.Position, Owner.Transform.Position )
+			.Run();
+
+		Log.Info( trDistance.Distance );
+		Log.Info( rocketCreated );
 
 		if ( trExplosion.Hit )
 		{
@@ -119,40 +140,56 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 			{
 				if ( target.Network.IsOwner )
 				{
-					if ( !IsProxy )
-						Log.Info( "is owner" );
 					var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
-					var damage = Damage - (distance / 2);
-					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
+				
+					float damage = CalculateDropoffDamage( trExplosion.EndPosition, target.Transform.Position,
+						distance );
+					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage / 3, null );
+					Log.Info( "Damage: " + damage / 3 );
+				
+				
 					Log.Info( distance );
-
+				
+					var explosionForce = CalculateExplosionForce( tier, baseForce );
+				
 					target.Components.TryGet( out CharacterController character, FindMode.InParent );
 					{
 						var explosionPunch =
 							((target.Transform.Position) - trExplosion.EndPosition).Normal * explosionForce;
-
+				
 						// Log.Info( explosionPunch );
 						character.Velocity += explosionPunch;
-						Log.Info( "test" );
 					}
 				}
 				else
 				{
-					if ( !IsProxy )
-						Log.Info( "is proxy" );
 					var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
-					var damage = Damage + 10;
-					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
+					if ( distance > 30 )
+					{
+						float damage = CalculateDropoffDamage( trExplosion.EndPosition, target.Transform.Position,
+							distance );
+						target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
+						Log.Info( "Damage: " + damage );
+					}
+				
+					if ( distance <= 30 )
+					{
+						float damage = 2000;
+						target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
+						Log.Info( "Damage: " + damage );
+					}
+				
 					Log.Info( distance );
-
+				
+					var explosionForce = CalculateExplosionForce( tier, baseForce );
+				
 					target.Components.TryGet( out CharacterController character, FindMode.InParent );
 					{
 						var explosionPunch =
 							((target.Transform.Position) - trExplosion.EndPosition).Normal * explosionForce;
-
+				
 						// Log.Info( explosionPunch );
 						character.Velocity += explosionPunch;
-						Log.Info( "test" );
 					}
 				}
 			}
@@ -166,7 +203,6 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 
 
 		hasExploded = true;
-		Log.Info( explosionForce );
 		GameObject.Destroy();
 	}
 
@@ -196,6 +232,18 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		{
 			Tier3Charge();
 		}
+	}
+
+	[Broadcast]
+	void BlastKnockback( CharacterController character, GameObject target, SceneTraceResult trExplosion )
+	{
+		var explosionForce = CalculateExplosionForce( tier, baseForce );
+
+		var explosionPunch =
+			((target.Transform.Position) - trExplosion.EndPosition).Normal * explosionForce;
+
+		// Log.Info( explosionPunch );
+		character.Velocity += explosionPunch;
 	}
 
 	[Broadcast]

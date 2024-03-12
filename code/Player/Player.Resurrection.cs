@@ -21,10 +21,14 @@ public sealed class GhostRevive : Interactable
 		OwnerHealth = Owner.Components.Get<PlayerHealth>();
 	}
 
-	protected override void OnUpdate()
+	async protected override void OnFixedUpdate()
 	{
-		if ( OwnerHealth.Health > 0 )
+		if ( IsProxy ) return;
+		if ( OwnerHealth.LifeState == LifeState.Alive )
+		{
+			Log.Info( "ghost dead" );
 			DestroyGhost();
+		}
 	}
 
 	public override void Interact( GameObject player )

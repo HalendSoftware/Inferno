@@ -11,107 +11,103 @@
 
 <root>
 
-    @if (InteractLabel != "")
-    {
-        <div class="center interact">
-            @if (!Single.IsNaN(interactProgress))
-            {
-                <div class="interact-circle"
-                     style="mask-image: conic-gradient(#fff 0%, #fff @(interactProgress * 100)%, transparent @(interactProgress * 100)%, transparent 100%);">
-                    <label class="interact-key" style="color: @interactButtonColor; font-size: @interactButtonFontSize">
-                        &#xEE45;
-                    </label>
-                </div>
-            }
-            else
-            {
-                <label class="interact-key" style="color: @interactButtonColor; font-size: @interactButtonFontSize">
-                    &#xEE45;
-                </label>
-            }
+	@if ( InteractLabel != "" )
+	{
+		<div class="center interact">
+			@if ( !Single.IsNaN( interactProgress ) )
+			{
+				<div class="interact-circle"
+				     style="mask-image: conic-gradient(#fff 0%, #fff @( interactProgress * 100 )%, transparent @( interactProgress * 100 )%, transparent 100%);">
+					<label class="interact-key" style="color: @interactButtonColor; font-size: @interactButtonFontSize">
+						&#xEE45;
+					</label>
+				</div>
+			}
+			else
+			{
+				<label class="interact-key" style="color: @interactButtonColor; font-size: @interactButtonFontSize">
+					&#xEE45;
+				</label>
+			}
 
-            <label class="interact-label neue-haas-65 text-shadow">@InteractLabel</label>
-            <br/>
-        </div>
-    }
+			<label class="interact-label neue-haas-65 text-shadow">@InteractLabel</label>
+			<br/>
+		</div>
+	}
 
-    <div class="center">
-	    <div class="crosshair"></div>
-    </div>
-    
-    <div class="MapBoundary">
-	    <div class="turnback">0</div>
-    </div>
+	<div class="center">
+		<div class="crosshair"></div>
+	</div>
 </root>
 
 @code
 {
 
-    /// <summary>
-    /// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
-    /// </summary>
-    protected override int BuildHash() => System.HashCode.Combine(RealTime.Now);
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( RealTime.Now );
 
-    private PlayerController LocalPlayer { get; set; }
-    private PlayerHealth LocalPlayerHealth { get; set; }
-    private int Fuel = 0;
-    private string InteractLabel = "";
+	private PlayerController LocalPlayer { get; set; }
+	private PlayerHealth LocalPlayerHealth { get; set; }
+	private int Fuel = 0;
+	private string InteractLabel = "";
 
-    string interactButtonColor = "white";
+	string interactButtonColor = "white";
 
-    string interactButtonFontSize = "22px";
+	string interactButtonFontSize = "22px";
 
-    // cohae: We're using NaN here to indicate that this is a single press action because null doesnt work for some reason
-    float interactProgress = Single.NaN;
+	// cohae: We're using NaN here to indicate that this is a single press action because null doesnt work for some reason
+	float interactProgress = Single.NaN;
 
-    protected override void OnFixedUpdate()
-    {
-        if (!LocalPlayer.IsValid())
-        {
-            LocalPlayer = Client.Local.Components.Get<PlayerController>();
-            LocalPlayerHealth = Client.Local.Components.Get<PlayerHealth>();
-        }
+	protected override void OnFixedUpdate()
+	{
+		if ( !LocalPlayer.IsValid() )
+		{
+			LocalPlayer = Client.Local.Components.Get<PlayerController>();
+			LocalPlayerHealth = Client.Local.Components.Get<PlayerHealth>();
+		}
 
-        int respawnTimeLeft = (int)Math.Floor(LocalPlayerHealth.respawnTime - LocalPlayerHealth.TimeSinceDeath);
-        int escapeTimeLeft = (int)Math.Floor(LocalPlayer.EscapingTimeLeft - LocalPlayer.EscapingTime);
+		int respawnTimeLeft = (int)Math.Floor( LocalPlayerHealth.respawnTime - LocalPlayerHealth.TimeSinceDeath );
+		int escapeTimeLeft = (int)Math.Floor( LocalPlayer.EscapingTimeLeft - LocalPlayer.EscapingTime );
 
-        //Interaction
-        var interact = LocalPlayer.GameObject.Components.Get<PlayerInteract>();
-        if (interact.IsValid())
-        {
-            var interactable = interact.CurrentInteractable?.Components.Get<Interactable>();
-            InteractLabel = interactable?.PromptMessage ?? "";
-            interactProgress = interact.Progress;
-            if (interactProgress > 0)
-            {
-                InteractLabel = interactable?.InteractingMessage == "" ? InteractLabel : interactable?.InteractingMessage;
-            }
-        }
+		//Interaction
+		var interact = LocalPlayer.GameObject.Components.Get<PlayerInteract>();
+		if ( interact.IsValid() )
+		{
+			var interactable = interact.CurrentInteractable?.Components.Get<Interactable>();
+			InteractLabel = interactable?.PromptMessage ?? "";
+			interactProgress = interact.Progress;
+			if ( interactProgress > 0 )
+			{
+				InteractLabel = interactable?.InteractingMessage == "" ? InteractLabel : interactable?.InteractingMessage;
+			}
+		}
 
-        //Respawning
-        if (LocalPlayerHealth.AwaitingResurrection == true)
-        {
-            InteractLabel = "Press E to Resurrect";
-        }
+		//Respawning
+		if ( LocalPlayerHealth.AwaitingResurrection == true )
+		{
+			InteractLabel = "Press E to Resurrect";
+		}
 
-        if (LocalPlayerHealth.LifeState == LifeState.Dead && !LocalPlayerHealth.AwaitingResurrection)
-        {
-            InteractLabel = "Respawning in " + (respawnTimeLeft + 1);
-            interactProgress = Math.Clamp(LocalPlayerHealth.TimeSinceDeath / LocalPlayerHealth.respawnTime, 0, 1);
-        }
+		if ( LocalPlayerHealth.LifeState == LifeState.Dead && !LocalPlayerHealth.AwaitingResurrection )
+		{
+			InteractLabel = "Respawning in " + (respawnTimeLeft + 1);
+			interactProgress = Math.Clamp( LocalPlayerHealth.TimeSinceDeath / LocalPlayerHealth.respawnTime, 0, 1 );
+		}
 
-        interactButtonColor = Input.Down("Interact") ? "#aaa" : "#fff";
-        interactButtonFontSize = Input.Down("Interact") ? "16px" : "22px";
-        
-        //Turn Back
+		interactButtonColor = Input.Down( "Interact" ) ? "#aaa" : "#fff";
+		interactButtonFontSize = Input.Down( "Interact" ) ? "16px" : "22px";
 
-        if (LocalPlayer.IsEscaping)
-        {
-	        InteractLabel = "Turn Back in " + (escapeTimeLeft + 1);
-	        interactProgress = Math.Clamp(LocalPlayerHealth.TimeSinceDeath / LocalPlayerHealth.respawnTime, 0, 1);
-        }
+		//Turn Back
 
-        interactButtonColor = Input.Down("Interact") ? "#aaa" : "#fff";
-        interactButtonFontSize = Input.Down("Interact") ? "16px" : "22px";
-    }
+		if ( LocalPlayer.IsEscaping )
+		{
+			InteractLabel = "Turn Back in " + (escapeTimeLeft + 1);
+			interactProgress = Math.Clamp( LocalPlayerHealth.TimeSinceDeath / LocalPlayerHealth.respawnTime, 0, 1 );
+		}
+
+		interactButtonColor = Input.Down( "Interact" ) ? "#aaa" : "#fff";
+		interactButtonFontSize = Input.Down( "Interact" ) ? "16px" : "22px";
+	}
 }

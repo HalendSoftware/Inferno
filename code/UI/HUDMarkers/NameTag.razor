@@ -7,112 +7,111 @@
 @inherits PanelComponent
 
 <root>
-    @if (Client.Local?.TeamComponent?.CurrentTeam == ShowOnTeam || ShowOnTeam == Team.All)
-    {
-	    <div class="playerName">
-		    <label>@PlayerName</label>
-	    </div>
-	    <div class="healthbar">
-		    <label>@Math.Round(playerHealth.Health )</label>
-	    </div>
-	    <div class="shieldbar">
-		    <label>@Math.Round(playerHealth.Shields)</label>
-	    </div>
-    }
+	@if ( Client.Local?.TeamComponent?.CurrentTeam == ShowOnTeam || ShowOnTeam == Team.All )
+	{
+		<div class="playerName">
+			<label>@PlayerName</label>
+		</div>
+		<div class="healthbar">
+			<label>@Math.Round( playerHealth.Health )</label>
+		</div>
+		<div class="shieldbar">
+			<label>@Math.Round( playerHealth.Shields )</label>
+		</div>
+	}
 </root>
 
 @code
 {
-    [Property, Description("Marker will only show to players on this team")]
-    public Team ShowOnTeam { get; set; } = Team.All;
+	[Property, Description( "Marker will only show to players on this team" )]
+	public Team ShowOnTeam { get; set; } = Team.All;
 
-    [Property] public string PlayerName { get; set; }
-    [Property] public PlayerHealth playerHealth { get; set; }
+	[Property] public string PlayerName { get; set; }
+	[Property] public PlayerHealth playerHealth { get; set; }
 
-    [Property] public bool StayOnScreen { get; set; } = true;
-    [Property] public bool HideDistance { get; set; } = false;
-    [Property] public bool HideText { get; set; } = false;
+	[Property] public bool StayOnScreen { get; set; } = true;
+	[Property] public bool HideDistance { get; set; } = false;
+	[Property] public bool HideText { get; set; } = false;
 
-    [Property] public Color Color { get; set; } = "#7F7F7F7F";
+	[Property] public Color Color { get; set; } = "#7F7F7F7F";
 
-    [Property] public int FontSize { get; set; } = 35;
+	[Property] public int FontSize { get; set; } = 35;
 
-    [Property, Description("Being within this distance will hide this marker")]
-    public int HideInDistance { get; set; } = 15;
+	[Property, Description( "Being within this distance will hide this marker" )]
+	public int HideInDistance { get; set; } = 15;
 
-    [Property, Description("Marker will only become visible if within this range (0 = always show)")]
-    public int ShowInDistance { get; set; } = 0;
+	[Property, Description( "Marker will only become visible if within this range (0 = always show)" )]
+	public int ShowInDistance { get; set; } = 0;
 
-    [Sync] public float Progress { get; set; } = 0;
-    public float DistanceTo { get; set; }
-    public string StringColor { get; set; }
-    public float DistanceFromCenter { get; set; } = 0.9f;
+	[Sync] public float Progress { get; set; } = 0;
+	public float DistanceTo { get; set; }
+	public string StringColor { get; set; }
+	public float DistanceFromCenter { get; set; } = 0.9f;
 
-    [Property] GameObject Player { get; set; }
+	[Property] GameObject Player { get; set; }
 
-    /// <summary>
-    /// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
-    /// </summary>
-    protected override int BuildHash() => System.HashCode.Combine(RealTime.Now);
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	protected override int BuildHash() => System.HashCode.Combine( RealTime.Now );
 
-    protected override void OnAwake()
-    {
-        StringColor = $"rgba({Color.ToColor32().r}, {Color.ToColor32().g}, {Color.ToColor32().b}, {Color.a})";
-        
-    }
+	protected override void OnAwake()
+	{
+		StringColor = $"rgba({Color.ToColor32().r}, {Color.ToColor32().g}, {Color.ToColor32().b}, {Color.a})";
+	}
 
-    protected override void OnStart()
-    {
-	    PlayerName = Player.Components.Get<Client>().DisplayName;
-	    playerHealth = Player.Components.Get<PlayerHealth>();
-    }
+	protected override void OnStart()
+	{
+		PlayerName = Player.Components.Get<Client>().DisplayName;
+		playerHealth = Player.Components.Get<PlayerHealth>();
+	}
 
-    protected override void OnUpdate()
-    {
-        PositionAtWorld();
-        UpdateDistance();
+	protected override void OnPreRender()
+	{
+		PositionAtWorld();
+		UpdateDistance();
 
-        //Log.Info(Progress);
-        SetClass("capturing", Progress != 0 && Progress != 100);
-    }
+		//Log.Info(Progress);
+		SetClass( "capturing", Progress != 0 && Progress != 100 );
+	}
 
-    public void PositionAtWorld()
-    {
-        bool hide = false;
-        var screenpos3d = GetScreenPoint();
-        var screenpos = new Vector2(screenpos3d);
-        var cached = screenpos;
+	public void PositionAtWorld()
+	{
+		bool hide = false;
+		var screenpos3d = GetScreenPoint();
+		var screenpos = new Vector2( screenpos3d );
+		var cached = screenpos;
 
-        SetClass("hideAll", (DistanceTo < HideInDistance) || (DistanceTo > ShowInDistance) && ShowInDistance != 0);
-        if (StayOnScreen)
-        {
-            var screenCenter = new Vector2(0.5f, 0.5f);
-            var direction = cached - screenCenter;
-            if (direction.Length >= (DistanceFromCenter * 0.5))
-            {
-                screenpos = screenCenter + direction.Normal * (DistanceFromCenter * 0.5);
-                hide = true;
-            }
+		SetClass( "hideAll", (DistanceTo < HideInDistance) || (DistanceTo > ShowInDistance) && ShowInDistance != 0 );
+		if ( StayOnScreen )
+		{
+			var screenCenter = new Vector2( 0.5f, 0.5f );
+			var direction = cached - screenCenter;
+			if ( direction.Length >= (DistanceFromCenter * 0.5) )
+			{
+				screenpos = screenCenter + direction.Normal * (DistanceFromCenter * 0.5);
+				hide = true;
+			}
 
-            SetClass("hideDistance", hide || HideDistance);
-            SetClass("hideText", hide || HideText);
-            //SetClass("hideText", Distance > 25f || isOnScreen);
-        }
+			SetClass( "hideDistance", hide || HideDistance );
+			SetClass( "hideText", hide || HideText );
+			//SetClass("hideText", Distance > 25f || isOnScreen);
+		}
 
-        SetClass("fadeMarker", hide);
+		SetClass( "fadeMarker", hide );
 
-        Panel.Style.Left = Length.Fraction(screenpos.x);
-        Panel.Style.Top = Length.Fraction(screenpos.y);
-    }
+		Panel.Style.Left = Length.Fraction( screenpos.x );
+		Panel.Style.Top = Length.Fraction( screenpos.y );
+	}
 
-    public Vector3 GetScreenPoint()
-    {
-        return Transform.Position.ToScreen();
-    }
+	public Vector3 GetScreenPoint()
+	{
+		return Transform.Position.ToScreen();
+	}
 
-    public void UpdateDistance()
-    {
-        var distance = MathUtil.DistanceFrom(GameManager.ActiveScene.Camera.Transform.Position, Transform.Position);
-        DistanceTo = MathUtil.InchesToMeters(distance);
-    }
+	public void UpdateDistance()
+	{
+		var distance = MathUtil.DistanceFrom( GameManager.ActiveScene.Camera.Transform.Position, Transform.Position );
+		DistanceTo = MathUtil.InchesToMeters( distance );
+	}
 }

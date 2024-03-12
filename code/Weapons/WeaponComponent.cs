@@ -51,13 +51,12 @@ public class WeaponComponent : Component
 	{
 		CurrentMagazine = Weapon.Magazine;
 		CurrentReserve = Weapon.AmmoReserve;
+		InfiniteAmmo = Weapon.InfiniteAmmo;
 	}
 
 	protected override void OnUpdate()
 	{
 		if ( IsProxy ) return;
-
-		Log.Info( RocketCreated );
 		if ( playerHealth.LifeState == LifeState.Dead )
 		{
 			RocketCreated = false;
@@ -101,7 +100,6 @@ public class WeaponComponent : Component
 	{
 		if ( !FireRateCooldown || RocketCreated )
 			return false;
-
 		if ( CurrentMagazine <= 0 )
 		{
 			FireRateCooldown = Weapon.NextFireTime();
@@ -120,7 +118,7 @@ public class WeaponComponent : Component
 
 		var projectile = Weapon.Rocket.Clone( EyePos.Transform.Position );
 		projectile.Transform.Rotation = EyePos.Transform.Rotation;
-		projectile.Components.Get<Rigidbody>().Velocity = EyePos.Transform.Rotation.Forward * 1000f;
+		projectile.Components.Get<Rigidbody>().Velocity = EyePos.Transform.Rotation.Forward * 1165f;
 		projectile.Components.Get<ScorchPlosion>().OwnerId = GameObject.Id;
 		projectile.NetworkSpawn();
 
