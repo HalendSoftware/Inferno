@@ -1,0 +1,309 @@
+{
+  "Id": "fe5b486a-4879-478b-b4ce-76e480f2557f",
+  "GameObjects": [
+    {
+      "Id": "6cd76140-9aa0-4503-9211-79e89fac3639",
+      "Name": "MapInstance",
+      "Tags": "world",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "MapInstance",
+          "MapName": "maps/inferno_testground.vmap",
+          "UseMapFromLaunch": false
+        }
+      ],
+      "Children": []
+    },
+    {
+      "Id": "f7ae4894-3e63-4864-95f3-78973c3fcda0",
+      "Name": "NetworkManager",
+      "Position": "-125.9903,-224.2696,268.1122",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "NetworkManager",
+          "hasSelectedTeam": false,
+          "PlayerPrefab": {
+            "_type": "gameobject",
+            "prefab": "prefabs/player/player.prefab"
+          },
+          "StartServer": true
+        }
+      ]
+    },
+    {
+      "Id": "b70fac46-de99-4b48-aa57-c9bf12a92b00",
+      "Name": "Spawnpoints",
+      "Position": "-233.7764,-287.9038,429.4852",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Children": [
+        {
+          "Id": "e88cd868-4961-4558-bddb-ea361aa16251",
+          "Name": "Object",
+          "Position": "-290.9986,329.7185,-429.4852",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "SambitSpawnpoint",
+              "ForceSpawn": false,
+              "Team": "Bravo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "4348c4d2-ed3e-4d69-b1a7-712b5c4eb5f8",
+      "Name": "Named Areas",
+      "Tags": "namedarea",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Children": [
+        {
+          "Id": "e2a2bfd6-ba11-4733-af65-d398fe05702e",
+          "Name": "Red Outer",
+          "Position": "-512,1056,576",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "BoxCollider",
+              "Center": "0,0,0",
+              "IsTrigger": true,
+              "Scale": "2048,2048,2048",
+              "Static": false
+            },
+            {
+              "__type": "Priority",
+              "PriorityLevel": 0
+            }
+          ]
+        },
+        {
+          "Id": "c2e45ce6-5c16-40fc-96ea-763bdd0a2bf4",
+          "Name": "Blue Outer",
+          "Position": "-512,-1024,576",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "BoxCollider",
+              "Center": "0,0,0",
+              "IsTrigger": true,
+              "Scale": "2048,2048,2048",
+              "Static": false
+            },
+            {
+              "__type": "Priority",
+              "PriorityLevel": 0
+            }
+          ]
+        },
+        {
+          "Id": "3b8650f1-f20f-4acb-9127-7d12190733cc",
+          "Name": "Pillars",
+          "Position": "1690.08,0,576",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "BoxCollider",
+              "Center": "0,0,0",
+              "IsTrigger": true,
+              "Scale": "2330.505,1736.7,2048",
+              "Static": false
+            },
+            {
+              "__type": "Priority",
+              "PriorityLevel": 0
+            }
+          ]
+        },
+        {
+          "Id": "c72137f2-e028-4ff1-882e-4c59cd622cd9",
+          "Name": "Ramps",
+          "Position": "4000,0,576",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "BoxCollider",
+              "Center": "0,0,0",
+              "IsTrigger": true,
+              "Scale": "2282.403,1736.7,2048",
+              "Static": false
+            },
+            {
+              "__type": "Priority",
+              "PriorityLevel": 0
+            }
+          ]
+        },
+        {
+          "Id": "c93db910-e7c0-4cae-a9c4-eaaeebc90993",
+          "Name": "Red",
+          "Position": "0,512,576",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "BoxCollider",
+              "Center": "0,0,0",
+              "IsTrigger": true,
+              "Scale": "1024,1024,2048",
+              "Static": false
+            },
+            {
+              "__type": "Priority",
+              "PriorityLevel": 1
+            }
+          ]
+        },
+        {
+          "Id": "c5693352-0211-4b36-9728-aab01e0ee8f8",
+          "Name": "Blue",
+          "Position": "0,-512,576",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "BoxCollider",
+              "Center": "0,0,0",
+              "IsTrigger": true,
+              "Scale": "1024,1024,2048",
+              "Static": false
+            },
+            {
+              "__type": "Priority",
+              "PriorityLevel": 1
+            }
+          ]
+        },
+        {
+          "Id": "85929993-aee7-4170-b33f-c0e2b6e9ab9d",
+          "Name": "You Shouldn\u0027t Be Here",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "BoxCollider",
+              "Center": "0,0,0",
+              "IsTrigger": true,
+              "Scale": "15000,15000,15000",
+              "Static": false
+            },
+            {
+              "__type": "Priority",
+              "PriorityLevel": -1
+            }
+          ]
+        },
+        {
+          "Id": "b7e06f2b-788b-44bd-9c5e-3574274f387b",
+          "Name": "Walljump",
+          "Position": "-1152,0,288",
+          "Scale": "17.71999,16.10379,34.05133",
+          "Enabled": true,
+          "NetworkMode": 2,
+          "Components": [
+            {
+              "__type": "BoxCollider",
+              "Center": "0,0,0",
+              "IsTrigger": true,
+              "Scale": "50,50,50",
+              "Static": false
+            },
+            {
+              "__type": "Priority",
+              "PriorityLevel": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": "51f58e6d-d400-4b9d-b3b6-9801af361dd0",
+      "Name": "Sun",
+      "Position": "-1678.493,3798.761,218.8581",
+      "Rotation": "0,0.8660254,0,0.5000001",
+      "Tags": "light_directional,light",
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "DirectionalLight",
+          "FogMode": "Enabled",
+          "FogStrength": 1,
+          "LightColor": "0.91373,0.98039,1,1",
+          "Shadows": true,
+          "SkyColor": "0.05882,0.07451,0.08235,1"
+        }
+      ]
+    },
+    {
+      "Id": "91afe929-b7b2-46f5-b94e-6c4dcb6bd776",
+      "Name": "Object",
+      "Position": "2329.079,-3193.996,2324.25",
+      "NetworkMode": 2
+    },
+    {
+      "Id": "f734bebf-fcee-4c8d-ae34-703f57cba1d0",
+      "Name": "HUD Marker Test",
+      "Position": "-247.5036,-434.2858,277.6824",
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "HudMarker",
+          "Color": "1,0,0,0.5",
+          "FlipDistance": false,
+          "FontSize": 35,
+          "HideDistance": false,
+          "HideInDistance": 15,
+          "HideText": false,
+          "LocationLabel": "A",
+          "MarkerLabel": "A",
+          "ObjectiveLabel": "A",
+          "ShowInDistance": 0,
+          "ShowOnTeam": "All",
+          "StayOnScreen": true
+        },
+        {
+          "__type": "ScreenPanel",
+          "AutoScreenScale": true,
+          "Opacity": 1,
+          "Scale": 1,
+          "ZIndex": 100
+        }
+      ]
+    }
+  ],
+  "SceneProperties": {
+    "FixedUpdateFrequency": 50,
+    "Lerping": true,
+    "MaxFixedUpdates": 5,
+    "NetworkFrequency": 60,
+    "ThreadedAnimation": true,
+    "TimeScale": 1,
+    "UseFixedUpdate": true,
+    "NavMesh": {
+      "Enabled": false,
+      "IncludeStaticBodies": true,
+      "IncludeKeyframedBodies": true,
+      "EditorAutoUpdate": true,
+      "AgentHeight": 64,
+      "AgentRadius": 16,
+      "AgentStepSize": 18,
+      "AgentMaxSlope": 40,
+      "ExcludedBodies": "",
+      "IncludedBodies": ""
+    }
+  },
+  "Title": "minimal",
+  "Description": "",
+  "LastSaved": "2024-03-12T13:25:53.337012-04:00",
+  "__references": []
+}
