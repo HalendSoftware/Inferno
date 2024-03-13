@@ -279,6 +279,20 @@
           "ZIndex": 100
         }
       ]
+    },
+    {
+      "Id": "4cea83af-ae43-4beb-ba83-4394f9070f0d",
+      "Name": "Round Manager",
+      "Position": "68.56209,-353.3175,263.5154",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "RoundManager",
+          "AlphaKills": 0,
+          "BetaKills": 0
+        }
+      ]
     }
   ],
   "SceneProperties": {
@@ -304,6 +318,6 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-12T13:25:53.337012-04:00",
+  "LastSaved": "2024-03-12T23:06:35.3412402-04:00",
   "__references": []
 }
