@@ -1,0 +1,165 @@
+.flip-horizontal {
+  transform: scaleX(-1);
+}
+
+.destiny-keys {
+  font-family: "Destiny Keys";
+}
+
+.neue-haas-65 {
+    font-family: "Haas Grot Text 55 Roman";
+    font-weight: 350;
+  }
+  
+.neue-haas-65 {
+  font-family: "Haas Grot Text";
+  font-weight: 350;
+}
+
+.neue-haas-75-bold {
+  font-family: "Haas Grot Disp";
+  font-weight: 400;
+}
+
+.text-shadow {
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+
+GambitHUD {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  // TODO: CSS variables aren't supported yet (2024-01-30)
+  //:root {
+  //  --gambit-team-blue: rgb(110, 140, 180);
+  //  --gambit-team-red: rgb(190, 85, 80);
+  //}
+
+  .gambit-top {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    top: 66px;
+  }
+
+  .top-bar-center {
+    position: absolute;
+    width: 105px;
+    height: 105px;
+    opacity: 0.7;
+    mix-blend-mode: lighten;
+    transform: translate(1px, 1px);
+  }
+
+  .top-bar-sideburns {
+    width: 5px;
+    height: 3px;
+    background-color: rgba(255, 255, 255, 0.375);
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .team-mote-counter {
+    width: 45px;
+    height: 41px;
+    background-color: rgba(204, 204, 204, 0.20);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.40);
+
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: 'Haas Grot Disp';
+    //font-weight: bold;
+    font-size: 24px;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+    white-space: nowrap;
+
+    label {
+      transform: translate(2px, 2px);
+    }
+  }
+
+  .team-mote-bar {
+    width: 320px;
+    height: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.40);
+    background-color: rgba(0, 0, 0, 0.55);
+  }
+
+  .team-mote-bar-inner {
+    position: absolute;
+    height: 17px;
+    transition: width 0.3s ease-out;
+  }
+
+  .team-mote-bar-inner-blue {
+    background-image: linear-gradient(to bottom, rgba(93, 135, 185, 0.8), rgba(105, 142, 190, 0.8));
+  }
+
+  .team-mote-bar-inner-red {
+    background-image: linear-gradient(to bottom, rgba(170, 70, 70, 0.8), rgba(180, 80, 80, 0.8));
+  }
+
+  .team-mote-bar-held-motes {
+    background-image: linear-gradient(to bottom, rgba(241, 241, 241, 0.6), rgba(255, 255, 255, 0.6));
+  }
+
+  .team-mote-bar-invasion-flag {
+    position: absolute;
+    width: 7px;
+    height: 17px;
+    opacity: 0.2;
+    mix-blend-mode: lighten;
+  }
+
+  .team-blocker-bar {
+    position: absolute;
+    top: 39px;
+
+    width: 116px;
+    height: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+  }
+
+  .blocker-icons {
+    position: absolute;
+    top: 38px;
+    width: 160px;
+    height: 8px;
+
+    font-family: "Destiny Keys";
+    color: white;
+    align-items: center;
+    justify-content: center;
+    font-size: 17.5px;
+    transform: scaleY(-1);
+    opacity: 0.9;
+    letter-spacing: 9px;
+    //white-space: nowrap;
+  }
+}
+
+.motebag-full {
+  animation-name: motebag-full-pulse;
+  animation-duration: 0.6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes motebag-full-pulse {
+  0% {
+    opacity: 1.0;
+  }
+
+  50% {
+    opacity: 0.1;
+  }
+
+  100% {
+    opacity: 1.0;
+  }
+}

@@ -111,7 +111,7 @@
 
 	public void UpdateDistance()
 	{
-		var distance = MathUtil.DistanceFrom( GameManager.ActiveScene.Camera.Transform.Position, Transform.Position );
+		var distance = MathUtil.DistanceFrom( Game.ActiveScene.Camera.Transform.Position, Transform.Position );
 		DistanceTo = MathUtil.InchesToMeters( distance );
 	}
 }
