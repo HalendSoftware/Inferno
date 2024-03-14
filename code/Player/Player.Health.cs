@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic;
 using Sambit.Common.Interfaces;
 using Sambit.Player.Ragdoll;
 using Sandbox.UI;
@@ -20,6 +21,8 @@ public class PlayerHealth : Component, IDamagable
 	[Property] public float respawnTime { get; set; }
 	private PlayerController playerController => Components.Get<PlayerController>();
 	private CharacterController characterController => Components.Get<CharacterController>();
+	private PlayerTeam playerTeam => Components.Get<PlayerTeam>();
+	public RoundManager roundManager => Scene.GetAllComponents<RoundManager>().FirstOrDefault();
 
 	[Property] private Vignette DeathVignette { get; set; }
 	[Property] private DepthOfField DeathDOF { get; set; }
@@ -228,6 +231,9 @@ public class PlayerHealth : Component, IDamagable
 			return;
 		}
 
+
+		if ( playerTeam.CurrentTeam == Team.Alpha ) roundManager.BravoKills++;
+		if ( playerTeam.CurrentTeam == Team.Bravo ) roundManager.AlphaKills++;
 		playerController.IsEscaping = false;
 		Health = 0;
 		Shields = 0;

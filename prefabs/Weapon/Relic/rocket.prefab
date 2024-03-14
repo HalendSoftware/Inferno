@@ -1,6 +1,6 @@
 {
   "RootObject": {
-    "Id": "9b04c833-238e-4420-9008-f19a98efd4df",
+    "__guid": "9b04c833-238e-4420-9008-f19a98efd4df",
     "Name": "rocket",
     "Scale": "0.2,0.2,0.2",
     "Tags": "projectile,particles",
@@ -9,6 +9,7 @@
     "Components": [
       {
         "__type": "Rigidbody",
+        "__guid": "253805c7-64db-4290-bf96-33bd53e4d0c1",
         "AngularDamping": 0,
         "Gravity": false,
         "LinearDamping": 0,
@@ -20,6 +21,8 @@
       },
       {
         "__type": "ModelRenderer",
+        "__guid": "27c446c9-1f88-48ce-a37b-d5dd766b39ea",
+        "__enabled": false,
         "BodyGroups": 18446744073709551615,
         "Model": "models/dev/sphere.vmdl",
         "RenderType": "On",
@@ -27,6 +30,7 @@
       },
       {
         "__type": "SphereCollider",
+        "__guid": "9053ad62-f97a-4baf-85c7-e16f1ec7df2e",
         "Center": "0,0,0",
         "IsTrigger": false,
         "Radius": 26.559793,
@@ -34,10 +38,12 @@
       },
       {
         "__type": "ScorchPlosion",
+        "__guid": "bed8a54f-9a43-454d-9ea9-2ed0bfca6238",
         "OwnerId": "00000000-0000-0000-0000-000000000000",
         "baseForce": 600,
         "collider": {
           "_type": "component",
+          "component_id": "9053ad62-f97a-4baf-85c7-e16f1ec7df2e",
           "go": "9b04c833-238e-4420-9008-f19a98efd4df",
           "component_type": "SphereCollider"
         },
@@ -48,6 +54,7 @@
         "ExplosionRadius": 240,
         "FireEmitter": {
           "_type": "component",
+          "component_id": "6920b056-8de0-400f-b6df-f7da03f6934b",
           "go": "9b04c833-238e-4420-9008-f19a98efd4df",
           "component_type": "ParticleSphereEmitter"
         },
@@ -55,6 +62,7 @@
         "MaxDamage": 100,
         "particleEffect": {
           "_type": "component",
+          "component_id": "adef6d48-f0bd-4cae-86c9-df12d747fe28",
           "go": "9b04c833-238e-4420-9008-f19a98efd4df",
           "component_type": "ParticleEffect"
         },
@@ -63,12 +71,12 @@
       },
       {
         "__type": "ParticleEffect",
+        "__guid": "adef6d48-f0bd-4cae-86c9-df12d747fe28",
         "Alpha": {
           "Type": "Curve",
           "CurveA": [
             {
-              "x": 0.03560831,
-              "y": 1,
+              "y": 0.21257132,
               "in": 1.1616156,
               "out": -1.1616156
             },
@@ -158,6 +166,7 @@
       },
       {
         "__type": "ParticleSphereEmitter",
+        "__guid": "6920b056-8de0-400f-b6df-f7da03f6934b",
         "Burst": 0,
         "Delay": 0,
         "DestroyOnEnd": false,
@@ -170,6 +179,7 @@
       },
       {
         "__type": "ParticleSpriteRenderer",
+        "__guid": "7d7fea1a-49c8-4577-817d-064ca26fb47a",
         "Additive": true,
         "BlurAmount": 1,
         "BlurOpacity": 1,
@@ -188,6 +198,7 @@
       },
       {
         "__type": "ParticleSphereEmitter",
+        "__guid": "10a30ef3-f3fa-4e56-ac17-e5a6fa94e488",
         "__enabled": false,
         "Burst": 1000,
         "Delay": 0,
@@ -202,7 +213,7 @@
     ],
     "Children": [
       {
-        "Id": "a3448efa-af45-42a2-baba-fb3c0c7a1b1f",
+        "__guid": "a3448efa-af45-42a2-baba-fb3c0c7a1b1f",
         "Name": "Object",
         "Position": "-75.97433,-223.5921,-32.75417",
         "Enabled": true,

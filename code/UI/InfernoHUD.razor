@@ -9,14 +9,14 @@
 		<img src="Textures/ui/gambit/topbar_center.png" class="top-bar-center"/>
 		<div style="top: 29px; position: absolute">
 			<div class="top-bar-sideburns"></div>
-			<div style="background-color: rgba(255, 255, 255, 0.60); width: 842px; height: 2px;"></div>
+			<div style="background-color: rgba(0,0,0,0); width: 842px; height: 2px;"></div>
 			<div class="top-bar-sideburns"></div>
 		</div>
 		<div style="top: 33px">
 			<div>
 				<div class="team-mote-bar">
-					<div class="team-mote-bar-inner team-mote-bar-held-motes" style="width: @MotesHeldLeftPercent%; right: 0; "></div>
-					<div class="team-mote-bar-inner team-mote-bar-inner-blue" style="width: @MotesLeftPercent%; right: 0; "></div>
+
+					<div class="team-mote-bar-inner team-mote-bar-inner-blue" style="width: @MotesLeftPercent%; right: 0; border-radius:  300px; "></div>
 					@foreach ( var threshold in InvasionPortalThresholds )
 					{
 						<img class="team-mote-bar-invasion-flag" style="right: @( (float)threshold / MaxMotes * 320 - 7 )px;" src="Textures/ui/gambit/mote_bar_portal_marker.png">
@@ -62,8 +62,8 @@
 					<label>@MotesRight</label>
 				</div>
 				<div class="team-mote-bar">
-					<div class="team-mote-bar-inner team-mote-bar-held-motes" style="width: @MotesHeldRightPercent%; left: 0; "></div>
-					<div class="team-mote-bar-inner team-mote-bar-inner-red" style="width: @MotesRightPercent%; left: 0; "></div>
+
+					<div class="team-mote-bar-inner team-mote-bar-inner-red" style="width: @MotesRightPercent%; left: 0; border-radius:  300px; "></div>
 					@foreach ( var threshold in InvasionPortalThresholds )
 					{
 						<img class="team-mote-bar-invasion-flag flip-horizontal" style="left: @( (float)threshold / MaxMotes * 320 - 6 )px;" src="Textures/ui/gambit/mote_bar_portal_marker.png">
@@ -87,9 +87,7 @@
 	public uint MotesHeldRight { get; set; } = 0;
 
 	public float MotesLeftPercent => ((float)MotesLeft / MaxMotes) * 100;
-	public float MotesHeldLeftPercent => Math.Max( ((float)(MotesLeft + MotesHeldLeft) / MaxMotes) * 100, MotesLeftPercent );
 	public float MotesRightPercent => ((float)MotesRight / MaxMotes) * 100;
-	public float MotesHeldRightPercent => Math.Max( ((float)(MotesRight + MotesHeldRight) / MaxMotes) * 100, MotesRightPercent );
 
 	protected override void OnFixedUpdate()
 	{
@@ -98,14 +96,12 @@
 		if ( ourTeam == null )
 			return;
 
-		// var bankAlpha = Game.ActiveScene.GetAllComponents<RoundManager>().Where( x => x.Team == Team.Alpha ).First();
-		// if ( bankAlpha.IsValid() && bankBravo.IsValid() )
-		// {
-		// 	// MotesLeft = ourTeam == Team.Alpha ? bankAlpha.Motes : bankBravo.Motes;
-		// 	// MotesHeldLeft = ourTeam == Team.Alpha ? bankAlpha.MotesHeld : bankBravo.MotesHeld;
-		// 	// MotesRight = ourTeam == Team.Bravo ? bankAlpha.Motes : bankBravo.Motes;
-		// 	// MotesHeldRight = ourTeam == Team.Bravo ? bankAlpha.MotesHeld : bankBravo.MotesHeld;
-		// }
+		var roundManager = Game.ActiveScene.GetAllComponents<RoundManager>().First();
+		if ( roundManager.IsValid() )
+		{
+			MotesLeft = ourTeam == Team.Alpha ? roundManager.AlphaKills : roundManager.BravoKills;
+			MotesRight = ourTeam == Team.Bravo ? roundManager.AlphaKills : roundManager.BravoKills;
+		}
 
 		StateHasChanged();
 	}

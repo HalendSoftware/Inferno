@@ -7,10 +7,10 @@
 }
 
 .neue-haas-65 {
-    font-family: "Haas Grot Text 55 Roman";
-    font-weight: 350;
-  }
-  
+  font-family: "Haas Grot Text 55 Roman";
+  font-weight: 350;
+}
+
 .neue-haas-65 {
   font-family: "Haas Grot Text";
   font-weight: 350;
@@ -25,18 +25,16 @@
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
 }
 
-GambitHUD {
+$gambit-team-blue: rgb(110, 140, 180);
+$gambit-team-red: rgb(190, 85, 80);
+
+InfernoHUD {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
 
-  // TODO: CSS variables aren't supported yet (2024-01-30)
-  //:root {
-  //  --gambit-team-blue: rgb(110, 140, 180);
-  //  --gambit-team-red: rgb(190, 85, 80);
-  //}
 
   .gambit-top {
     position: absolute;
@@ -58,7 +56,7 @@ GambitHUD {
   .top-bar-sideburns {
     width: 5px;
     height: 3px;
-    background-color: rgba(255, 255, 255, 0.375);
+    background-color: rgba(0, 0, 0, 0);
     margin-left: 15px;
     margin-right: 15px;
   }
@@ -66,20 +64,20 @@ GambitHUD {
   .team-mote-counter {
     width: 45px;
     height: 41px;
+    font-family: "Haas Grot Text";
     background-color: rgba(204, 204, 204, 0.20);
     border-bottom: 2px solid rgba(255, 255, 255, 0.40);
-
+    border-radius: 30px;
     justify-content: center;
     align-items: center;
     color: white;
-    font-family: 'Haas Grot Disp';
     //font-weight: bold;
     font-size: 24px;
     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
     white-space: nowrap;
 
     label {
-      transform: translate(2px, 2px);
+      transform: translate(0.5px, 1px);
     }
   }
 
@@ -88,6 +86,7 @@ GambitHUD {
     height: 18px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.40);
     background-color: rgba(0, 0, 0, 0.55);
+    border-radius: 30px;
   }
 
   .team-mote-bar-inner {
@@ -116,14 +115,6 @@ GambitHUD {
     mix-blend-mode: lighten;
   }
 
-  .team-blocker-bar {
-    position: absolute;
-    top: 39px;
-
-    width: 116px;
-    height: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.20);
-  }
 
   .blocker-icons {
     position: absolute;

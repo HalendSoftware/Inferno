@@ -4,6 +4,7 @@ using Sandbox;
 using Sandbox.Physics;
 using Sandbox.VR;
 using Sandbox.Weapons;
+using System.Threading;
 
 public sealed class ScorchPlosion : Component, Component.ICollisionListener
 {
@@ -32,6 +33,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 	private bool hasExploded = false;
 	private bool hasEmbeded = false;
 	private bool hasCharge = false;
+	private CancellationTokenSource cancellationTokenSource;
 
 
 	private int tier;
@@ -85,7 +87,9 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		rocketCreated = 0;
 		Weapon.RocketCreated = true;
 
-		await Task.Delay( 200 );
+		await GameTask.Delay( 200 );
+		Log.Info( "test" );
+
 		if ( Weapon.RocketCharging )
 		{
 			hasCharge = true;
@@ -95,7 +99,14 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 
 	public void OnCollisionStart( Collision other )
 	{
-		if ( hasExploded ) return;
+		if ( Weapon.RocketCharging )
+		{
+			chargeTime = 0;
+			hasCharge = true;
+		}
+
+		// if ( hasExploded ) return;
+
 		if ( RocketBody is not null )
 		{
 			RocketBody.Velocity = 0;
@@ -115,6 +126,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 
 	private void Explosion()
 	{
+		if ( IsProxy ) return;
 		var explosionSphere = new Sphere( GameObject.Transform.Position, ExplosionRadius );
 
 		var trExplosion = Scene.Trace
@@ -141,22 +153,22 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 				if ( target.Network.IsOwner )
 				{
 					var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
-				
+
 					float damage = CalculateDropoffDamage( trExplosion.EndPosition, target.Transform.Position,
 						distance );
 					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage / 3, null );
 					Log.Info( "Damage: " + damage / 3 );
-				
-				
+
+
 					Log.Info( distance );
-				
+
 					var explosionForce = CalculateExplosionForce( tier, baseForce );
-				
+
 					target.Components.TryGet( out CharacterController character, FindMode.InParent );
 					{
 						var explosionPunch =
 							((target.Transform.Position) - trExplosion.EndPosition).Normal * explosionForce;
-				
+
 						// Log.Info( explosionPunch );
 						character.Velocity += explosionPunch;
 					}
@@ -171,23 +183,23 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 						target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
 						Log.Info( "Damage: " + damage );
 					}
-				
+
 					if ( distance <= 30 )
 					{
 						float damage = 2000;
 						target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
 						Log.Info( "Damage: " + damage );
 					}
-				
+
 					Log.Info( distance );
-				
+
 					var explosionForce = CalculateExplosionForce( tier, baseForce );
-				
+
 					target.Components.TryGet( out CharacterController character, FindMode.InParent );
 					{
 						var explosionPunch =
 							((target.Transform.Position) - trExplosion.EndPosition).Normal * explosionForce;
-				
+
 						// Log.Info( explosionPunch );
 						character.Velocity += explosionPunch;
 					}
@@ -200,6 +212,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		ExplosionGO.Components.Get<ParticleEffect>().Tint = particleEffect.Tint;
 		ExplosionGO.Components.Get<ParticleSphereEmitter>().Velocity = FireEmitter.Velocity * 5;
 		ExplosionGO.BreakFromPrefab();
+		ExplosionGO.NetworkSpawn();
 
 
 		hasExploded = true;
@@ -208,6 +221,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 
 	protected override void OnUpdate()
 	{
+		if ( IsProxy ) return;
 		if ( hasExploded ) return;
 
 		if ( !Weapon.RocketCharging && hasCharge )

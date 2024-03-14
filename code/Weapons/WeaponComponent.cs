@@ -116,7 +116,7 @@ public class WeaponComponent : Component
 		if ( !FireRateCooldown )
 			return false;
 
-		var projectile = Weapon.Rocket.Clone( EyePos.Transform.Position );
+		var projectile = Weapon.Rocket.Clone( EyePos.Transform.Position - 1 );
 		projectile.Transform.Rotation = EyePos.Transform.Rotation;
 		projectile.Components.Get<Rigidbody>().Velocity = EyePos.Transform.Rotation.Forward * 1165f;
 		projectile.Components.Get<ScorchPlosion>().OwnerId = GameObject.Id;

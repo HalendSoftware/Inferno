@@ -1,8 +1,8 @@
 {
-  "Id": "fe5b486a-4879-478b-b4ce-76e480f2557f",
+  "__guid": "fe5b486a-4879-478b-b4ce-76e480f2557f",
   "GameObjects": [
     {
-      "Id": "6cd76140-9aa0-4503-9211-79e89fac3639",
+      "__guid": "6cd76140-9aa0-4503-9211-79e89fac3639",
       "Name": "MapInstance",
       "Tags": "world",
       "Enabled": true,
@@ -10,6 +10,7 @@
       "Components": [
         {
           "__type": "MapInstance",
+          "__guid": "dee60d1f-9792-4939-9cbf-4b12ad7dde1a",
           "MapName": "maps/inferno_testground.vmap",
           "UseMapFromLaunch": false
         }
@@ -17,7 +18,7 @@
       "Children": []
     },
     {
-      "Id": "f7ae4894-3e63-4864-95f3-78973c3fcda0",
+      "__guid": "f7ae4894-3e63-4864-95f3-78973c3fcda0",
       "Name": "NetworkManager",
       "Position": "-125.9903,-224.2696,268.1122",
       "Enabled": true,
@@ -25,6 +26,7 @@
       "Components": [
         {
           "__type": "NetworkManager",
+          "__guid": "c2d0f7dc-8d65-423a-b9a2-3413d9c26cd8",
           "hasSelectedTeam": false,
           "PlayerPrefab": {
             "_type": "gameobject",
@@ -35,14 +37,14 @@
       ]
     },
     {
-      "Id": "b70fac46-de99-4b48-aa57-c9bf12a92b00",
+      "__guid": "b70fac46-de99-4b48-aa57-c9bf12a92b00",
       "Name": "Spawnpoints",
       "Position": "-233.7764,-287.9038,429.4852",
       "Enabled": true,
       "NetworkMode": 2,
       "Children": [
         {
-          "Id": "e88cd868-4961-4558-bddb-ea361aa16251",
+          "__guid": "e88cd868-4961-4558-bddb-ea361aa16251",
           "Name": "Object",
           "Position": "-290.9986,329.7185,-429.4852",
           "Enabled": true,
@@ -50,6 +52,7 @@
           "Components": [
             {
               "__type": "SambitSpawnpoint",
+              "__guid": "10b80c9e-4de4-4d27-81b4-1e331e9a85db",
               "ForceSpawn": false,
               "Team": "Bravo"
             }
@@ -58,14 +61,14 @@
       ]
     },
     {
-      "Id": "4348c4d2-ed3e-4d69-b1a7-712b5c4eb5f8",
+      "__guid": "4348c4d2-ed3e-4d69-b1a7-712b5c4eb5f8",
       "Name": "Named Areas",
       "Tags": "namedarea",
       "Enabled": true,
       "NetworkMode": 2,
       "Children": [
         {
-          "Id": "e2a2bfd6-ba11-4733-af65-d398fe05702e",
+          "__guid": "e2a2bfd6-ba11-4733-af65-d398fe05702e",
           "Name": "Red Outer",
           "Position": "-512,1056,576",
           "Enabled": true,
@@ -73,6 +76,7 @@
           "Components": [
             {
               "__type": "BoxCollider",
+              "__guid": "d566caa2-c0e0-4761-b4b7-bfe32c9e3358",
               "Center": "0,0,0",
               "IsTrigger": true,
               "Scale": "2048,2048,2048",
@@ -80,12 +84,13 @@
             },
             {
               "__type": "Priority",
+              "__guid": "6b82d5a4-4915-4456-8132-e51fa8c06184",
               "PriorityLevel": 0
             }
           ]
         },
         {
-          "Id": "c2e45ce6-5c16-40fc-96ea-763bdd0a2bf4",
+          "__guid": "c2e45ce6-5c16-40fc-96ea-763bdd0a2bf4",
           "Name": "Blue Outer",
           "Position": "-512,-1024,576",
           "Enabled": true,
@@ -93,6 +98,7 @@
           "Components": [
             {
               "__type": "BoxCollider",
+              "__guid": "bac58b75-15f9-4fa2-844d-8c3e50e84ed2",
               "Center": "0,0,0",
               "IsTrigger": true,
               "Scale": "2048,2048,2048",
@@ -100,12 +106,13 @@
             },
             {
               "__type": "Priority",
+              "__guid": "783870d6-16ed-4e24-9dcb-240f77003453",
               "PriorityLevel": 0
             }
           ]
         },
         {
-          "Id": "3b8650f1-f20f-4acb-9127-7d12190733cc",
+          "__guid": "3b8650f1-f20f-4acb-9127-7d12190733cc",
           "Name": "Pillars",
           "Position": "1690.08,0,576",
           "Enabled": true,
@@ -113,6 +120,7 @@
           "Components": [
             {
               "__type": "BoxCollider",
+              "__guid": "61b3739e-8138-4cd6-9884-05a4173dcd33",
               "Center": "0,0,0",
               "IsTrigger": true,
               "Scale": "2330.505,1736.7,2048",
@@ -120,12 +128,13 @@
             },
             {
               "__type": "Priority",
+              "__guid": "480abcae-9b86-478e-9301-3e1156463caf",
               "PriorityLevel": 0
             }
           ]
         },
         {
-          "Id": "c72137f2-e028-4ff1-882e-4c59cd622cd9",
+          "__guid": "c72137f2-e028-4ff1-882e-4c59cd622cd9",
           "Name": "Ramps",
           "Position": "4000,0,576",
           "Enabled": true,
@@ -133,6 +142,7 @@
           "Components": [
             {
               "__type": "BoxCollider",
+              "__guid": "79bbb954-5273-4908-ac5a-399d8eae46cb",
               "Center": "0,0,0",
               "IsTrigger": true,
               "Scale": "2282.403,1736.7,2048",
@@ -140,12 +150,13 @@
             },
             {
               "__type": "Priority",
+              "__guid": "8bd85a97-a7ec-4840-8078-bf21d2f4a35c",
               "PriorityLevel": 0
             }
           ]
         },
         {
-          "Id": "c93db910-e7c0-4cae-a9c4-eaaeebc90993",
+          "__guid": "c93db910-e7c0-4cae-a9c4-eaaeebc90993",
           "Name": "Red",
           "Position": "0,512,576",
           "Enabled": true,
@@ -153,6 +164,7 @@
           "Components": [
             {
               "__type": "BoxCollider",
+              "__guid": "1fb965d6-8d47-4eea-95da-2390d4489b26",
               "Center": "0,0,0",
               "IsTrigger": true,
               "Scale": "1024,1024,2048",
@@ -160,12 +172,13 @@
             },
             {
               "__type": "Priority",
+              "__guid": "c6f89017-7ec3-4323-a3fc-022802dd2fbf",
               "PriorityLevel": 1
             }
           ]
         },
         {
-          "Id": "c5693352-0211-4b36-9728-aab01e0ee8f8",
+          "__guid": "c5693352-0211-4b36-9728-aab01e0ee8f8",
           "Name": "Blue",
           "Position": "0,-512,576",
           "Enabled": true,
@@ -173,6 +186,7 @@
           "Components": [
             {
               "__type": "BoxCollider",
+              "__guid": "ed172f12-7ad0-42fa-9a51-673ec6aad8e4",
               "Center": "0,0,0",
               "IsTrigger": true,
               "Scale": "1024,1024,2048",
@@ -180,18 +194,20 @@
             },
             {
               "__type": "Priority",
+              "__guid": "69dc9c02-e335-4884-a800-0803bb4f2d4e",
               "PriorityLevel": 1
             }
           ]
         },
         {
-          "Id": "85929993-aee7-4170-b33f-c0e2b6e9ab9d",
+          "__guid": "85929993-aee7-4170-b33f-c0e2b6e9ab9d",
           "Name": "You Shouldn\u0027t Be Here",
           "Enabled": true,
           "NetworkMode": 2,
           "Components": [
             {
               "__type": "BoxCollider",
+              "__guid": "75b21923-a70a-437b-a90b-7c85dee3a873",
               "Center": "0,0,0",
               "IsTrigger": true,
               "Scale": "15000,15000,15000",
@@ -199,12 +215,13 @@
             },
             {
               "__type": "Priority",
+              "__guid": "52528b56-f3fe-4b26-99a1-6a541756b5f7",
               "PriorityLevel": -1
             }
           ]
         },
         {
-          "Id": "b7e06f2b-788b-44bd-9c5e-3574274f387b",
+          "__guid": "b7e06f2b-788b-44bd-9c5e-3574274f387b",
           "Name": "Walljump",
           "Position": "-1152,0,288",
           "Scale": "17.71999,16.10379,34.05133",
@@ -213,6 +230,7 @@
           "Components": [
             {
               "__type": "BoxCollider",
+              "__guid": "9716689d-2b49-44a2-9c36-c7f6fe5ab6c9",
               "Center": "0,0,0",
               "IsTrigger": true,
               "Scale": "50,50,50",
@@ -220,6 +238,7 @@
             },
             {
               "__type": "Priority",
+              "__guid": "2b9f2416-1296-48b6-98df-81e4d905364a",
               "PriorityLevel": 1
             }
           ]
@@ -227,7 +246,7 @@
       ]
     },
     {
-      "Id": "51f58e6d-d400-4b9d-b3b6-9801af361dd0",
+      "__guid": "51f58e6d-d400-4b9d-b3b6-9801af361dd0",
       "Name": "Sun",
       "Position": "-1678.493,3798.761,218.8581",
       "Rotation": "0,0.8660254,0,0.5000001",
@@ -236,6 +255,7 @@
       "Components": [
         {
           "__type": "DirectionalLight",
+          "__guid": "a465458a-f809-4f21-82e0-fe92bf5713d1",
           "FogMode": "Enabled",
           "FogStrength": 1,
           "LightColor": "0.91373,0.98039,1,1",
@@ -245,19 +265,21 @@
       ]
     },
     {
-      "Id": "91afe929-b7b2-46f5-b94e-6c4dcb6bd776",
+      "__guid": "91afe929-b7b2-46f5-b94e-6c4dcb6bd776",
       "Name": "Object",
       "Position": "2329.079,-3193.996,2324.25",
       "NetworkMode": 2
     },
     {
-      "Id": "f734bebf-fcee-4c8d-ae34-703f57cba1d0",
+      "__guid": "f734bebf-fcee-4c8d-ae34-703f57cba1d0",
       "Name": "HUD Marker Test",
       "Position": "-247.5036,-434.2858,277.6824",
+      "Enabled": true,
       "NetworkMode": 2,
       "Components": [
         {
           "__type": "HudMarker",
+          "__guid": "82aead8d-27d3-4069-8337-e1bff41892fe",
           "Color": "1,0,0,0.5",
           "FlipDistance": false,
           "FontSize": 35,
@@ -273,10 +295,44 @@
         },
         {
           "__type": "ScreenPanel",
+          "__guid": "7d4f294d-4277-4986-88c3-e6e6214c749a",
           "AutoScreenScale": true,
           "Opacity": 1,
           "Scale": 1,
           "ZIndex": 100
+        }
+      ]
+    },
+    {
+      "__guid": "50f6b375-ae63-4d98-a92d-2016c970fee8",
+      "Name": "Object",
+      "Position": "68.56209,-353.3175,263.5154",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "RoundManager",
+          "__guid": "a78b9bcc-cb7e-4f0c-b848-507c02df2840",
+          "AlphaKills": 0,
+          "BravoKills": 0,
+          "MaxKills": 0
+        }
+      ]
+    },
+    {
+      "__guid": "627d6e07-ec30-4b0d-bdcd-e517b891bf21",
+      "Name": "Cube",
+      "Position": "-305.2588,-53.95874,351.2737",
+      "Enabled": true,
+      "NetworkMode": 2,
+      "Components": [
+        {
+          "__type": "ModelRenderer",
+          "__guid": "1b90fd89-0fa4-4b3c-b860-6165730298f9",
+          "BodyGroups": 18446744073709551615,
+          "Model": "models/dev/box.vmdl",
+          "RenderType": "On",
+          "Tint": "1,1,1,1"
         }
       ]
     }
@@ -304,6 +360,8 @@
   },
   "Title": "minimal",
   "Description": "",
-  "LastSaved": "2024-03-12T13:25:53.337012-04:00",
+  "LastSaved": "2024-03-14T14:06:23.0271966-04:00",
+  "ResourceVersion": 1,
+  "__version": 1,
   "__references": []
 }
