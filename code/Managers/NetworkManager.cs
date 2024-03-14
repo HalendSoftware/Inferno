@@ -1,7 +1,7 @@
-using Sandbox.Network;
 using Sambit;
 using Sambit.Player;
 using Sambit.Player.Client;
+using Sandbox.Network;
 
 [Title( "S&mbit Network Helper" )]
 [Category( "Networking" )]
@@ -61,11 +61,17 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 		Game.ActiveScene.PhysicsWorld.SubSteps = 4;
 		Log.Info( $"Player '{channel.DisplayName}' has joined the game" );
 
+		SetupPlayer( channel );
+	}
 
+	public void SetupPlayer( Connection channel )
+	{
 		if ( PlayerPrefab is null )
 			return;
 
-		var startLocation = Transform.World;
+		// Fuck it, spawn them in the void until they select a team, this is the easiest way of doing it
+		// until I can figure out a better and more proper way
+		var startLocation = Transform.World.WithPosition( new Vector3( 0, 0, -99999 ) );
 		startLocation.Scale = 1;
 
 		// Spawn this object and make the client the owner
@@ -79,32 +85,41 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 		player.BreakFromPrefab();
 		player.NetworkSpawn( channel );
 
-
-		//
-		// Find an intial spawn location for this player
-		//
-		var ForceSpawnPoints = Scene.GetAllComponents<SambitSpawnpoint>()
-			.Where( x => x.ForceSpawn )
-			.Where( x => x.Team == client.TeamComponent.CurrentTeam ).ToList();
-
-		var SpawnPoints = Scene.GetAllComponents<SambitSpawnpoint>()
-			.Where( x => x.Team == client.TeamComponent.CurrentTeam )
-			.DefaultIfEmpty( Random.Shared.FromList( Scene.GetAllComponents<SambitSpawnpoint>().ToList(), default ) )
-			.ToList();
-
-		if ( ForceSpawnPoints.Any() )
-			startLocation = Random.Shared.FromList( ForceSpawnPoints, default ).GameObject.Transform.World;
-		// If no Force Spawnpoints, use any spawnpoint based on team then any if no team
-		else if ( SpawnPoints.Any() )
-			startLocation = Random.Shared.FromList( SpawnPoints, default ).GameObject.Transform.World;
-		// If theres STILL no sambit spawnpoint, use the default spawnpoint
-		else
+		var teamSelectScreen = player.Children.Where( x => x.Name == "HUD" ).First().Components.GetOrCreate<TeamSelect>();
+		teamSelectScreen.OnClick += ( team ) =>
 		{
-			var defaultSpawns = Scene.GetAllComponents<SpawnPoint>().ToList();
-			startLocation = Random.Shared.FromList( defaultSpawns, default ).GameObject.Transform.World;
-		}
+			client.HasSelectedTeam = true;
+			client.TeamComponent.SetTeam( team );
 
-		player.Transform.World = startLocation;
+			//
+			// Find an intial spawn location for this player
+			//
+			var ForceSpawnPoints = Scene.GetAllComponents<SambitSpawnpoint>()
+				.Where( x => x.ForceSpawn )
+				.Where( x => x.Team == client.TeamComponent.CurrentTeam ).ToList();
+
+			var SpawnPoints = Scene.GetAllComponents<SambitSpawnpoint>()
+				.Where( x => x.Team == client.TeamComponent.CurrentTeam )
+				.DefaultIfEmpty( Random.Shared.FromList( Scene.GetAllComponents<SambitSpawnpoint>().ToList(), default ) )
+				.ToList();
+
+			if ( ForceSpawnPoints.Any() )
+				startLocation = Random.Shared.FromList( ForceSpawnPoints, default ).GameObject.Transform.World;
+			// If no Force Spawnpoints, use any spawnpoint based on team then any if no team
+			else if ( SpawnPoints.Any() )
+				startLocation = Random.Shared.FromList( SpawnPoints, default ).GameObject.Transform.World;
+			// If theres STILL no sambit spawnpoint, use the default spawnpoint
+			else
+			{
+				var defaultSpawns = Scene.GetAllComponents<SpawnPoint>().ToList();
+				startLocation = Random.Shared.FromList( defaultSpawns, default ).GameObject.Transform.World;
+			}
+
+			player.Transform.World = startLocation;
+
+			// Remove the select screen
+			teamSelectScreen.Destroy();
+		};
 	}
 
 	public void OnDisconnected( Connection channel )

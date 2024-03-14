@@ -23,6 +23,9 @@
 
 	protected override void OnFixedUpdate()
 	{
+		if (IsProxy)
+			return;
+
 		var namedArea = collider.Touching
 			.Where( x => x.GameObject.Tags.Has( "namedarea" ) )
 			.MaxBy( x => x.GameObject.Components.Get<Priority>()?.PriorityLevel );

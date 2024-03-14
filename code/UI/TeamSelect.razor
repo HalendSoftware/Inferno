@@ -1,0 +1,22 @@
+@using Sandbox;
+@using Sandbox.UI;
+@inherits PanelComponent
+
+<root>
+	<div class="button" onclick=@(() => OnClick(Team.Alpha))>
+		Alpha Team
+	</div>
+	<div class="button" onclick=@(() => OnClick(Team.Bravo))>
+		Bravo Team
+	</div>
+</root>
+
+@code
+{
+	public Action<Team> OnClick;
+
+	/// <summary>
+	/// the hash determines if the system should be rebuilt. If it changes, it will be rebuilt
+	/// </summary>
+	//protected override int BuildHash() => System.HashCode.Combine(connection);
+}
