@@ -12,6 +12,12 @@ public enum LifeState
 	Dead
 }
 
+public enum HealthState
+{
+	Full,
+	Regenerating
+}
+
 public enum ShieldState
 {
 	Charged,

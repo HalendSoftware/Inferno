@@ -7,7 +7,7 @@
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
-  "Resources": null,
+  "Resources": "\nfonts/Haas Grot Text,Haas Grot Text 55 Roman - 56 Italic,Italic.otf\nfonts/Haas Grot Text,Haas Grot Text 55 Roman - 55 Roman,Regular.otf\nfonts/Haas Grot Disp,Haas Grot Disp 75 Bold - 75 Bold,Regular.otf\nfonts/Haas Grot Text,Haas Grot Text 65 Medium - 65 Medium,Regular.otf\nfonts/Haas Grot Text,Haas Grot Text 65 Medium - 66 Medium Italic,Italic.otf\nfonts/Destiny Keys - Regular.otf",
   "HasCode": true,
   "CodePath": "/code/",
   "PackageReferences": [],
@@ -25,7 +25,7 @@
     "PerMapRanking": false,
     "LeaderboardType": "None",
     "CsProjName": "",
-    "StartupScene": "scenes/lobbyproto.scene",
+    "StartupScene": "scenes/inferno.scene",
     "ProjectTemplate": null,
     "ControlModes": {},
     "InputSettings": {
@@ -225,9 +225,9 @@
           "Name": "AutoMelee",
           "GroupName": "Abilities"
         }
-      ]
+      ],
+      "__guid": "6f05bc65-0d21-4e29-8069-3b1f47e80024"
     },
-    "MapStartupScene": null,
-    "LaunchMode": "Normal"
+    "LaunchMode": "QuickPlay"
   }
 }

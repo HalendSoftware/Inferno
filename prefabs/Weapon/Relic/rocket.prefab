@@ -1,6 +1,6 @@
 {
   "RootObject": {
-    "__guid": "9b04c833-238e-4420-9008-f19a98efd4df",
+    "__guid": "c3fe8b7d-89a9-4964-bb3a-9d2edff0f6e1",
     "Name": "rocket",
     "Scale": "0.2,0.2,0.2",
     "Tags": "projectile,particles",
@@ -9,7 +9,7 @@
     "Components": [
       {
         "__type": "Rigidbody",
-        "__guid": "253805c7-64db-4290-bf96-33bd53e4d0c1",
+        "__guid": "ebe838fc-0758-414b-ac03-b738736c6389",
         "AngularDamping": 0,
         "Gravity": false,
         "LinearDamping": 0,
@@ -21,7 +21,7 @@
       },
       {
         "__type": "ModelRenderer",
-        "__guid": "27c446c9-1f88-48ce-a37b-d5dd766b39ea",
+        "__guid": "c16c80af-6197-4581-9a72-bce9a5ea8544",
         "__enabled": false,
         "BodyGroups": 18446744073709551615,
         "Model": "models/dev/sphere.vmdl",
@@ -30,7 +30,7 @@
       },
       {
         "__type": "SphereCollider",
-        "__guid": "9053ad62-f97a-4baf-85c7-e16f1ec7df2e",
+        "__guid": "883f97a9-8ced-45e6-aeb1-a498a8f671dc",
         "Center": "0,0,0",
         "IsTrigger": false,
         "Radius": 26.559793,
@@ -38,13 +38,13 @@
       },
       {
         "__type": "ScorchPlosion",
-        "__guid": "bed8a54f-9a43-454d-9ea9-2ed0bfca6238",
+        "__guid": "b194690a-c11f-4179-9a84-e38f160313fc",
         "OwnerId": "00000000-0000-0000-0000-000000000000",
         "baseForce": 600,
         "collider": {
           "_type": "component",
-          "component_id": "9053ad62-f97a-4baf-85c7-e16f1ec7df2e",
-          "go": "9b04c833-238e-4420-9008-f19a98efd4df",
+          "component_id": "883f97a9-8ced-45e6-aeb1-a498a8f671dc",
+          "go": "c3fe8b7d-89a9-4964-bb3a-9d2edff0f6e1",
           "component_type": "SphereCollider"
         },
         "ExplosionPrefab": {
@@ -54,16 +54,16 @@
         "ExplosionRadius": 240,
         "FireEmitter": {
           "_type": "component",
-          "component_id": "6920b056-8de0-400f-b6df-f7da03f6934b",
-          "go": "9b04c833-238e-4420-9008-f19a98efd4df",
+          "component_id": "98025f29-84d1-4e68-a44a-3b5847b0ac2b",
+          "go": "c3fe8b7d-89a9-4964-bb3a-9d2edff0f6e1",
           "component_type": "ParticleSphereEmitter"
         },
         "FirstChargeTime": 2,
         "MaxDamage": 100,
         "particleEffect": {
           "_type": "component",
-          "component_id": "adef6d48-f0bd-4cae-86c9-df12d747fe28",
-          "go": "9b04c833-238e-4420-9008-f19a98efd4df",
+          "component_id": "10e521af-0076-4fa1-8e57-18f4f6fe8a65",
+          "go": "c3fe8b7d-89a9-4964-bb3a-9d2edff0f6e1",
           "component_type": "ParticleEffect"
         },
         "SecondChargeTime": 4,
@@ -71,7 +71,7 @@
       },
       {
         "__type": "ParticleEffect",
-        "__guid": "adef6d48-f0bd-4cae-86c9-df12d747fe28",
+        "__guid": "10e521af-0076-4fa1-8e57-18f4f6fe8a65",
         "Alpha": {
           "Type": "Curve",
           "CurveA": [
@@ -166,7 +166,7 @@
       },
       {
         "__type": "ParticleSphereEmitter",
-        "__guid": "6920b056-8de0-400f-b6df-f7da03f6934b",
+        "__guid": "98025f29-84d1-4e68-a44a-3b5847b0ac2b",
         "Burst": 0,
         "Delay": 0,
         "DestroyOnEnd": false,
@@ -179,7 +179,7 @@
       },
       {
         "__type": "ParticleSpriteRenderer",
-        "__guid": "7d7fea1a-49c8-4577-817d-064ca26fb47a",
+        "__guid": "f38f98c0-ced0-411c-aa9d-5de1a3dfdadf",
         "Additive": true,
         "BlurAmount": 1,
         "BlurOpacity": 1,
@@ -198,7 +198,7 @@
       },
       {
         "__type": "ParticleSphereEmitter",
-        "__guid": "10a30ef3-f3fa-4e56-ac17-e5a6fa94e488",
+        "__guid": "61f21ca9-c87b-4643-bb5e-adca2562b107",
         "__enabled": false,
         "Burst": 1000,
         "Delay": 0,
@@ -213,7 +213,7 @@
     ],
     "Children": [
       {
-        "__guid": "a3448efa-af45-42a2-baba-fb3c0c7a1b1f",
+        "__guid": "befd9ea6-0598-4cfd-978e-3a32fae96d88",
         "Name": "Object",
         "Position": "-75.97433,-223.5921,-32.75417",
         "Enabled": true,
@@ -224,6 +224,8 @@
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
   "__references": [
     "vidya.shape-sparkle"
   ]

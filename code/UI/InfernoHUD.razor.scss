@@ -65,8 +65,8 @@ InfernoHUD {
     width: 45px;
     height: 41px;
     font-family: "Haas Grot Text";
-    background-color: rgba(204, 204, 204, 0.20);
-    border-bottom: 2px solid rgba(255, 255, 255, 0.40);
+    background-color: rgba(48, 48, 48, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.28);
     border-radius: 30px;
     justify-content: center;
     align-items: center;
@@ -87,6 +87,7 @@ InfernoHUD {
     border-bottom: 1px solid rgba(255, 255, 255, 0.40);
     background-color: rgba(0, 0, 0, 0.55);
     border-radius: 30px;
+    top: 10px;
   }
 
   .team-mote-bar-inner {
