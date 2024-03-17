@@ -10,6 +10,7 @@ using Sambit.Player.Health;
 public sealed class ScorchPlosion : Component, Component.ICollisionListener
 {
 	[Property] private SphereCollider collider { get; set; }
+	[Property] private SphereCollider trigger { get; set; }
 	[Property] private ParticleEffect particleEffect { get; set; }
 	[Property] private ParticleSphereEmitter FireEmitter { get; set; }
 	[Property] private GameObject ExplosionPrefab { get; set; }
@@ -65,10 +66,10 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 	{
 		distance = Math.Min( distance, ExplosionRadius );
 
-		var sigma = ExplosionRadius / 2;
+		var sigma = ExplosionRadius / 6;
 		float damage = MaxDamage *
 		               (float)Math.Exp(
-			               -(distance * distance) / (2f * (ExplosionRadius / 2f) * (ExplosionRadius / 2f)) );
+			               -(distance * distance) / (1f * (ExplosionRadius / 2f) * (ExplosionRadius / 2f)) );
 
 		//Log.Info( distance );
 
@@ -87,14 +88,12 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		RocketBody = Components.Get<Rigidbody>();
 		rocketCreated = 0;
 		Weapon.RocketCreated = true;
-
+		chargeTime = 0;
 		await GameTask.Delay( 200 );
 		//Log.Info( "test" );
-
 		if ( Weapon.RocketCharging )
 		{
 			hasCharge = true;
-			chargeTime = 0;
 		}
 	}
 
@@ -114,13 +113,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 			hasCharge = true;
 		}
 
-
-		// if ( hasExploded ) return;
-
-
 		Log.Info( "collided" );
-		//collider.Tags.Add( "projectile" );
-
 
 		hasEmbeded = true;
 		if ( !hasCharge )
@@ -162,7 +155,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 
 					float damage = CalculateDropoffDamage( trExplosion.EndPosition, target.Transform.Position,
 						distance );
-					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage / 3, null, OwnerId );
+					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage / 2, null, OwnerId );
 					//Log.Info( "Damage: " + damage / 3 );
 
 
@@ -182,7 +175,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 				else
 				{
 					var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
-					if ( distance > 45 )
+					if ( distance > 60 )
 					{
 						float damage = CalculateDropoffDamage( trExplosion.EndPosition, target.Transform.Position,
 							distance );
@@ -191,7 +184,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 						//Log.Info( "Damage: " + damage );
 					}
 
-					if ( distance <= 45 )
+					if ( distance <= 60 )
 					{
 						float damage = 2000;
 						target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null, OwnerId );
@@ -250,6 +243,10 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		{
 			Tier3Charge();
 		}
+		else if ( rocketCreated >= 15 )
+		{
+			DestroyProjectile();
+		}
 	}
 
 	[Broadcast]
@@ -294,11 +291,9 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		FireEmitter.Velocity = 40;
 	}
 
-	public void OnCollisionUpdate( Collision other )
+	[Broadcast]
+	void DestroyProjectile()
 	{
-	}
-
-	public void OnCollisionStop( CollisionStop other )
-	{
+		GameObject.Destroy();
 	}
 }

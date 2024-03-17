@@ -201,9 +201,7 @@ public class WeaponComponent : Component
 
 	private void FireGunMessage()
 	{
-		var soundPoint = GameObject.Components.Get<SoundPointComponent>();
-		soundPoint.StopSound();
-		soundPoint.StartSound();
+		var fireSound = Sound.Play( "sounds/weapon/relic/scorch cannon/fire.sound", GameObject.Transform.Position );
 	}
 
 	[Broadcast]

@@ -1,6 +1,6 @@
 {
   "RootObject": {
-    "__guid": "c3fe8b7d-89a9-4964-bb3a-9d2edff0f6e1",
+    "__guid": "fbe32d68-7da1-4690-b5c3-9f194685eefb",
     "Name": "rocket",
     "Scale": "0.2,0.2,0.2",
     "Tags": "projectile,particles",
@@ -9,7 +9,7 @@
     "Components": [
       {
         "__type": "Rigidbody",
-        "__guid": "ebe838fc-0758-414b-ac03-b738736c6389",
+        "__guid": "358aebbb-2a71-4dc7-b465-83eb93ed54a6",
         "AngularDamping": 0,
         "Gravity": false,
         "LinearDamping": 0,
@@ -21,7 +21,7 @@
       },
       {
         "__type": "ModelRenderer",
-        "__guid": "c16c80af-6197-4581-9a72-bce9a5ea8544",
+        "__guid": "0139be52-3a6a-401e-ada2-c3ac340e21ba",
         "__enabled": false,
         "BodyGroups": 18446744073709551615,
         "Model": "models/dev/sphere.vmdl",
@@ -30,7 +30,7 @@
       },
       {
         "__type": "SphereCollider",
-        "__guid": "883f97a9-8ced-45e6-aeb1-a498a8f671dc",
+        "__guid": "383d5dc0-a05c-4e54-9a15-c002959f62b9",
         "Center": "0,0,0",
         "IsTrigger": false,
         "Radius": 26.559793,
@@ -38,40 +38,46 @@
       },
       {
         "__type": "ScorchPlosion",
-        "__guid": "b194690a-c11f-4179-9a84-e38f160313fc",
+        "__guid": "ae0e8d15-d493-4ede-aeac-8bd07ce4d955",
         "OwnerId": "00000000-0000-0000-0000-000000000000",
         "baseForce": 600,
         "collider": {
           "_type": "component",
-          "component_id": "883f97a9-8ced-45e6-aeb1-a498a8f671dc",
-          "go": "c3fe8b7d-89a9-4964-bb3a-9d2edff0f6e1",
+          "component_id": "383d5dc0-a05c-4e54-9a15-c002959f62b9",
+          "go": "fbe32d68-7da1-4690-b5c3-9f194685eefb",
           "component_type": "SphereCollider"
         },
         "ExplosionPrefab": {
           "_type": "gameobject",
           "prefab": "prefabs/weapon/relic/explosion.prefab"
         },
-        "ExplosionRadius": 240,
+        "ExplosionRadius": 150,
         "FireEmitter": {
           "_type": "component",
-          "component_id": "98025f29-84d1-4e68-a44a-3b5847b0ac2b",
-          "go": "c3fe8b7d-89a9-4964-bb3a-9d2edff0f6e1",
+          "component_id": "1017139c-8308-4ae7-9f4c-87041fbbe337",
+          "go": "fbe32d68-7da1-4690-b5c3-9f194685eefb",
           "component_type": "ParticleSphereEmitter"
         },
         "FirstChargeTime": 2,
         "MaxDamage": 100,
         "particleEffect": {
           "_type": "component",
-          "component_id": "10e521af-0076-4fa1-8e57-18f4f6fe8a65",
-          "go": "c3fe8b7d-89a9-4964-bb3a-9d2edff0f6e1",
+          "component_id": "6f788990-91c3-411e-996e-2a591a79626a",
+          "go": "fbe32d68-7da1-4690-b5c3-9f194685eefb",
           "component_type": "ParticleEffect"
         },
         "SecondChargeTime": 4,
-        "ThirdChargeTime": 6
+        "ThirdChargeTime": 6,
+        "trigger": {
+          "_type": "component",
+          "component_id": "6dcf859a-3e3d-425c-b7f4-43eac394f8ff",
+          "go": "86a9b3f2-0c0a-4a88-99b5-992b831c8da1",
+          "component_type": "SphereCollider"
+        }
       },
       {
         "__type": "ParticleEffect",
-        "__guid": "10e521af-0076-4fa1-8e57-18f4f6fe8a65",
+        "__guid": "6f788990-91c3-411e-996e-2a591a79626a",
         "Alpha": {
           "Type": "Curve",
           "CurveA": [
@@ -166,7 +172,7 @@
       },
       {
         "__type": "ParticleSphereEmitter",
-        "__guid": "98025f29-84d1-4e68-a44a-3b5847b0ac2b",
+        "__guid": "1017139c-8308-4ae7-9f4c-87041fbbe337",
         "Burst": 0,
         "Delay": 0,
         "DestroyOnEnd": false,
@@ -179,7 +185,7 @@
       },
       {
         "__type": "ParticleSpriteRenderer",
-        "__guid": "f38f98c0-ced0-411c-aa9d-5de1a3dfdadf",
+        "__guid": "f36d8a26-b130-471c-b521-18f8d45e8028",
         "Additive": true,
         "BlurAmount": 1,
         "BlurOpacity": 1,
@@ -195,29 +201,24 @@
         "Shadows": true,
         "SortMode": "Unsorted",
         "Texture": "sprites/vidya/shapes/sparkle.vtex"
-      },
-      {
-        "__type": "ParticleSphereEmitter",
-        "__guid": "61f21ca9-c87b-4643-bb5e-adca2562b107",
-        "__enabled": false,
-        "Burst": 1000,
-        "Delay": 0,
-        "DestroyOnEnd": true,
-        "Duration": 3,
-        "Loop": false,
-        "OnEdge": false,
-        "Radius": 20,
-        "Rate": 0,
-        "Velocity": 100
       }
     ],
     "Children": [
       {
-        "__guid": "befd9ea6-0598-4cfd-978e-3a32fae96d88",
+        "__guid": "86a9b3f2-0c0a-4a88-99b5-992b831c8da1",
         "Name": "Object",
-        "Position": "-75.97433,-223.5921,-32.75417",
         "Enabled": true,
-        "NetworkMode": 2
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "SphereCollider",
+            "__guid": "6dcf859a-3e3d-425c-b7f4-43eac394f8ff",
+            "Center": "0,0,0",
+            "IsTrigger": true,
+            "Radius": 10,
+            "Static": false
+          }
+        ]
       }
     ]
   },

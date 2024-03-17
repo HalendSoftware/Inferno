@@ -168,6 +168,12 @@ public class PlayerHealth : Component, IDamagable
 			}
 		}
 
+		if ( timeSinceDamaged >= 10 )
+		{
+			lastAttacker = GameObject;
+			lastAttackerId = GameObject.Id;
+		}
+
 		if ( LifeState == LifeState.Dead )
 		{
 			return;
@@ -182,12 +188,6 @@ public class PlayerHealth : Component, IDamagable
 
 		CheckSpawnOverride();
 
-
-		if ( timeSinceDamaged >= 10 )
-		{
-			lastAttacker = null;
-			lastAttackerId = GameObject.Id;
-		}
 
 		if ( Health < MaxHealth && timeSinceDamaged > RegenDelay )
 		{
@@ -261,7 +261,13 @@ public class PlayerHealth : Component, IDamagable
 		if ( lastAttackerId != Guid.Empty )
 		{
 			lastAttacker = Scene.Directory.FindByGuid( lastAttackerId );
-			lastAttacker.Components.Get<PlayerHealth>().KillCredit();
+			if ( lastAttacker.Network.OwnerId == GameObject.Network.OwnerId )
+			{
+				if ( lastAttacker.Components.Get<PlayerHealth>().PlayerKills != 0 )
+					lastAttacker.Components.Get<PlayerHealth>().ReduceCredit();
+			}
+			else
+				lastAttacker.Components.Get<PlayerHealth>().KillCredit();
 		}
 
 		Log.Info( "My Guid: " + GameObject.Id );
@@ -324,12 +330,6 @@ public class PlayerHealth : Component, IDamagable
 			return;
 		}
 
-		// Spawn at override spawn point if available
-		if ( overrideSpawn != null )
-		{
-			Transform.Position = overrideSpawn.Value.Position;
-			return;
-		}
 
 		var spawnpoints = Scene.GetAllComponents<SambitSpawnpoint>()
 			.Where( x => x.Team == Components.Get<PlayerTeam>().CurrentTeam );
@@ -343,6 +343,13 @@ public class PlayerHealth : Component, IDamagable
 		var randomSpawnpoint = Game.Random.FromList( spawnpoints.ToList() );
 
 		Transform.Position = randomSpawnpoint.Transform.Position;
+
+		// // Spawn at override spawn point if available
+		// if ( overrideSpawn != null )
+		// {
+		// 	Transform.Position = overrideSpawn.Value.Position;
+		// 	return;
+		// }
 	}
 
 	protected override void OnAwake()
@@ -400,6 +407,13 @@ public class PlayerHealth : Component, IDamagable
 	{
 		Log.Info( "Credit Given" );
 		PlayerKills++;
+	}
+
+	[Broadcast]
+	void ReduceCredit()
+	{
+		Log.Info( "Credit Taken" );
+		PlayerKills--;
 	}
 
 
