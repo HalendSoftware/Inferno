@@ -1,13 +1,13 @@
 {
   "RootObject": {
-    "__guid": "fa30ea26-c7bb-4d70-bf7e-856df5598277",
+    "__guid": "957534f2-54a3-4b54-a106-e68d9d490c57",
     "Name": "spark",
     "Enabled": true,
     "NetworkMode": 1,
     "Components": [
       {
         "__type": "ModelRenderer",
-        "__guid": "48f4c02b-e273-4e34-9f02-76382c99828c",
+        "__guid": "7c7f3785-f5ce-4884-a527-e4036d1e2301",
         "__enabled": false,
         "BodyGroups": 18446744073709551615,
         "Model": "models/dev/sphere.vmdl",
@@ -16,8 +16,8 @@
       },
       {
         "__type": "GhostRevive",
-        "__guid": "deb0a4fa-80bd-4203-ae3d-a0d074595ff6",
-        "FieldBased": true,
+        "__guid": "049c1cea-cbf7-4e77-a0a4-2c59ab3b083b",
+        "FieldBased": false,
         "InteractingMessage": "Reviving...",
         "OwnerId": "00000000-0000-0000-0000-000000000000",
         "PromptMessage": "Revive",
@@ -25,10 +25,10 @@
       },
       {
         "__type": "SphereCollider",
-        "__guid": "5f086a2c-da0e-4b4c-bb53-1b48099aa7b0",
+        "__guid": "b9832526-4497-44b8-a651-a54e2150afc8",
         "Center": "0,0,0",
         "IsTrigger": true,
-        "Radius": 101.920044,
+        "Radius": 0.71993726,
         "Static": false
       }
     ],

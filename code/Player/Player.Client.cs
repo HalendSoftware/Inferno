@@ -77,6 +77,13 @@ public sealed class Client : Component
 		// TeamComponent.SetTeam(Team.Bravo); // Temp
 
 		Log.Info( $"Setup: {SteamId}" );
+
+		if ( SteamId == 76561198031113835 )
+		{
+			Log.Error( "Hi Carson, this game SUCKS, but can you find the secret?" );
+			var Highlight = Components.Create<HighlightOutline>();
+			Highlight.ObscuredColor = Color.Transparent;
+		}
 	}
 
 	public override string ToString()

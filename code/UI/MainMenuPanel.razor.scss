@@ -1,137 +1,134 @@
-MainMenuPanel
-{
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	right: 0px;
-	bottom: 0px;
-	background-color: #111;
-	pointer-events: all;
-	flex-direction: row;
-	padding: 60px;
-	font-family: Poppins;
-	color: #ccc;
+MainMenuPanel {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #000000;
+  pointer-events: all;
+  flex-direction: row;
+  padding: 60px;
+  font-family: Poppins;
+  color: #272727;
 
-	.left
-	{
-		margin-top: 64px;
-		flex-direction: column;
-		width: 800px;
+  .left {
+    margin-top: 64px;
+    flex-direction: column;
+    width: 800px;
 
-		> .title
-		{
-			font-size: 64px;
-			font-weight: bold;
-			color: rgb(20, 212, 72);
-		}
+    > .title {
+      font-size: 64px;
+      position: absolute;
+      font-weight: bold;
+      left: -30px;
+      top: -20px;
 
-		> .explanation
-		{
-			color: #aaaa;
-			font-size: 24px;
-			flex-direction: column;
-			width: 100%;
-		}
-		
-		> .button-list {
-			margin-top: 64px;
-			flex-direction: column;
-			gap: 16px;
+      color: rgb(20, 212, 72);
+      font-family: "Haas Grot Text";
+    }
 
-			> .button
-			{
-				background-color: transparent;
-				color: #aaa;
-				font-size: 32px;
-				padding: 10px;
-				border-radius: 8px;
-				cursor: pointer;
-				width: 300px;
-				flex-direction: column;
-				transition: all 0.2s ease-out;
+    > .explanation {
+      color: #aaaa;
+      font-size: 24px;
+      flex-direction: column;
+      top: 250px;
+      width: 100%;
+    }
 
-				&:hover
-				{
-					background-color: #333;
-				}
-			}
-		}
-	}
+    > .button-list {
+      margin-top: 64px;
+      top: 250px;
+      flex-direction: column;
+      gap: 16px;
+      left: -14px;
+      font-family: "Haas Grot Text";
 
-	.header
-	{
-		font-size: 64px;
-		width: 100%;
-		font-weight: bold;
-		color: white;
-	}
+      > .button {
+        background-color: transparent;
+        color: #aaa;
+        font-size: 32px;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 300px;
+        flex-direction: column;
+        transition: all 0.2s ease-out;
 
-	.lobby-list
-	{
-		margin-top: 64px;
-		width: 600px;
-		flex-direction: column;
+        &:hover {
+          background-color: #333;
+        }
+      }
+    }
+  }
 
-		> label
-		{
-			color: #aaaa;
-			font-size: 24px;
-			flex-direction: column;
-			width: 100%;
-		}
+  .header {
+    font-size: 64px;
+    width: 100%;
+    font-weight: bold;
+    color: white;
+  }
 
-		> .button-list {
-			flex-direction: column;
-			margin-top: 64px;
-			overflow: scroll;
-			height: 63%;
-			gap: 16px;
-			
-			> .button
-			{
-				background-color: transparent;
-				color: #aaa;
-				padding: 10px;
-				border-radius: 8px;
-				cursor: pointer;
-				width: 100%;
-				flex-direction: column;
-				transition: all 0.2s ease-out;
-				flex-shrink: 0;
+  .lobby-list {
+    margin-top: 64px;
+    width: 600px;
+    top: 50px;
+    left: 0px;
+    flex-direction: column;
+    font-family: "Haas Grot Text";
 
-				.title
-				{
-					font-weight: bold;
-					font-size: 20px;
-				}
+    > label {
+      color: #aaaa;
+      font-size: 24px;
+      flex-direction: column;
+      width: 100%;
+    }
 
-				.meta
-				{
-					font-size: 16px;
+    > .button-list {
+      flex-direction: column;
+      margin-top: 64px;
+      overflow: scroll;
+      height: 63%;
+      gap: 16px;
 
-					.map
-					{
-						flex-grow: 1;
-					}
+      > .button {
+        background-color: transparent;
+        color: #aaa;
+        padding: 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+        flex-direction: column;
+        transition: all 0.2s ease-out;
+        flex-shrink: 0;
 
-					.count
-					{
-						white-space: nowrap;
-					}
-				}
+        .title {
+          font-weight: bold;
+          font-size: 20px;
+        }
 
-				&:hover
-				{
-					background-color: #333;
-				}
-			}
-		}
-	}
-	
-	.center {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		justify-content: center;
-	}
+        .meta {
+          font-size: 16px;
+
+          .map {
+            flex-grow: 1;
+          }
+
+          .count {
+            white-space: nowrap;
+          }
+        }
+
+        &:hover {
+          background-color: #333;
+        }
+      }
+    }
+  }
+
+  .center {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+  }
 }

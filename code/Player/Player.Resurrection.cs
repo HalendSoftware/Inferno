@@ -26,7 +26,6 @@ public sealed class GhostRevive : Interactable
 		if ( IsProxy ) return;
 		if ( OwnerHealth.LifeState == LifeState.Alive )
 		{
-			Log.Info( "ghost dead" );
 			DestroyGhost();
 		}
 	}
@@ -34,7 +33,6 @@ public sealed class GhostRevive : Interactable
 	public override void Interact( GameObject player )
 	{
 		IsActive = true;
-		Log.Info( $"{Owner.Name} Revived" );
 
 		Resurrect();
 

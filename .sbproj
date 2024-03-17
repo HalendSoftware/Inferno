@@ -7,7 +7,7 @@
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
-  "Resources": "\nfonts/Haas Grot Text,Haas Grot Text 55 Roman - 56 Italic,Italic.otf\nfonts/Haas Grot Text,Haas Grot Text 55 Roman - 55 Roman,Regular.otf\nfonts/Haas Grot Disp,Haas Grot Disp 75 Bold - 75 Bold,Regular.otf\nfonts/Haas Grot Text,Haas Grot Text 65 Medium - 65 Medium,Regular.otf\nfonts/Haas Grot Text,Haas Grot Text 65 Medium - 66 Medium Italic,Italic.otf\nfonts/Destiny Keys - Regular.otf",
+  "Resources": "\nfonts/Haas Grot Text,Haas Grot Text 55 Roman - 56 Italic,Italic.otf\nfonts/Haas Grot Text,Haas Grot Text 55 Roman - 55 Roman,Regular.otf\nfonts/Haas Grot Disp,Haas Grot Disp 75 Bold - 75 Bold,Regular.otf\nfonts/Haas Grot Text,Haas Grot Text 65 Medium - 65 Medium,Regular.otf\nfonts/Haas Grot Text,Haas Grot Text 65 Medium - 66 Medium Italic,Italic.otf\nfonts/Destiny Keys - Regular.otf\nmaterials/InfernoLogo.png",
   "HasCode": true,
   "CodePath": "/code/",
   "PackageReferences": [],
@@ -25,7 +25,7 @@
     "PerMapRanking": false,
     "LeaderboardType": "None",
     "CsProjName": "",
-    "StartupScene": "scenes/inferno.scene",
+    "StartupScene": "scenes/lobbyproto.scene",
     "ProjectTemplate": null,
     "ControlModes": {},
     "InputSettings": {
@@ -228,6 +228,6 @@
       ],
       "__guid": "6f05bc65-0d21-4e29-8069-3b1f47e80024"
     },
-    "LaunchMode": "QuickPlay"
+    "LaunchMode": "Normal"
   }
 }

@@ -147,7 +147,6 @@ public class PlayerHealth : Component, IDamagable
 
 		if ( AttackerId != MyGuid )
 		{
-			Log.Info( "AttackerId: " + AttackerId + " | " + "GameObject Id: " + MyGuid );
 			lastAttackerId = AttackerId;
 		}
 
@@ -270,8 +269,6 @@ public class PlayerHealth : Component, IDamagable
 				lastAttacker.Components.Get<PlayerHealth>().KillCredit();
 		}
 
-		Log.Info( "My Guid: " + GameObject.Id );
-
 		//Log.Error( lastAttackerId );
 		playerController.IsEscaping = false;
 		Health = 0;
@@ -369,7 +366,6 @@ public class PlayerHealth : Component, IDamagable
 
 		if ( tr.Hit )
 		{
-			Log.Info( $"Hit: {tr.GameObject} at {tr.EndPosition}" );
 		}
 
 		return tr;
@@ -405,14 +401,12 @@ public class PlayerHealth : Component, IDamagable
 	[Broadcast]
 	void KillCredit()
 	{
-		Log.Info( "Credit Given" );
 		PlayerKills++;
 	}
 
 	[Broadcast]
 	void ReduceCredit()
 	{
-		Log.Info( "Credit Taken" );
 		PlayerKills--;
 	}
 

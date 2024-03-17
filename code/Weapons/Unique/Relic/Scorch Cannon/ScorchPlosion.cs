@@ -107,13 +107,11 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		}
 
 		RocketBody.Velocity = 0;
-		Log.Info( Weapon );
 		if ( Weapon.RocketCharging )
 		{
 			hasCharge = true;
 		}
 
-		Log.Info( "collided" );
 
 		hasEmbeded = true;
 		if ( !hasCharge )
@@ -220,6 +218,11 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 	{
 		if ( IsProxy ) return;
 		if ( hasExploded ) return;
+
+		if ( Owner.Components.Get<PlayerHealth>().LifeState == LifeState.Dead )
+		{
+			Explosion();
+		}
 
 		if ( !Weapon.RocketCharging && hasCharge )
 		{

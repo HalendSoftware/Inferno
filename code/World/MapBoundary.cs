@@ -4,9 +4,9 @@ using Sambit;
 using Sambit.Common;
 using Sambit.Common.Interfaces;
 using Sambit.Player;
+
 public sealed class MapBoundary : Component, Component.ITriggerListener
 {
-
 	[Property] private Collider _collider { get; set; }
 
 	public enum BoundaryType
@@ -24,14 +24,12 @@ public sealed class MapBoundary : Component, Component.ITriggerListener
 
 	protected override void OnUpdate()
 	{
-
 		foreach ( var c in _collider.Touching )
 		{
 			if ( c.Tags.Has( "playercollider" ) )
 			{
 				c.Components.TryGet( out PlayerController playerController, FindMode.InParent );
 				c.Components.TryGet( out PlayerHealth playerHealth, FindMode.InParent );
-				Log.Info(playerController.EscapingTime  );
 
 				if ( playerController.EscapingTime >= playerController.EscapingTimeLeft && playerController.IsEscaping )
 				{
@@ -39,11 +37,10 @@ public sealed class MapBoundary : Component, Component.ITriggerListener
 				}
 			}
 		}
-		
 	}
 
 
-	void ITriggerListener.OnTriggerEnter( Collider other)
+	void ITriggerListener.OnTriggerEnter( Collider other )
 	{
 		if ( other.Tags.Has( "playercollider" ) )
 		{
@@ -51,7 +48,6 @@ public sealed class MapBoundary : Component, Component.ITriggerListener
 			switch ( _boundaryType )
 			{
 				case BoundaryType.TurnBack:
-					Log.Info( "enter" );
 					TurnBack( other );
 					break;
 				case BoundaryType.PushBack:
@@ -65,16 +61,14 @@ public sealed class MapBoundary : Component, Component.ITriggerListener
 			}
 		}
 	}
-	
-	void ITriggerListener.OnTriggerExit( Collider other)
+
+	void ITriggerListener.OnTriggerExit( Collider other )
 	{
 		if ( other.Tags.Has( "playercollider" ) )
 		{
-
 			switch ( _boundaryType )
 			{
 				case BoundaryType.TurnBack:
-					Log.Info( "exit" );
 					TurnBackExit( other );
 					break;
 				case BoundaryType.PushBack:
@@ -84,35 +78,32 @@ public sealed class MapBoundary : Component, Component.ITriggerListener
 				default:
 					break;
 			}
-
 		}
 	}
-	void TurnBack(Collider player)
+
+	void TurnBack( Collider player )
 	{
 		player.Components.TryGet( out PlayerController playerController, FindMode.InParent );
 		playerController.EscapingTime = 0;
 		playerController.IsEscaping = true;
 		playerController.EscapingTimeLeft = TurnBackTimer;
-		
 	}
-	void TurnBackExit(Collider player)
+
+	void TurnBackExit( Collider player )
 	{
 		player.Components.TryGet( out PlayerController playerController, FindMode.InParent );
 		playerController.IsEscaping = false;
-
 	}
 
-	void PushBack(Collider player)
+	void PushBack( Collider player )
 	{
-		
 	}
 
-	void InstantDeath(Collider player)
+	void InstantDeath( Collider player )
 	{
 		// Log.Info( player );
 
 		player.Components.TryGet( out PlayerHealth playerHealth, FindMode.InParent );
 		playerHealth.Death();
 	}
-	
 }
