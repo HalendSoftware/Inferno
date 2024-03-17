@@ -1,0 +1,44 @@
+{
+  "RootObject": {
+    "__guid": "98ba5104-0d92-4244-87cd-4cd36aa42bdb",
+    "Name": "infernocannonmeme",
+    "Enabled": true,
+    "NetworkMode": 2,
+    "Components": [
+      {
+        "__type": "ModelRenderer",
+        "__guid": "ca9aea1d-4d75-46f6-9500-424730bf3b0b",
+        "BodyGroups": 18446744073709551615,
+        "Model": "models/infernocannon.vmdl",
+        "OnComponentEnabled": {
+          "Version": 5,
+          "UserData": {
+            "Title": "On Component Enabled",
+            "id": "1ca6263b-467d-450b-84c8-07079862bde0"
+          },
+          "Variables": [],
+          "Nodes": [
+            {
+              "Id": 0,
+              "Type": "input"
+            }
+          ],
+          "Links": []
+        },
+        "RenderType": "On",
+        "Tint": "1,1,1,1"
+      },
+      {
+        "__type": "Rotata",
+        "__guid": "d22b97dd-13da-4438-943e-a84323b85c68"
+      }
+    ],
+    "Children": []
+  },
+  "ShowInMenu": false,
+  "MenuPath": null,
+  "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
+  "__references": []
+}

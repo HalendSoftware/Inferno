@@ -4,10 +4,13 @@ using Sandbox;
 using Sandbox.Physics;
 using Sandbox.VR;
 using Sandbox.Weapons;
+using System.Threading;
+using Sambit.Player.Health;
 
 public sealed class ScorchPlosion : Component, Component.ICollisionListener
 {
 	[Property] private SphereCollider collider { get; set; }
+	[Property] private SphereCollider trigger { get; set; }
 	[Property] private ParticleEffect particleEffect { get; set; }
 	[Property] private ParticleSphereEmitter FireEmitter { get; set; }
 	[Property] private GameObject ExplosionPrefab { get; set; }
@@ -32,6 +35,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 	private bool hasExploded = false;
 	private bool hasEmbeded = false;
 	private bool hasCharge = false;
+	private CancellationTokenSource cancellationTokenSource;
 
 
 	private int tier;
@@ -43,7 +47,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		switch ( tier )
 		{
 			case 1:
-				multiplier = 1.0f;
+				multiplier = 1.25f;
 				break;
 			case 2:
 				multiplier = 1.5f;
@@ -60,16 +64,16 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 
 	public float CalculateDropoffDamage( Vector3 explosionPosition, Vector3 targetPositionm, float distance )
 	{
-		// Cap distance at explosion radius
 		distance = Math.Min( distance, ExplosionRadius );
 
-		var sigma = ExplosionRadius / 2;
-		// Calculate drop-off damage using inverse square law
+		var sigma = ExplosionRadius / 6;
 		float damage = MaxDamage *
 		               (float)Math.Exp(
-			               -(distance * distance) / (2f * (ExplosionRadius / 2f) * (ExplosionRadius / 2f)) );
+			               -(distance * distance) / (1f * (ExplosionRadius / 2f) * (ExplosionRadius / 2f)) );
 
-		Log.Info( distance );
+		//Log.Info( distance );
+
+		damage = CalculateExplosionForce( tier, damage );
 		return damage;
 	}
 
@@ -84,26 +88,32 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		RocketBody = Components.Get<Rigidbody>();
 		rocketCreated = 0;
 		Weapon.RocketCreated = true;
-
-		await Task.Delay( 200 );
+		chargeTime = 0;
+		await GameTask.Delay( 200 );
+		//Log.Info( "test" );
 		if ( Weapon.RocketCharging )
 		{
 			hasCharge = true;
-			chargeTime = 0;
 		}
 	}
 
 	public void OnCollisionStart( Collision other )
 	{
-		if ( hasExploded ) return;
-		if ( RocketBody is not null )
+		if ( Owner == null )
 		{
-			RocketBody.Velocity = 0;
-			RocketBody.AngularVelocity = 0;
+			Owner = Scene.Directory.FindByGuid( OwnerId );
+			Weapon = Owner.Components.Get<WeaponComponent>();
+			RocketBody = Components.Get<Rigidbody>();
 		}
 
-		//collider.Tags.Add( "projectile" );
+		RocketBody.Velocity = 0;
+		Log.Info( Weapon );
+		if ( Weapon.RocketCharging )
+		{
+			hasCharge = true;
+		}
 
+		Log.Info( "collided" );
 
 		hasEmbeded = true;
 		if ( !hasCharge )
@@ -115,6 +125,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 
 	private void Explosion()
 	{
+		if ( IsProxy ) return;
 		var explosionSphere = new Sphere( GameObject.Transform.Position, ExplosionRadius );
 
 		var trExplosion = Scene.Trace
@@ -130,8 +141,8 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		var trDistance = Scene.Trace.Ray( GameObject.Transform.Position, Owner.Transform.Position )
 			.Run();
 
-		Log.Info( trDistance.Distance );
-		Log.Info( rocketCreated );
+		//Log.Info( trDistance.Distance );
+		//Log.Info( rocketCreated );
 
 		if ( trExplosion.Hit )
 		{
@@ -141,22 +152,22 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 				if ( target.Network.IsOwner )
 				{
 					var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
-				
+
 					float damage = CalculateDropoffDamage( trExplosion.EndPosition, target.Transform.Position,
 						distance );
-					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage / 3, null );
-					Log.Info( "Damage: " + damage / 3 );
-				
-				
-					Log.Info( distance );
-				
+					target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage / 2, null, OwnerId );
+					//Log.Info( "Damage: " + damage / 3 );
+
+
+					//Log.Info( distance );
+
 					var explosionForce = CalculateExplosionForce( tier, baseForce );
-				
+
 					target.Components.TryGet( out CharacterController character, FindMode.InParent );
 					{
 						var explosionPunch =
 							((target.Transform.Position) - trExplosion.EndPosition).Normal * explosionForce;
-				
+
 						// Log.Info( explosionPunch );
 						character.Velocity += explosionPunch;
 					}
@@ -164,32 +175,30 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 				else
 				{
 					var distance = Vector3.DistanceBetween( target.Transform.Position, trExplosion.EndPosition );
-					if ( distance > 30 )
+					if ( distance > 60 )
 					{
 						float damage = CalculateDropoffDamage( trExplosion.EndPosition, target.Transform.Position,
 							distance );
-						target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
-						Log.Info( "Damage: " + damage );
+						target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null, OwnerId );
+
+						//Log.Info( "Damage: " + damage );
 					}
-				
-					if ( distance <= 30 )
+
+					if ( distance <= 60 )
 					{
 						float damage = 2000;
-						target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null );
-						Log.Info( "Damage: " + damage );
+						target.Components.GetInAncestorsOrSelf<IDamagable>().Damage( damage, null, OwnerId );
+
+						//Log.Info( "Damage: " + damage );
 					}
-				
-					Log.Info( distance );
-				
+
+					//Log.Info( distance );
 					var explosionForce = CalculateExplosionForce( tier, baseForce );
-				
+
 					target.Components.TryGet( out CharacterController character, FindMode.InParent );
 					{
-						var explosionPunch =
-							((target.Transform.Position) - trExplosion.EndPosition).Normal * explosionForce;
-				
-						// Log.Info( explosionPunch );
-						character.Velocity += explosionPunch;
+						var pushDirection = (character.GameObject.Transform.Position - Transform.Position).Normal;
+						character.Velocity += pushDirection * 1000;
 					}
 				}
 			}
@@ -200,6 +209,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		ExplosionGO.Components.Get<ParticleEffect>().Tint = particleEffect.Tint;
 		ExplosionGO.Components.Get<ParticleSphereEmitter>().Velocity = FireEmitter.Velocity * 5;
 		ExplosionGO.BreakFromPrefab();
+		ExplosionGO.NetworkSpawn();
 
 
 		hasExploded = true;
@@ -208,6 +218,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 
 	protected override void OnUpdate()
 	{
+		if ( IsProxy ) return;
 		if ( hasExploded ) return;
 
 		if ( !Weapon.RocketCharging && hasCharge )
@@ -215,7 +226,7 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 			Explosion();
 		}
 
-		if ( rocketCreated >= 2f && !Weapon.RocketCharging )
+		if ( rocketCreated >= 0.1f && !Weapon.RocketCharging )
 		{
 			Weapon.RocketCreated = false;
 		}
@@ -231,6 +242,10 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		else if ( chargeTime >= ThirdChargeTime && hasCharge )
 		{
 			Tier3Charge();
+		}
+		else if ( rocketCreated >= 15 )
+		{
+			DestroyProjectile();
 		}
 	}
 
@@ -276,11 +291,9 @@ public sealed class ScorchPlosion : Component, Component.ICollisionListener
 		FireEmitter.Velocity = 40;
 	}
 
-	public void OnCollisionUpdate( Collision other )
+	[Broadcast]
+	void DestroyProjectile()
 	{
-	}
-
-	public void OnCollisionStop( CollisionStop other )
-	{
+		GameObject.Destroy();
 	}
 }

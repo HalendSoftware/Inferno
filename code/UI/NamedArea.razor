@@ -3,6 +3,7 @@
 @inherits PanelComponent
 
 <root>
+	@if ( IsProxy ) return;
 	<div class="named-area-text">
 		<label class="neue-haas-65" style="font-size: 22px; color: white; flex-direction: column;">
 			@AreaName
@@ -12,7 +13,7 @@
 
 @code
 {
-	[Property] private Collider collider;
+	[Property] private Collider collider { get; set; }
 
 	public string AreaName { get; set; } = "";
 
@@ -23,6 +24,7 @@
 
 	protected override void OnFixedUpdate()
 	{
+		if ( IsProxy ) return;
 		var namedArea = collider.Touching
 			.Where( x => x.GameObject.Tags.Has( "namedarea" ) )
 			.MaxBy( x => x.GameObject.Components.Get<Priority>()?.PriorityLevel );

@@ -1,5 +1,8 @@
+using System.Net.NetworkInformation;
+using Microsoft.VisualBasic;
 using Sambit.Common.Interfaces;
 using Sambit.Player.Ragdoll;
+using Sandbox.Diagnostics;
 using Sandbox.UI;
 
 namespace Sambit.Player.Health;
@@ -14,13 +17,19 @@ public class PlayerHealth : Component, IDamagable
 	[Property] public LifeState LifeState;
 	private RagdollController ragdollController;
 	private float shields;
+	[Property] public HealthState HealthState;
 	[Property] public ShieldState ShieldState;
 	[Property] public GameObject Spark;
 	public TimeSince TimeSinceDeath;
 	[Property] public float respawnTime { get; set; }
 	private PlayerController playerController => Components.Get<PlayerController>();
 	private CharacterController characterController => Components.Get<CharacterController>();
+	private PlayerTeam playerTeam => Components.Get<PlayerTeam>();
+	public RoundManager roundManager => Scene.GetAllComponents<RoundManager>().FirstOrDefault();
 
+	[Property, Sync] public GameObject lastAttacker { get; set; }
+	[Property, Sync] public Guid lastAttackerId { get; set; }
+	[Property] public Guid MyGuid { get; set; }
 	[Property] private Vignette DeathVignette { get; set; }
 	[Property] private DepthOfField DeathDOF { get; set; }
 	[Property] private DeathColorFilter _deathColorFilter { get; set; }
@@ -29,6 +38,7 @@ public class PlayerHealth : Component, IDamagable
 
 	[Category( "Health" )] [Property] public float MaxHealth { get; } = 100f;
 	[Category( "Health" )] [Property] public float MaxShields { get; } = 100f;
+	[Property] public uint PlayerKills { get; set; }
 
 	[Category( "Health" )]
 	[Property]
@@ -89,14 +99,25 @@ public class PlayerHealth : Component, IDamagable
 	private Transform? overrideSpawnPoint { get; set; }
 
 	[Broadcast]
-	public void Damage( float damage, IDamageSource source )
+	public void Damage( float damage, IDamageSource source, Guid AttackerId )
 	{
 		if ( LifeState != LifeState.Alive )
 		{
 			return;
 		}
 
+
 		//if ( (info.Attacker as Pawn) != null && (info.Attacker as Pawn).teamID == teamID && teamID != 0 && !(info.Attacker == this)) return;
+
+		// float remainingHealth = Health - damage;
+		//
+		// if ( remainingHealth <= 0 )
+		// {
+		// 	Health = 0; // Ensure health doesn't go below zero
+		// 	LifeState = LifeState.Dead;
+		// 	Log.Info( "Killed Player via " + source.GetSourceName() );
+		// 	return; // Exit the method since the player is dead
+		// }
 
 		//var isHeadshot = info.Hitbox.HasTag( "head" );
 		if ( Shields <= 0 )
@@ -123,12 +144,15 @@ public class PlayerHealth : Component, IDamagable
 			}
 		}
 
-		timeSinceDamaged = 0;
 
-		if ( LifeState == LifeState.Dead )
+		if ( AttackerId != MyGuid )
 		{
-			Log.Info( "Killed Player via " + source.GetSourceName() );
+			Log.Info( "AttackerId: " + AttackerId + " | " + "GameObject Id: " + MyGuid );
+			lastAttackerId = AttackerId;
 		}
+
+		//AttackerGuid = AttackerId.ToString();
+		timeSinceDamaged = 0;
 	}
 
 
@@ -142,6 +166,12 @@ public class PlayerHealth : Component, IDamagable
 				//Sound.Play( "sounds/player/ui/RespawnActivated.sound" );
 				Respawn();
 			}
+		}
+
+		if ( timeSinceDamaged >= 10 )
+		{
+			lastAttacker = GameObject;
+			lastAttackerId = GameObject.Id;
 		}
 
 		if ( LifeState == LifeState.Dead )
@@ -161,10 +191,11 @@ public class PlayerHealth : Component, IDamagable
 
 		if ( Health < MaxHealth && timeSinceDamaged > RegenDelay )
 		{
+			HealthState = HealthState.Regenerating;
 			Health += HealthRegen * Time.Delta;
 		}
 
-		if ( Shields < MaxShields && timeSinceDamaged > RegenDelay )
+		if ( Shields < MaxShields && timeSinceDamaged > RegenDelay && HealthState != HealthState.Regenerating )
 		{
 			ShieldState = ShieldState.Charging;
 			Shields += ShieldsRegen * Time.Delta;
@@ -172,6 +203,8 @@ public class PlayerHealth : Component, IDamagable
 
 		if ( Shields == MaxShields )
 			ShieldState = ShieldState.Charged;
+		if ( Health == MaxHealth )
+			HealthState = HealthState.Full;
 	}
 
 	protected override void OnUpdate()
@@ -223,16 +256,28 @@ public class PlayerHealth : Component, IDamagable
 
 	public void Death()
 	{
-		if ( IsProxy )
+		if ( IsProxy ) return;
+		LifeState = LifeState.Dead;
+		if ( lastAttackerId != Guid.Empty )
 		{
-			return;
+			lastAttacker = Scene.Directory.FindByGuid( lastAttackerId );
+			if ( lastAttacker.Network.OwnerId == GameObject.Network.OwnerId )
+			{
+				if ( lastAttacker.Components.Get<PlayerHealth>().PlayerKills != 0 )
+					lastAttacker.Components.Get<PlayerHealth>().ReduceCredit();
+			}
+			else
+				lastAttacker.Components.Get<PlayerHealth>().KillCredit();
 		}
 
+		Log.Info( "My Guid: " + GameObject.Id );
+
+		//Log.Error( lastAttackerId );
 		playerController.IsEscaping = false;
 		Health = 0;
 		Shields = 0;
 		IsRespawning = true;
-		LifeState = LifeState.Dead;
+
 		TimeSinceDeath = 0f;
 
 		//TODO: HOLY FUCK, do NOT do this, PLEASE draw it UNDERNEATH the UI, SAVE YOURSELF
@@ -240,7 +285,6 @@ public class PlayerHealth : Component, IDamagable
 		DeathDOF.Enabled = true;
 		_deathColorFilter.Enabled = true;
 
-		Sound.Play( "sounds/player/ui/playerdeath.sound" );
 		foreach ( var deathListener in Components.GetAll<IDeathListener>() )
 		{
 			deathListener.OnDeath();
@@ -272,7 +316,7 @@ public class PlayerHealth : Component, IDamagable
 			if ( characterController.IsOnGround && LifeState == LifeState.Alive ) // Add other checks
 			{
 				overrideSpawnPoint = Transform.World;
-				Log.Info( $"Override Spawnpoint set to {overrideSpawnPoint?.Position}" );
+				//Log.Info( $"Override Spawnpoint set to {overrideSpawnPoint?.Position}" );
 			}
 
 			timeSinceSpawnCheck = 0;
@@ -286,12 +330,6 @@ public class PlayerHealth : Component, IDamagable
 			return;
 		}
 
-		// Spawn at override spawn point if available
-		if ( overrideSpawn != null )
-		{
-			Transform.Position = overrideSpawn.Value.Position;
-			return;
-		}
 
 		var spawnpoints = Scene.GetAllComponents<SambitSpawnpoint>()
 			.Where( x => x.Team == Components.Get<PlayerTeam>().CurrentTeam );
@@ -305,11 +343,19 @@ public class PlayerHealth : Component, IDamagable
 		var randomSpawnpoint = Game.Random.FromList( spawnpoints.ToList() );
 
 		Transform.Position = randomSpawnpoint.Transform.Position;
+
+		// // Spawn at override spawn point if available
+		// if ( overrideSpawn != null )
+		// {
+		// 	Transform.Position = overrideSpawn.Value.Position;
+		// 	return;
+		// }
 	}
 
 	protected override void OnAwake()
 	{
 		ragdollController = Components.GetInDescendantsOrSelf<RagdollController>();
+		MyGuid = GameObject.Id;
 		Tags.Add( "damagable" );
 	}
 
@@ -355,6 +401,21 @@ public class PlayerHealth : Component, IDamagable
 	{
 		void OnDeath();
 	}
+
+	[Broadcast]
+	void KillCredit()
+	{
+		Log.Info( "Credit Given" );
+		PlayerKills++;
+	}
+
+	[Broadcast]
+	void ReduceCredit()
+	{
+		Log.Info( "Credit Taken" );
+		PlayerKills--;
+	}
+
 
 	public interface IRespawnListener
 	{

@@ -52,6 +52,9 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 		}
 	}
 
+	void Component.INetworkListener.OnConnected( Connection channel )
+	{
+	}
 
 	/// <summary>
 	/// A client is fully connected to the server. This is called on the host.
@@ -61,8 +64,7 @@ public sealed class NetworkManager : Component, Component.INetworkListener
 		Game.ActiveScene.PhysicsWorld.SubSteps = 4;
 		Log.Info( $"Player '{channel.DisplayName}' has joined the game" );
 
-
-		if ( PlayerPrefab is null )
+		if ( PlayerPrefab is null && !Connection.Host.IsHost )
 			return;
 
 		var startLocation = Transform.World;

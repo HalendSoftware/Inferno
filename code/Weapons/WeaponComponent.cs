@@ -13,6 +13,7 @@ public class WeaponComponent : Component
 {
 	private static readonly string TAG_DAMAGABLE = "damagable";
 	[Property] public PlayerHealth playerHealth { get; set; }
+
 	[Property, ResourceType( "weapon" )] public WeaponAsset Weapon { get; set; }
 	[Property] public Material ImpactDecal { get; set; }
 	[Property] public bool RocketCharging { get; set; }
@@ -27,15 +28,15 @@ public class WeaponComponent : Component
 		get => Math.Clamp( _magazine, 0, Weapon.Magazine );
 		set => _magazine = value;
 	}
-
-	private int _reserve = 0;
-
-	[Sync, Property]
-	public int CurrentReserve
-	{
-		get => Math.Clamp( _reserve, 0, Weapon.AmmoReserve );
-		set => _reserve = value;
-	}
+	//
+	// private int _reserve = 0;
+	//
+	// [Sync, Property]
+	// public int CurrentReserve
+	// {
+	// 	get => Math.Clamp( _reserve, 0, Weapon.AmmoReserve );
+	// 	set => _reserve = value;
+	// }
 
 	[Sync, Property] public bool InfiniteReserve { get; set; }
 	[Sync, Property] public bool InfiniteAmmo { get; set; }
@@ -50,7 +51,7 @@ public class WeaponComponent : Component
 	protected override void OnAwake()
 	{
 		CurrentMagazine = Weapon.Magazine;
-		CurrentReserve = Weapon.AmmoReserve;
+		// CurrentReserve = Weapon.AmmoReserve;
 		InfiniteAmmo = Weapon.InfiniteAmmo;
 	}
 
@@ -77,17 +78,17 @@ public class WeaponComponent : Component
 				RocketCharging = false;
 			}
 
-			if ( Input.Pressed( "Reload" ) && !hasFired )
-				Reload();
-
-			if ( IsReloading && ReloadTimer )
-			{
-				var reloadAmount = Weapon.Magazine - CurrentMagazine;
-				CurrentMagazine += Math.Min( reloadAmount, CurrentReserve );
-				if ( !InfiniteReserve )
-					CurrentReserve -= reloadAmount;
-				IsReloading = false;
-			}
+			// if ( Input.Pressed( "Reload" ) && !hasFired )
+			// 	Reload();
+			//
+			// if ( IsReloading && ReloadTimer )
+			// {
+			// 	var reloadAmount = Weapon.Magazine - CurrentMagazine;
+			// 	CurrentMagazine += Math.Min( reloadAmount, CurrentReserve );
+			// 	if ( !InfiniteReserve )
+			// 		CurrentReserve -= reloadAmount;
+			// 	IsReloading = false;
+			// }
 		}
 		catch ( Exception e )
 		{
@@ -98,14 +99,18 @@ public class WeaponComponent : Component
 
 	public bool Fire()
 	{
+		//Log.Info( "check1" );
 		if ( !FireRateCooldown || RocketCreated )
 			return false;
+		//Log.Info( "check1" );
 		if ( CurrentMagazine <= 0 )
 		{
 			FireRateCooldown = Weapon.NextFireTime();
 			NoAmmoMessage();
 			return false;
 		}
+
+		//Log.Info( "check1" );
 
 		if ( IsReloading )
 		{
@@ -194,17 +199,16 @@ public class WeaponComponent : Component
 		Sound.Play( Weapon.FireEmptySound, Transform.Position );
 	}
 
-	[Broadcast]
 	private void FireGunMessage()
 	{
-		Sound.Play( Weapon.FireSound, Transform.Position );
+		var fireSound = Sound.Play( "sounds/weapon/relic/scorch cannon/fire.sound", GameObject.Transform.Position );
 	}
 
 	[Broadcast]
 	private void ImpactMessageEntity( Guid gameObject, Vector3 impactPos, Vector3 impactNormal )
 	{
 		var obj = Scene.Directory.FindByGuid( gameObject );
-		obj.Components.GetInAncestorsOrSelf<IDamagable>().Damage( Weapon.Impact, Weapon );
+		obj.Components.GetInAncestorsOrSelf<IDamagable>().Damage( Weapon.Impact, Weapon, GameObject.Id );
 	}
 
 	[Broadcast]

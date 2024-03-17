@@ -1,6 +1,6 @@
 {
   "RootObject": {
-    "Id": "9b04c833-238e-4420-9008-f19a98efd4df",
+    "__guid": "fbe32d68-7da1-4690-b5c3-9f194685eefb",
     "Name": "rocket",
     "Scale": "0.2,0.2,0.2",
     "Tags": "projectile,particles",
@@ -9,6 +9,7 @@
     "Components": [
       {
         "__type": "Rigidbody",
+        "__guid": "358aebbb-2a71-4dc7-b465-83eb93ed54a6",
         "AngularDamping": 0,
         "Gravity": false,
         "LinearDamping": 0,
@@ -20,6 +21,8 @@
       },
       {
         "__type": "ModelRenderer",
+        "__guid": "0139be52-3a6a-401e-ada2-c3ac340e21ba",
+        "__enabled": false,
         "BodyGroups": 18446744073709551615,
         "Model": "models/dev/sphere.vmdl",
         "RenderType": "On",
@@ -27,6 +30,7 @@
       },
       {
         "__type": "SphereCollider",
+        "__guid": "383d5dc0-a05c-4e54-9a15-c002959f62b9",
         "Center": "0,0,0",
         "IsTrigger": false,
         "Radius": 26.559793,
@@ -34,41 +38,51 @@
       },
       {
         "__type": "ScorchPlosion",
+        "__guid": "ae0e8d15-d493-4ede-aeac-8bd07ce4d955",
         "OwnerId": "00000000-0000-0000-0000-000000000000",
         "baseForce": 600,
         "collider": {
           "_type": "component",
-          "go": "9b04c833-238e-4420-9008-f19a98efd4df",
+          "component_id": "383d5dc0-a05c-4e54-9a15-c002959f62b9",
+          "go": "fbe32d68-7da1-4690-b5c3-9f194685eefb",
           "component_type": "SphereCollider"
         },
         "ExplosionPrefab": {
           "_type": "gameobject",
           "prefab": "prefabs/weapon/relic/explosion.prefab"
         },
-        "ExplosionRadius": 240,
+        "ExplosionRadius": 150,
         "FireEmitter": {
           "_type": "component",
-          "go": "9b04c833-238e-4420-9008-f19a98efd4df",
+          "component_id": "1017139c-8308-4ae7-9f4c-87041fbbe337",
+          "go": "fbe32d68-7da1-4690-b5c3-9f194685eefb",
           "component_type": "ParticleSphereEmitter"
         },
         "FirstChargeTime": 2,
         "MaxDamage": 100,
         "particleEffect": {
           "_type": "component",
-          "go": "9b04c833-238e-4420-9008-f19a98efd4df",
+          "component_id": "6f788990-91c3-411e-996e-2a591a79626a",
+          "go": "fbe32d68-7da1-4690-b5c3-9f194685eefb",
           "component_type": "ParticleEffect"
         },
         "SecondChargeTime": 4,
-        "ThirdChargeTime": 6
+        "ThirdChargeTime": 6,
+        "trigger": {
+          "_type": "component",
+          "component_id": "6dcf859a-3e3d-425c-b7f4-43eac394f8ff",
+          "go": "86a9b3f2-0c0a-4a88-99b5-992b831c8da1",
+          "component_type": "SphereCollider"
+        }
       },
       {
         "__type": "ParticleEffect",
+        "__guid": "6f788990-91c3-411e-996e-2a591a79626a",
         "Alpha": {
           "Type": "Curve",
           "CurveA": [
             {
-              "x": 0.03560831,
-              "y": 1,
+              "y": 0.21257132,
               "in": 1.1616156,
               "out": -1.1616156
             },
@@ -158,6 +172,7 @@
       },
       {
         "__type": "ParticleSphereEmitter",
+        "__guid": "1017139c-8308-4ae7-9f4c-87041fbbe337",
         "Burst": 0,
         "Delay": 0,
         "DestroyOnEnd": false,
@@ -170,6 +185,7 @@
       },
       {
         "__type": "ParticleSpriteRenderer",
+        "__guid": "f36d8a26-b130-471c-b521-18f8d45e8028",
         "Additive": true,
         "BlurAmount": 1,
         "BlurOpacity": 1,
@@ -185,34 +201,32 @@
         "Shadows": true,
         "SortMode": "Unsorted",
         "Texture": "sprites/vidya/shapes/sparkle.vtex"
-      },
-      {
-        "__type": "ParticleSphereEmitter",
-        "__enabled": false,
-        "Burst": 1000,
-        "Delay": 0,
-        "DestroyOnEnd": true,
-        "Duration": 3,
-        "Loop": false,
-        "OnEdge": false,
-        "Radius": 20,
-        "Rate": 0,
-        "Velocity": 100
       }
     ],
     "Children": [
       {
-        "Id": "a3448efa-af45-42a2-baba-fb3c0c7a1b1f",
+        "__guid": "86a9b3f2-0c0a-4a88-99b5-992b831c8da1",
         "Name": "Object",
-        "Position": "-75.97433,-223.5921,-32.75417",
         "Enabled": true,
-        "NetworkMode": 2
+        "NetworkMode": 2,
+        "Components": [
+          {
+            "__type": "SphereCollider",
+            "__guid": "6dcf859a-3e3d-425c-b7f4-43eac394f8ff",
+            "Center": "0,0,0",
+            "IsTrigger": true,
+            "Radius": 10,
+            "Static": false
+          }
+        ]
       }
     ]
   },
   "ShowInMenu": false,
   "MenuPath": null,
   "MenuIcon": null,
+  "ResourceVersion": 1,
+  "__version": 1,
   "__references": [
     "vidya.shape-sparkle"
   ]
